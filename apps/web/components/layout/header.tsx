@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/components/providers";
 import { CartDrawer } from "@/components/cart/cart-drawer";
+import { SearchBar } from "@/components/search/search-bar";
 import { useState } from "react";
 
 export function Header() {
@@ -12,12 +13,16 @@ export function Header() {
 
   return (
     <header className="border-b">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/" className="text-xl font-semibold">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-4">
+        <Link href="/" className="text-xl font-semibold flex-shrink-0">
           ScentScape
         </Link>
+        <div className="flex-1 max-w-sm">
+          <SearchBar />
+        </div>
         <nav className="flex items-center gap-6">
           <Link href="/products">Shop</Link>
+          <Link href="/collections">Collections</Link>
           <Link href="/quiz">Find Your Scent</Link>
           <button onClick={() => setCartOpen(true)} className="relative">
             Cart
