@@ -36,12 +36,16 @@ export async function addToCart(variantId: string, quantity: number = 1) {
 export async function removeFromCart(lineItemId: string) {
   const cart = await getOrCreateCart();
 
-  const { cart: updatedCart } = await medusa.store.cart.deleteLineItem(
-    cart.id,
-    lineItemId
-  );
+  // deleteLineItem returns DeleteResponseWithParent — updated cart is on .parent
+  const result = await medusa.store.cart.deleteLineItem(cart.id, lineItemId);
 
-  return updatedCart;
+  if (result.parent) {
+    return result.parent;
+  }
+
+  // Fallback: re-fetch cart if parent is absent
+  const { cart: refreshed } = await medusa.store.cart.retrieve(cart.id);
+  return refreshed;
 }
 
 export async function updateCartItem(lineItemId: string, quantity: number) {
