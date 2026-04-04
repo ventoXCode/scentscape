@@ -15,6 +15,10 @@ export default defineConfig({
   },
   modules: [
     {
+      resolve: "./src/modules/fragrance",
+      options: {},
+    },
+    {
       resolve: "@medusajs/medusa/payment",
       options: {
         providers: [

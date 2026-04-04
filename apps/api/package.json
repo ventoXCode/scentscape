@@ -6,7 +6,7 @@
     "dev": "medusa develop",
     "build": "medusa build",
     "start": "medusa start",
-    "seed": "medusa exec ./src/scripts/seed.ts"
+    "seed": "medusa exec ./src/scripts/seed-fragrances.ts"
   },
   "dependencies": {
     "@medusajs/framework": "^2.0.0",
