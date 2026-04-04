@@ -1,12 +1,37 @@
 import { medusa } from "@/lib/medusa/client";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { ScentPyramid } from "@/components/product/scent-pyramid";
 import { AccordsDisplay } from "@/components/product/accords-display";
 import { PerformanceRatings } from "@/components/product/performance-ratings";
 import { ProductPurchaseSection } from "@/components/product/product-purchase-section";
+import { ProductJsonLd } from "@/components/seo/product-jsonld";
 
 interface ProductPageProps {
   params: Promise<{ handle: string }>;
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { handle } = await params;
+  try {
+    const { products } = await medusa.store.product.list({ handle, limit: 1 });
+    const product = products?.[0];
+    if (!product) return {};
+    const brand = product.metadata?.brand as string | undefined;
+    return {
+      title: brand
+        ? `${product.title} by ${brand} | ScentScape`
+        : `${product.title} | ScentScape`,
+      description: product.description ?? undefined,
+      openGraph: {
+        title: product.title,
+        description: product.description ?? undefined,
+        images: product.thumbnail ? [{ url: product.thumbnail }] : [],
+      },
+    };
+  } catch {
+    return {};
+  }
 }
 
 interface FragranceData {
@@ -59,6 +84,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <ProductJsonLd product={product} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Product Image */}
         <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
