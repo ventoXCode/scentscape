@@ -4,12 +4,28 @@ import Link from "next/link";
 import { useCart } from "@/components/providers";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { SearchBar } from "@/components/search/search-bar";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { logout } from "@/lib/medusa/auth-actions";
+import { useRouter } from "next/navigation";
 
-export function Header() {
+interface HeaderProps {
+  customer?: { first_name?: string | null; email?: string | null } | null;
+}
+
+export function Header({ customer }: HeaderProps) {
   const { cart } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const itemCount = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+
+  const handleLogout = () => {
+    startTransition(async () => {
+      await logout();
+      router.push("/");
+      router.refresh();
+    });
+  };
 
   return (
     <header className="border-b">
@@ -24,6 +40,24 @@ export function Header() {
           <Link href="/products">Shop</Link>
           <Link href="/collections">Collections</Link>
           <Link href="/quiz">Find Your Scent</Link>
+
+          {customer ? (
+            <>
+              <Link href="/account" className="hover:underline">
+                {customer.first_name ?? "Account"}
+              </Link>
+              <button
+                onClick={handleLogout}
+                disabled={isPending}
+                className="text-gray-500 hover:text-black disabled:opacity-50"
+              >
+                {isPending ? "Signing out..." : "Sign Out"}
+              </button>
+            </>
+          ) : (
+            <Link href="/login">Sign In</Link>
+          )}
+
           <button onClick={() => setCartOpen(true)} className="relative">
             Cart
             {itemCount > 0 && (
