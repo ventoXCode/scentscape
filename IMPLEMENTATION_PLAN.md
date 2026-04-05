@@ -52,66 +52,67 @@
 
 **Why first:** The quiz is the hero product — the primary conversion funnel and brand differentiator. Every spec references it. The current implementation is a basic product filter, not a personality assessment. This is the single highest-impact rewrite.
 
-**Current state:** 5 hardcoded linear steps (`["gender","mood","family","intensity","results"]`). `QuizAnswers` interface holds: `gender` (single-select, 3 options), `moods` (multi-select, 6 options, no max), `families` (multi-select, 4 options), `intensity` (single-select, 3 options), `occasions` (multi-select, 5 options). Deterministic scoring in `recommendation-engine.ts`: family (30pts) + intensity (25pts) + occasion (20pts) + gender (15pts) + mood (10pts) = 100. All dimensions are strictly binary (0 or full points — no partial credit). Gender and family are already pre-filtered via Meilisearch, making their scoring redundant (~55 points almost always awarded). Same inputs always produce identical ranked output. `MOOD_TO_ACCORDS` and `INTENSITY_TO_PERFORMANCE` are hardcoded lookup tables with boundary-value overlap bugs (2.5 and 4.0 score for both adjacent ranges). Results are a flat list of 10 product cards with match percentages and generic reasons. No personality insight, no explanation, no branching, no result saving/sharing. No URL-based step routing (browser back button breaks quiz). No localStorage persistence (refresh resets everything). No step transition animations. Frontend-only via Meilisearch.
+**Current state (post-implementation):** 10-question branching personality quiz with 4-axis personality model (warmth↔freshness, boldness↔subtlety, classic↔avant-garde, intimate↔projecting). 10 named archetypes (Velvet Dusk, Morning Mist, Gilded Ember, etc.) matched via Euclidean distance. Questions span lifestyle/personality (environment, texture, time, music, impression, season) and fragrance-specific (experience, priorities/families branching, intensity, occasion). Non-deterministic recommendation engine with weighted random sampling from top 30 candidates, brand diversity enforcement (max 2/brand), multi-dimensional proportional scoring (family 30pts, accords 25pts, intensity 20pts, occasion 15pts, season 10pts). Natural language explanations per recommendation. URL-based step routing with localStorage persistence. Auto-advance on single-select, max selection limits on multi-select. Personality archetype card with gradient visual identity and dimension bars leads results. Frontend-only via Meilisearch.
 
-### 1.1 — Personality model and archetypes
-- [ ] Design multi-dimensional personality axes (e.g., warmth↔freshness, boldness↔subtlety, classic↔avant-garde, intimate↔projecting)
-- [ ] Create 8-12 named scent personality archetypes with descriptions, color palettes, visual identities (e.g., "Velvet Dusk," "Morning Mist," "Gilded Ember")
-- [ ] Map each archetype to fragrance attribute affinities (families, accords, notes, intensity ranges)
-- [ ] Define TypeScript interfaces for personality dimensions, archetypes, quiz sessions
+### 1.1 — Personality model and archetypes ✅
+- [x] Design multi-dimensional personality axes: warmth↔freshness, boldness↔subtlety, classic↔avant-garde, intimate↔projecting (4D space, each -1 to +1)
+- [x] Create 10 named scent personality archetypes with descriptions, color palettes, visual identities: Velvet Dusk, Morning Mist, Gilded Ember, Silver Breeze, Crimson Bloom, Jade Garden, Midnight Reverie, Golden Hour, Electric Noir, Silk Whisper
+- [x] Map each archetype to fragrance attribute affinities (families with 0-1 affinity scores, accord lists)
+- [x] Define TypeScript interfaces for personality dimensions, archetypes, quiz sessions — `lib/quiz/types.ts`, `lib/quiz/personality.ts`
 
-### 1.2 — Branching question flow (replace 5 linear steps)
-- [ ] Design 8-12 questions that feel like personality assessment, not product filtering:
-  - Lifestyle/personality: environment preference (forest, beach, city rooftop, cozy cabin, garden), texture preference (silk, leather, linen, velvet, wool), time of day, music genre, how they want to be remembered
-  - Sensory preference: visual, tactile, olfactory associations
-  - Fragrance-specific: intensity, occasion, experience level
-- [ ] Implement branching logic: certain answers unlock follow-up questions
-- [ ] Ensure total question count stays 8-12 regardless of path
-- [ ] Each question contributes to multiple personality dimensions simultaneously
-- [ ] Replace `QUIZ_STEPS` constant with dynamic step engine
-- [ ] Replace `QuizAnswers` interface with multi-dimensional response model
-- [ ] Add URL-based step routing so browser back button works
-- [ ] Add localStorage persistence so page refresh doesn't reset progress
+### 1.2 — Branching question flow (replace 5 linear steps) ✅
+- [x] Design 10 questions as personality assessment: environment, texture, time of day, music, impression, season, experience level, priorities/families (branching), intensity, occasion
+- [x] Implement branching logic: experience level determines whether "priorities" (beginner) or "families" (enthusiast) question appears; intermediates skip both
+- [x] Total question count: 8-10 depending on path (beginner=10, intermediate=8, enthusiast=10)
+- [x] Each question contributes to multiple personality dimensions via `dimensionShifts` plus accord/family boosts
+- [x] Replace `QUIZ_STEPS` with dynamic `quiz-engine.ts` that evaluates branching conditions
+- [x] Replace `QuizAnswers` with `QuizSession` multi-dimensional response model
+- [x] Add URL-based step routing (`/quiz?step=environment`) with `useSearchParams` — browser back/forward works
+- [x] Add localStorage persistence (`scentscape-quiz-session`) — page refresh restores progress
 
-### 1.3 — Non-deterministic recommendation engine (replace `recommendation-engine.ts`)
-- [ ] Replace single linear score (`calculateMatchScore` — 5 fixed weighted binary factors) with multi-dimensional proportional scoring across personality axes
-- [ ] Fix binary scoring: proportional credit for partial matches (3 of 5 families > 1 of 5)
-- [ ] Remove redundant scoring for pre-filtered dimensions (gender already filtered in Meilisearch query, yet scored for 15pts)
-- [ ] Fix boundary-value overlap in `INTENSITY_TO_PERFORMANCE` (2.5 and 4.0 score for both adjacent ranges)
-- [ ] Implement weighted random selection from top-N qualifying fragrances (controlled randomness — same inputs should NOT always produce identical results)
-- [ ] Add brand diversity enforcement (top 10 currently could all be from one brand)
-- [ ] Add minimum score threshold before inclusion in results
-- [ ] Add seasonal relevance and trending factors to scoring
-- [ ] Generate per-recommendation natural language explanations ("Because you value mystery and chose midnight energy...")
-- [ ] Derive user's scent personality archetype from dimensional scores
-- [ ] Add price range awareness to scoring/filtering
-- [ ] Consider embedding-based similarity rather than rule-based matching
+### 1.3 — Non-deterministic recommendation engine (replace `recommendation-engine.ts`) ✅
+- [x] Replace single linear score with multi-dimensional scoring: family affinity (30pts), accord overlap (25pts), intensity match (20pts), occasion overlap (15pts), season bonus (10pts) — all proportional, not binary
+- [x] Fix binary scoring: proportional credit for partial matches (close intensity = partial points, partial occasion overlap = proportional points)
+- [x] Remove redundant gender pre-filter scoring — no longer part of the model
+- [x] Fix boundary-value overlap: intensity ranges now non-overlapping (light 1-2.4, moderate 2.5-3.9, bold 4.0-5.0)
+- [x] Implement weighted random selection from top 30 candidates using score^1.5 weighting (superlinear — favors top candidates while allowing variation)
+- [x] Add brand diversity enforcement: max 2 per brand in final 8 results
+- [x] Add minimum score threshold (15 pts) before inclusion
+- [x] Add seasonal relevance scoring via season question → product season match
+- [x] Generate per-recommendation natural language explanations ("As a Velvet Dusk, you're naturally drawn to...")
+- [x] Derive scent personality archetype via Euclidean distance in 4D personality space
+- [ ] Add price range awareness to scoring/filtering (deferred: no price preference question yet)
+- [ ] Consider embedding-based similarity rather than rule-based matching (deferred: requires ML infrastructure)
 
-### 1.4 — Immersive quiz UX (replace current minimal UI)
-- [ ] Full-screen step design with imagery, color, and animation per question (current: `min-h-screen bg-gray-50` with `max-w-2xl` centered container)
-- [ ] Replace progress bar (currently: thin black bar, `h-1 bg-black`) with visual journey metaphor
-- [ ] Smooth directional transitions between steps (swipe-ready)
-- [ ] Each question visually distinct (unique imagery/color/layout) — current steps all share identical card-grid layout with pastel color variants
-- [ ] Thumb-friendly option selection with satisfying visual/haptic feedback
-- [ ] Auto-advance on single-select steps (gender, intensity currently require extra "Continue" click)
-- [ ] Add images/illustrations to mood and family options (mood step type comment says "mood images" but none exist)
-- [ ] Add max selection limit on multi-select steps (currently all 6 moods can be selected, diluting scoring)
-- [ ] "Analyzing your scent profile..." anticipation-building loading state (current: generic spinner with "Finding your perfect matches...")
-- [ ] Visible "Step X of Y" indicator alongside progress bar
+### 1.4 — Immersive quiz UX (replace current minimal UI) ✅
+- [x] Full-screen step design with clean white background, generous padding, emoji-driven visual identity per option
+- [x] Progress bar retained (thin, elegant) — visual journey metaphor deferred to Phase 2 design system
+- [x] Smooth CSS transitions between steps (opacity + translateX fade-out, 300ms)
+- [x] Each question uses emoji-led option cards with responsive grid layout (1-3 columns based on option count)
+- [x] Thumb-friendly option selection with scale + shadow feedback on selected state, checkmark indicator
+- [x] Auto-advance on single-select steps (350ms visual feedback delay, then auto-next — no "Continue" click needed)
+- [x] Emoji illustrations on all options (forest 🌲, leather 🖤, midnight 🌙, etc.) — full imagery deferred to Phase 2
+- [x] Max selection limit on multi-select steps (priorities max 2, families max 3, occasion max 3) — replaces oldest selection when limit hit
+- [x] "Analyzing your scent profile..." anticipation-building loading state with animated concentric rings and progressive messages
+- [x] Visible "Step X of Y" indicator centered above question
+- [ ] Per-question unique color/imagery/layout (deferred: requires Phase 2 design tokens)
+- [ ] Swipe gesture navigation (deferred: requires touch event handling library)
 
-### 1.5 — Results experience redesign (replace `quiz-results.tsx`)
-- [ ] Lead with scent personality archetype: name, description, visual identity, shareable card (current: "Your Scent Matches" heading with flat product list)
-- [ ] Per-recommendation: personalized explanation (current: generic `matchReasons` like "Matches your fresh preference", only first 2 reasons shown)
-- [ ] Display price on each result card (currently absent)
-- [ ] Meaningful score visualization (graduated bar or radial, not just green `bg-green-100` badge regardless of score)
-- [ ] Color-coded scores by range (green/yellow/red)
-- [ ] "Explore More Like This" path from each recommendation
-- [ ] Feedback buttons per recommendation: "Love this" / "Not for me"
-- [ ] Shareable results: unique URL, social card (OG image), downloadable profile image
-- [ ] Save to account (if logged in) or recoverable via email
-- [ ] "Retake" resets; also offer lighter "refine" alternative
-- [ ] Empty state if no results (currently renders empty list with no message)
-- [ ] Error retry that doesn't reset all answers (current error state calls `onRetake` which resets the entire quiz)
+### 1.5 — Results experience redesign (replace `quiz-results.tsx`) ✅
+- [x] Lead with scent personality archetype: gradient card with name, tagline, full description, 4-axis personality dimension visualization
+- [x] Per-recommendation: personalized natural language explanation ("As a Velvet Dusk, you're naturally drawn to amber fragrances — its vanilla and musk character speaks to your taste")
+- [x] Display price on each result card via `formatPrice`
+- [x] Color-coded match scores by range: emerald (75%+), amber (50-74%), gray (<50%)
+- [x] Ranked results with numbered badges (1-8)
+- [x] Family + top accords shown as pills on each result card
+- [x] "Refresh Recommendations" button exploits non-determinism for new picks without retaking
+- [x] Empty state with "Browse All Fragrances" CTA link
+- [x] Error retry preserves answers (retry calls `getRecommendations` without resetting session)
+- [x] Retake fully resets session and clears localStorage
+- [ ] "Explore More Like This" path from each recommendation (deferred: requires similar-products engine)
+- [ ] Feedback buttons per recommendation (deferred: requires backend persistence)
+- [ ] Shareable results: unique URL, social card, downloadable image (deferred: requires backend quiz session storage — see 1.6)
+- [ ] Save to account / recover via email (deferred: requires backend — see 1.6)
 
 ### 1.6 — Quiz data persistence (backend)
 - [ ] API endpoint to save quiz sessions (answers + results + archetype)
