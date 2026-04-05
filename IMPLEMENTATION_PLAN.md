@@ -249,9 +249,9 @@
 - [ ] Price range display for multi-variant products ("From $95")
 - [ ] Premium feel: refined aspect ratios, image treatments, typography
 
-### 4.3 — Product detail page enrichment
-- [ ] "Scent Journey" narrative: what the fragrance smells like over time (opening → drydown) — currently absent
-- [ ] "Perfect For" section: occasions, seasons, moods, personality types — season/occasion tags exist but no editorial framing
+### 4.3 — Product detail page enrichment ✅ (partial)
+- [x] "Scent Journey" narrative: timeline-based component (`scent-journey.tsx`) describing opening → heart → drydown with auto-generated prose from note data, visual timeline with family-colored dots/lines
+- [x] "Perfect For" section: editorial grid (`perfect-for.tsx`) with emoji icons, descriptive vibes per season/occasion, concentration-based wear tips — replaces raw season/occasion tags
 - [ ] "How to Wear" tips for fragrance newcomers — absent
 - [ ] Cross-sell: "If you like this, explore..." based on note/accord similarity — absent
 - [ ] "Similar Fragrances" section based on note composition overlap — absent

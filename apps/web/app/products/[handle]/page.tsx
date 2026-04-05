@@ -8,6 +8,8 @@ import { PerformanceRatings } from "@/components/product/performance-ratings";
 import { ProductPurchaseSection } from "@/components/product/product-purchase-section";
 import { ProductJsonLd } from "@/components/seo/product-jsonld";
 import { ImageGallery } from "@/components/product/image-gallery";
+import { PerfectFor } from "@/components/product/perfect-for";
+import { ScentJourney } from "@/components/product/scent-journey";
 
 interface ProductPageProps {
   params: Promise<{ handle: string }>;
@@ -156,45 +158,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 projection={fragranceData.projection}
               />
 
-              {(fragranceData.season?.length > 0 ||
-                fragranceData.occasion?.length > 0) && (
-                <div className="mb-6 flex flex-wrap gap-6">
-                  {fragranceData.season?.length > 0 && (
-                    <div>
-                      <p className="text-xs uppercase tracking-wider text-text-muted mb-2">
-                        Season
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        {fragranceData.season.map((s) => (
-                          <span
-                            key={s}
-                            className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs"
-                          >
-                            {s}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {fragranceData.occasion?.length > 0 && (
-                    <div>
-                      <p className="text-xs uppercase tracking-wider text-text-muted mb-2">
-                        Occasion
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        {fragranceData.occasion.map((o) => (
-                          <span
-                            key={o}
-                            className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs"
-                          >
-                            {o}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
+              <PerfectFor
+                seasons={fragranceData.season ?? []}
+                occasions={fragranceData.occasion ?? []}
+                gender={fragranceData.gender}
+                concentration={fragranceData.concentration}
+              />
+
+              <ScentJourney
+                topNotes={fragranceData.top_notes}
+                heartNotes={fragranceData.heart_notes}
+                baseNotes={fragranceData.base_notes}
+              />
             </>
           )}
 
