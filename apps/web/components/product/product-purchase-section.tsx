@@ -25,10 +25,7 @@ export function ProductPurchaseSection({ variants }: ProductPurchaseSectionProps
         variants={variants}
         onSelect={(v) => setSelectedVariantId(v.id)}
       />
-      <AddToCartButton
-        productId=""
-        variantId={selectedVariantId}
-      />
+      <AddToCartButton variantId={selectedVariantId} />
     </div>
   );
 }

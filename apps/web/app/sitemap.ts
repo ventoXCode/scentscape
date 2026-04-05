@@ -1,9 +1,10 @@
 import { MetadataRoute } from "next";
 import { medusa } from "@/lib/medusa/client";
 import { COLLECTIONS } from "@/lib/collections";
+import { SITE_URL } from "@/lib/constants";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scentscape.com";
+  const baseUrl = SITE_URL;
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

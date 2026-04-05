@@ -1,20 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedRoutes = [
-  "/account",
-  "/account/orders",
-  "/account/wishlist",
-  "/account/profile",
-];
-
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
-  );
 
-  if (isProtectedRoute && !token) {
+  if (!token) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);

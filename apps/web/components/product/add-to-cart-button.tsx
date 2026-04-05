@@ -5,11 +5,10 @@ import { addToCart } from "@/lib/medusa/actions";
 import { useCart } from "@/components/providers";
 
 interface AddToCartButtonProps {
-  productId: string;
   variantId?: string;
 }
 
-export function AddToCartButton({ productId, variantId }: AddToCartButtonProps) {
+export function AddToCartButton({ variantId }: AddToCartButtonProps) {
   const { refreshCart } = useCart();
   const [isPending, startTransition] = useTransition();
   const [added, setAdded] = useState(false);

@@ -11,9 +11,11 @@ interface ProductJsonLdProps {
   };
 }
 
+import { SITE_URL } from "@/lib/constants";
+
 export function ProductJsonLd({ product }: ProductJsonLdProps) {
   const price = product.variants?.[0]?.prices?.[0];
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scentscape.com";
+  const baseUrl = SITE_URL;
 
   const jsonLd = {
     "@context": "https://schema.org",

@@ -1,4 +1,6 @@
 import { medusa } from "@/lib/medusa/client";
+import { formatPrice } from "@/lib/utils/format";
+import Link from "next/link";
 
 interface SuccessPageProps {
   searchParams: Promise<{ order_id?: string }>;
@@ -11,20 +13,14 @@ export default async function CheckoutSuccessPage({ searchParams }: SuccessPageP
     return (
       <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
         <p className="text-gray-600">Order not found.</p>
-        <a href="/" className="inline-block mt-4 px-8 py-3 bg-black text-white rounded">
+        <Link href="/" className="inline-block mt-4 px-8 py-3 bg-black text-white rounded">
           Return Home
-        </a>
+        </Link>
       </div>
     );
   }
 
   const { order } = await medusa.store.order.retrieve(order_id);
-
-  const formatPrice = (amount: number) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount / 100);
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
@@ -80,12 +76,12 @@ export default async function CheckoutSuccessPage({ searchParams }: SuccessPageP
         </div>
       )}
 
-      <a
+      <Link
         href="/"
         className="inline-block mt-8 px-8 py-3 bg-black text-white rounded hover:bg-gray-800 transition-colors"
       >
         Continue Shopping
-      </a>
+      </Link>
     </div>
   );
 }

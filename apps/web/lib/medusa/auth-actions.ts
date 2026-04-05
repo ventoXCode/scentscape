@@ -2,6 +2,20 @@
 
 import { medusa } from "./client";
 import { cookies } from "next/headers";
+import { AUTH_COOKIE_NAME, AUTH_COOKIE_OPTIONS } from "@/lib/constants";
+
+const AUTH_ACTOR = "customer";
+const AUTH_PROVIDER = "emailpass";
+
+export async function getAuthToken(): Promise<string | null> {
+  const cookieStore = await cookies();
+  return cookieStore.get(AUTH_COOKIE_NAME)?.value ?? null;
+}
+
+async function setAuthCookie(token: string) {
+  const cookieStore = await cookies();
+  cookieStore.set(AUTH_COOKIE_NAME, token, AUTH_COOKIE_OPTIONS);
+}
 
 export async function register(data: {
   email: string;
@@ -9,13 +23,11 @@ export async function register(data: {
   first_name: string;
   last_name: string;
 }) {
-  // Step 1: obtain a registration JWT
-  const token = await medusa.auth.register("customer", "emailpass", {
+  const token = await medusa.auth.register(AUTH_ACTOR, AUTH_PROVIDER, {
     email: data.email,
     password: data.password,
   });
 
-  // Step 2: create the customer record using that token
   await medusa.store.customer.create(
     {
       email: data.email,
@@ -26,8 +38,7 @@ export async function register(data: {
     { Authorization: `Bearer ${token}` }
   );
 
-  // Step 3: log the customer in to get a session token
-  const sessionToken = await medusa.auth.login("customer", "emailpass", {
+  const sessionToken = await medusa.auth.login(AUTH_ACTOR, AUTH_PROVIDER, {
     email: data.email,
     password: data.password,
   });
@@ -36,19 +47,12 @@ export async function register(data: {
     throw new Error("Authentication requires additional steps");
   }
 
-  const cookieStore = await cookies();
-  cookieStore.set("auth_token", sessionToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7,
-  });
-
+  await setAuthCookie(sessionToken);
   return { success: true };
 }
 
 export async function login(email: string, password: string) {
-  const result = await medusa.auth.login("customer", "emailpass", {
+  const result = await medusa.auth.login(AUTH_ACTOR, AUTH_PROVIDER, {
     email,
     password,
   });
@@ -57,20 +61,13 @@ export async function login(email: string, password: string) {
     throw new Error("Authentication requires additional steps");
   }
 
-  const cookieStore = await cookies();
-  cookieStore.set("auth_token", result, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7,
-  });
-
+  await setAuthCookie(result);
   return { success: true };
 }
 
 export async function logout() {
   const cookieStore = await cookies();
-  cookieStore.delete("auth_token");
+  cookieStore.delete(AUTH_COOKIE_NAME);
   return { success: true };
 }
 
@@ -79,9 +76,7 @@ export async function updateProfile(data: {
   last_name?: string;
   email?: string;
 }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("auth_token")?.value;
-
+  const token = await getAuthToken();
   if (!token) throw new Error("Not authenticated");
 
   const { customer } = await medusa.store.customer.update(
@@ -94,9 +89,7 @@ export async function updateProfile(data: {
 }
 
 export async function getCustomer() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("auth_token")?.value;
-
+  const token = await getAuthToken();
   if (!token) return null;
 
   try {

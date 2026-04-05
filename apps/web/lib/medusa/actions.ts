@@ -2,20 +2,16 @@
 
 import { medusa } from "./client";
 import { cookies } from "next/headers";
+import { CART_COOKIE_NAME, AUTH_COOKIE_OPTIONS } from "@/lib/constants";
 
 export async function getOrCreateCart() {
   const cookieStore = await cookies();
-  let cartId = cookieStore.get("cart_id")?.value;
+  const cartId = cookieStore.get(CART_COOKIE_NAME)?.value;
 
   if (!cartId) {
     const { cart } = await medusa.store.cart.create({});
-    cartId = cart.id;
-    cookieStore.set("cart_id", cartId, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-    });
+    cookieStore.set(CART_COOKIE_NAME, cart.id, AUTH_COOKIE_OPTIONS);
+    return cart;
   }
 
   const { cart } = await medusa.store.cart.retrieve(cartId);
@@ -36,7 +32,6 @@ export async function addToCart(variantId: string, quantity: number = 1) {
 export async function removeFromCart(lineItemId: string) {
   const cart = await getOrCreateCart();
 
-  // deleteLineItem returns DeleteResponseWithParent — updated cart is on .parent
   const result = await medusa.store.cart.deleteLineItem(cart.id, lineItemId);
 
   if (result.parent) {

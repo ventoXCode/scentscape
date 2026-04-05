@@ -1,15 +1,8 @@
 import { redirect } from "next/navigation";
-import { getCustomer } from "@/lib/medusa/auth-actions";
-import { cookies } from "next/headers";
+import { getCustomer, getAuthToken } from "@/lib/medusa/auth-actions";
 import { medusa } from "@/lib/medusa/client";
+import { formatPrice } from "@/lib/utils/format";
 import Link from "next/link";
-
-function formatPrice(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(amount / 100);
-}
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -26,8 +19,7 @@ export default async function OrdersPage() {
     redirect("/login");
   }
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("auth_token")?.value;
+  const token = await getAuthToken();
 
   let orders: any[] = [];
   try {

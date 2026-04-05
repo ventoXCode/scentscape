@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { medusa } from "@/lib/medusa/client";
 import { ProductCard } from "@/components/product/product-card";
 
@@ -18,12 +19,12 @@ export default async function HomePage() {
         <p className="text-gray-600 mb-8">
           Explore our curated collection of premium fragrances
         </p>
-        <a
+        <Link
           href="/quiz"
           className="inline-block bg-black text-white px-8 py-3 rounded"
         >
           Take the Scent Quiz
-        </a>
+        </Link>
       </section>
 
       <section>

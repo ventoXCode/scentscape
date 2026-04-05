@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { formatPrice } from "@/lib/utils/format";
 
 interface ProductCardProps {
   product: {
@@ -18,13 +19,6 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const price = product.variants?.[0]?.prices?.[0];
   const brand = product.metadata?.brand as string | undefined;
-
-  const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount / 100);
-  };
 
   return (
     <Link

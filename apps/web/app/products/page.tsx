@@ -21,15 +21,6 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     // Backend may not be running; render empty state gracefully
   }
 
-  // Client-side filtering by metadata is done here since Medusa store API
-  // doesn't support custom field filtering out of the box.
-  // When Meilisearch is integrated (Phase 3) this moves to search facets.
-  const filtered = products.filter((product) => {
-    // Family filter lives on fragrance data fetched separately at runtime;
-    // for now we simply show all products and let the filter UI be wired up.
-    return true;
-  });
-
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">All Fragrances</h1>
@@ -40,13 +31,13 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </aside>
 
         <main className="flex-1">
-          {filtered.length === 0 ? (
+          {products.length === 0 ? (
             <p className="text-gray-500">
               No fragrances found. Run the seed script to populate the catalog.
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((product) => (
+              {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

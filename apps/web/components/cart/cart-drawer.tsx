@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useCart } from "@/components/providers";
 import { removeFromCart, updateCartItem } from "@/lib/medusa/actions";
+import { formatPrice } from "@/lib/utils/format";
 import { useTransition } from "react";
 
 interface CartDrawerProps {
@@ -27,13 +29,6 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
       await updateCartItem(lineItemId, quantity);
       await refreshCart();
     });
-  };
-
-  const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount / 100);
   };
 
   return (
@@ -87,12 +82,12 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                 <span>Total</span>
                 <span>{formatPrice((cart as any).total || 0)}</span>
               </div>
-              <a
+              <Link
                 href="/checkout"
                 className="block w-full mt-4 bg-black text-white text-center py-3 rounded"
               >
                 Checkout
-              </a>
+              </Link>
             </div>
           </div>
         )}

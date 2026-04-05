@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { formatPrice } from "@/lib/utils/format";
 
 interface Variant {
   id: string;
@@ -11,13 +12,6 @@ interface Variant {
 interface VariantSelectorProps {
   variants: Variant[];
   onSelect?: (variant: Variant) => void;
-}
-
-function formatPrice(amount: number, currencyCode: string = "usd") {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currencyCode.toUpperCase(),
-  }).format(amount / 100);
 }
 
 export function VariantSelector({ variants, onSelect }: VariantSelectorProps) {

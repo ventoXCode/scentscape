@@ -13,13 +13,32 @@ interface QuizResultsProps {
 export function QuizResults({ answers, onRetake }: QuizResultsProps) {
   const [results, setResults] = useState<QuizResult[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    getRecommendations(answers).then((recs) => {
-      setResults(recs);
-      setLoading(false);
-    });
+    setLoading(true);
+    setError(false);
+    getRecommendations(answers)
+      .then((recs) => {
+        setResults(recs);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, [answers]);
+
+  if (error) {
+    return (
+      <div className="text-center py-16">
+        <p className="text-gray-600 mb-4">Something went wrong loading recommendations.</p>
+        <button onClick={onRetake} className="px-6 py-3 border rounded hover:bg-gray-50">
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

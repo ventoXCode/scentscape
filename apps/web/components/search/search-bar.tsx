@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { meilisearch, PRODUCTS_INDEX, SearchableProduct } from "@/lib/search/meilisearch";
 
 export function SearchBar() {
@@ -69,7 +70,7 @@ export function SearchBar() {
       {isOpen && suggestions.length > 0 && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-50">
           {suggestions.map((product) => (
-            <a
+            <Link
               key={product.id}
               href={`/products/${product.handle}`}
               className="flex items-center gap-3 p-3 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
@@ -88,16 +89,16 @@ export function SearchBar() {
                 <p className="font-medium text-sm truncate">{product.title}</p>
                 <p className="text-xs text-gray-500 truncate">{product.brand}</p>
               </div>
-            </a>
+            </Link>
           ))}
           <div className="border-t">
-            <a
+            <Link
               href={`/search?q=${encodeURIComponent(query)}`}
               className="block px-3 py-2 text-xs text-gray-500 hover:bg-gray-50 rounded-b-lg text-center"
               onClick={() => setIsOpen(false)}
             >
               See all results for &ldquo;{query}&rdquo;
-            </a>
+            </Link>
           </div>
         </div>
       )}

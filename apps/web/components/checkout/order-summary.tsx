@@ -1,13 +1,8 @@
+import { formatPrice } from "@/lib/utils/format";
+
 interface OrderSummaryProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cart: any;
-}
-
-function formatPrice(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(amount / 100);
 }
 
 export function OrderSummary({ cart }: OrderSummaryProps) {
