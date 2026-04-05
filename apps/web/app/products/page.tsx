@@ -68,6 +68,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       family: hit.family,
       concentration: hit.concentration,
       topNote: hit.top_notes?.[0] || null,
+      sillage: hit.sillage,
+      longevity: hit.longevity,
+      season: hit.season,
       metadata: { brand: hit.brand },
       variants: hit.price != null ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }] : [],
     }));

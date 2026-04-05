@@ -66,6 +66,12 @@ export function Header({ customer }: HeaderProps) {
             Collections
           </Link>
           <Link
+            href="/moods"
+            className="text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Moods
+          </Link>
+          <Link
             href="/quiz"
             className="text-text-secondary hover:text-text-primary transition-colors"
           >
@@ -197,6 +203,12 @@ export function Header({ customer }: HeaderProps) {
               className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors"
             >
               Collections
+            </Link>
+            <Link
+              href="/moods"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors"
+            >
+              Moods
             </Link>
 
             <div className="border-t border-border-default my-1" />

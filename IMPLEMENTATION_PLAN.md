@@ -192,7 +192,7 @@
 
 **Why third:** The homepage is the front door. After the design system exists and quiz is rebuilt, the homepage can properly showcase both.
 
-**Current state (post-implementation):** Full-page homepage with 6 sections. `HeroSection` client component (`components/home/hero-section.tsx`) with full-viewport gradient background, rotating headline words, decorative floating orbs (CSS `float` animation), dual CTAs ("Find Your Scent" gold accent + "Browse Collection" outlined), and anxiety-reduction subline. 3-step value proposition explaining quiz flow with emoji icons. Featured fragrances section with editorial "Editor's Picks" framing and 4 product cards. Social proof with 4 stat counters and 3 testimonial cards (simulated data). "Smarter Than a Filter" how-it-works section with 4 numbered steps explaining the personality-based matching engine. Final CTA re-inviting quiz participation. All below-fold sections use `ScrollReveal` (IntersectionObserver) for staggered fade-in-up entrance animations. `revalidate = 300` for ISR. Full `Metadata` export with OpenGraph tags.
+**Current state (post-implementation):** Full-page homepage with 8 sections. `HeroSection` client component (`components/home/hero-section.tsx`) with full-viewport gradient background, rotating headline words, decorative floating orbs (CSS `float` animation), dual CTAs ("Find Your Scent" gold accent + "Browse Collection" outlined), and anxiety-reduction subline. 3-step value proposition explaining quiz flow with emoji icons. Featured fragrances section with editorial "Editor's Picks" framing and 4 product cards. `FragranceOfTheDay` async server component showing a daily rotating product spotlight (deterministic by day-of-year from Meilisearch). "Explore by Mood" section with first 4 mood cards and "See all moods" link. Social proof with 4 stat counters and 3 testimonial cards (simulated data). "Smarter Than a Filter" how-it-works section with 4 numbered steps explaining the personality-based matching engine. Final CTA re-inviting quiz participation. All below-fold sections use `ScrollReveal` (IntersectionObserver) for staggered fade-in-up entrance animations. `revalidate = 300` for ISR. Full `Metadata` export with OpenGraph tags.
 
 ### 3.1 — Immersive hero section ✅
 - [x] Full-viewport hero with gradient overlays and decorative floating orbs (fragrance family colors, blur-3xl, CSS float animations)
@@ -231,7 +231,7 @@
 
 **Why fourth:** With the design system and quiz in place, product experience can leverage both visual language and quiz-driven personalization.
 
-**Current state (post-implementation):** Product detail page uses `ImageGallery` client component with `next/image`, `priority` loading, and thumbnail strip for multi-image products. Breadcrumb navigation added (Home / Fragrances / Product). Sort controls exposed on both `/products` and `/search` pages (price asc/desc, longevity desc, sillage desc) via `SortSelect` component wired to Meilisearch `sortableAttributes`. Product cards enhanced with fragrance family color dot indicator and concentration badge overlaid on the image. Products page uses Meilisearch for both filtering and sorting (falls back to Medusa only when no filters/sort active).
+**Current state (post-implementation):** Product detail page uses `ImageGallery` client component with `next/image`, `priority` loading, and thumbnail strip for multi-image products. Breadcrumb navigation added (Home / Fragrances / Product). Sort controls exposed on both `/products` and `/search` pages (price asc/desc, longevity desc, sillage desc, sillage asc "Best for Beginners") via `SortSelect` component wired to Meilisearch `sortableAttributes`. Product cards enhanced with fragrance family color dot indicator, concentration badge, and contextual "Beginner Friendly" / seasonal badges. Products page uses Meilisearch for both filtering and sorting (falls back to Medusa only when no filters/sort active). Mood-based browsing at `/moods` with 8 vibe categories. "Fragrance of the Day" rotating spotlight on homepage. "Explore by Mood" homepage section. "New to Fragrance" beginner entry point.
 
 ### 4.1 — Fix product detail page image handling ✅
 - [x] Replace `<img>` with `next/image` on product detail page via `ImageGallery` component with `priority` prop for LCP
@@ -244,7 +244,7 @@
 - [x] Add concentration badge on product card image overlay
 - [x] Add key mood/vibe and one standout note — Top note displayed on each product card from Meilisearch data
 - [ ] Hover state: expanded quick-preview with additional info (current: shadow + scale transition)
-- [ ] Visual badges: "Trending," "Great for beginners," "Staff pick," seasonal markers
+- [x] Visual badges: "Beginner Friendly" (sillage ≤ 2.5) and seasonal "Spring/Summer/Fall/Winter Pick" badges rendered in top-right corner of product card image, using `success-subtle` and `family-amber-subtle` design tokens. Badge data (sillage, longevity, season) passed from all Meilisearch-backed callers (products, search, collections, similar, moods).
 - [x] Add `priority` prop on above-fold product card images for LCP optimization
 - [x] Price range display for multi-variant products — Shows 'From $X' when multiple variant prices exist
 - [ ] Premium feel: refined aspect ratios, image treatments, typography
@@ -264,16 +264,17 @@
 - [x] Fix `search-facets.tsx` semantic mismatch: switched to `type="radio"` inputs with `fieldset`/`legend` pattern and `role="radiogroup"` — matches single-select behavior
 - [x] Add filter counts (how many products match each option) to prevent zero-result dead ends
 - [x] Make filter options dynamic from catalog — ProductFilters accepts Meilisearch facet distribution, falls back to hardcoded options
+- [x] Extended sort option: "Best for Beginners" (`sillage:asc`) added to `SortSelect` — shows gentlest-projecting fragrances first
 - [ ] Add beginner-friendly filter tooltips explaining each option
 - [ ] Visual filter icons instead of plain radio buttons/checkboxes
 
-### 4.5 — Discovery mechanisms
-- [ ] Mood-based browsing: explore by vibe rather than technical attributes
+### 4.5 — Discovery mechanisms ✅ (partial)
+- [x] Mood-based browsing: 8 mood categories (`lib/discovery/moods.ts`) with index page (`/moods`) and detail pages (`/moods/[slug]`). Moods: Main Character Energy, Quiet Luxury, Sunday Morning, After Dark, Fresh Start, Free Spirit, Sweet Escape, New to Fragrance. Each mood maps to Meilisearch filter + optional sort. Mood cards use gradient backgrounds, emoji identifiers, editorial copy. `generateStaticParams` for SSG, breadcrumb nav, product count. "Moods" added to header nav (desktop + mobile).
 - [ ] Interactive fragrance wheel/map for visual landscape exploration
-- [ ] "Fragrance of the Day" or rotating editorial spotlight
-- [ ] Beginner-friendly entry points: "Start Here" collections, guided browsing paths
+- [x] "Fragrance of the Day" rotating editorial spotlight: `FragranceOfTheDay` server component on homepage picks a product deterministically by day-of-year from Meilisearch index. Full-width card with image, brand, title, family/concentration badges, top notes, description excerpt, and price. Graceful null render if Meilisearch unavailable.
+- [x] Beginner-friendly entry points: "New to Fragrance" mood page (`/moods/new-to-fragrance`) sorts by gentlest sillage first with beginner-oriented editorial copy. Homepage "Explore by Mood" section showcases first 4 moods with "See all moods" link. Moods index page has dedicated beginner callout with "Start Here" CTA.
 - [ ] Smart filter defaults: pre-filter based on user's quiz results when available
-- [ ] Extended sort options: "Best for beginners," "Most unique," "Best value"
+- [x] Extended sort options: "Best for Beginners" (`sillage:asc`) added to SortSelect on both `/products` and `/search` pages
 
 ### 4.6 — Collection page upgrade ✅ (partial)
 - [x] Editorial feel: collection detail pages have full-width hero section with family-colored background, emoji icon, tagline, editorial narrative paragraph, product count. Collection data model enriched with `tagline`, `editorial`, `icon`, `familyColor` fields.

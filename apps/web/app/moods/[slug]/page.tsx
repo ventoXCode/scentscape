@@ -1,74 +1,61 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import type { Metadata } from "next";
 import {
   meilisearch,
   PRODUCTS_INDEX,
-  SearchableProduct,
+  type SearchableProduct,
 } from "@/lib/search/meilisearch";
-import { getCollectionBySlug, COLLECTIONS } from "@/lib/collections";
+import { getMoodBySlug, MOODS } from "@/lib/discovery/moods";
 import { ProductCard } from "@/components/product/product-card";
-import Link from "next/link";
-import type { Metadata } from "next";
 
-const FAMILY_BG: Record<string, string> = {
-  fresh: "bg-family-fresh-subtle",
-  floral: "bg-family-floral-subtle",
-  amber: "bg-family-amber-subtle",
-  woody: "bg-family-woody-subtle",
-  citrus: "bg-family-citrus-subtle",
-  aromatic: "bg-family-aromatic-subtle",
-};
+export const revalidate = 300;
 
-interface CollectionPageProps {
+interface MoodPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return COLLECTIONS.map((collection) => ({
-    slug: collection.slug,
-  }));
+export function generateStaticParams() {
+  return MOODS.map((mood) => ({ slug: mood.slug }));
 }
 
 export async function generateMetadata({
   params,
-}: CollectionPageProps): Promise<Metadata> {
+}: MoodPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const collection = getCollectionBySlug(slug);
-  if (!collection) return {};
+  const mood = getMoodBySlug(slug);
+  if (!mood) return {};
   return {
-    title: `${collection.title} | ScentScape`,
-    description: collection.description,
+    title: `${mood.title} Fragrances | ScentScape`,
+    description: mood.description,
   };
 }
 
-export default async function CollectionPage({
-  params,
-}: CollectionPageProps) {
+export default async function MoodPage({ params }: MoodPageProps) {
   const { slug } = await params;
-  const collection = getCollectionBySlug(slug);
+  const mood = getMoodBySlug(slug);
 
-  if (!collection) notFound();
+  if (!mood) notFound();
 
   let hits: SearchableProduct[] = [];
   try {
     const results = await meilisearch
       .index(PRODUCTS_INDEX)
       .search<SearchableProduct>("", {
-        filter: collection.searchFilter,
+        filter: mood.searchFilter || undefined,
+        sort: mood.sortBy ? [mood.sortBy] : undefined,
         limit: 50,
       });
     hits = results.hits;
   } catch {
-    // Meilisearch may not be running; render empty state gracefully
+    // Meilisearch may not be running
   }
-
-  const heroBg = FAMILY_BG[collection.familyColor] ?? "bg-surface-subtle";
 
   return (
     <div>
-      {/* Hero section */}
-      <div className={`${heroBg} py-16`}>
+      {/* Hero */}
+      <div className={`bg-gradient-to-br ${mood.gradient} py-16`}>
         <div className="container mx-auto px-4">
-          {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-8">
             <ol className="flex items-center gap-2 text-sm text-text-muted">
               <li>
@@ -82,29 +69,29 @@ export default async function CollectionPage({
               <li aria-hidden="true">/</li>
               <li>
                 <Link
-                  href="/collections"
+                  href="/moods"
                   className="hover:text-text-primary transition-colors"
                 >
-                  Collections
+                  Moods
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
-              <li className="text-text-secondary">{collection.title}</li>
+              <li className="text-text-secondary">{mood.title}</li>
             </ol>
           </nav>
 
           <div className="max-w-2xl">
             <span className="text-4xl mb-4 block" aria-hidden="true">
-              {collection.icon}
+              {mood.emoji}
             </span>
             <h1 className="font-display text-4xl font-bold mb-2 text-text-primary">
-              {collection.title}
+              {mood.title}
             </h1>
             <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-4">
-              {collection.tagline}
+              {mood.tagline}
             </p>
             <p className="text-text-secondary leading-relaxed text-lg">
-              {collection.editorial}
+              {mood.editorial}
             </p>
             {hits.length > 0 && (
               <p className="text-sm text-text-muted mt-4">
@@ -119,9 +106,11 @@ export default async function CollectionPage({
       <div className="container mx-auto px-4 py-12">
         {hits.length === 0 ? (
           <div className="text-center py-16 text-text-muted">
-            <p className="mb-4">No fragrances in this collection yet.</p>
-            <Link href="/products" className="text-text-primary underline">
-              Browse all fragrances
+            <p className="mb-4">
+              No fragrances matched this mood. Try exploring other moods.
+            </p>
+            <Link href="/moods" className="text-text-primary underline">
+              Browse all moods
             </Link>
           </div>
         ) : (
@@ -142,9 +131,16 @@ export default async function CollectionPage({
                   sillage: hit.sillage,
                   longevity: hit.longevity,
                   season: hit.season,
-                  variants: hit.price != null
-                    ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
-                    : [],
+                  variants:
+                    hit.price != null
+                      ? [
+                          {
+                            prices: [
+                              { amount: hit.price, currency_code: "usd" },
+                            ],
+                          },
+                        ]
+                      : [],
                 }}
               />
             ))}

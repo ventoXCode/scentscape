@@ -11,6 +11,21 @@ const FAMILY_COLORS: Record<string, string> = {
   Aromatic: "bg-family-aromatic",
 };
 
+const SEASON_CONFIG: Record<string, { label: string; icon: string }> = {
+  Spring: { label: "Spring Pick", icon: "\uD83C\uDF38" },
+  Summer: { label: "Summer Pick", icon: "\u2600\uFE0F" },
+  Fall: { label: "Fall Pick", icon: "\uD83C\uDF42" },
+  Winter: { label: "Winter Pick", icon: "\u2744\uFE0F" },
+};
+
+function getCurrentSeason(): string {
+  const month = new Date().getMonth();
+  if (month >= 2 && month <= 4) return "Spring";
+  if (month >= 5 && month <= 7) return "Summer";
+  if (month >= 8 && month <= 10) return "Fall";
+  return "Winter";
+}
+
 interface ProductCardProps {
   product: {
     id: string;
@@ -22,6 +37,9 @@ interface ProductCardProps {
     family?: string | null;
     concentration?: string | null;
     topNote?: string | null;
+    sillage?: number | null;
+    longevity?: number | null;
+    season?: string[] | null;
     variants?: Array<{
       prices?: Array<{ amount: number; currency_code: string }>;
     }>;
@@ -42,6 +60,23 @@ export function ProductCard({ product, priority }: ProductCardProps) {
   const concentration = product.concentration || (product.metadata?.concentration as string | undefined);
   const topNote = product.topNote || null;
   const familyColor = family ? FAMILY_COLORS[family] || "bg-text-muted" : null;
+
+  // Compute contextual badges
+  const badges: { label: string; className: string }[] = [];
+  if (product.sillage != null && product.sillage <= 2.5) {
+    badges.push({
+      label: "\uD83C\uDF1F Beginner Friendly",
+      className: "bg-success-subtle text-success",
+    });
+  }
+  const currentSeason = getCurrentSeason();
+  const seasonCfg = SEASON_CONFIG[currentSeason];
+  if (seasonCfg && product.season?.includes(currentSeason)) {
+    badges.push({
+      label: `${seasonCfg.icon} ${seasonCfg.label}`,
+      className: "bg-family-amber-subtle text-family-amber",
+    });
+  }
 
   return (
     <Link
@@ -91,6 +126,20 @@ export function ProductCard({ product, priority }: ProductCardProps) {
                 {concentration}
               </span>
             )}
+          </div>
+        )}
+
+        {/* Contextual badges */}
+        {badges.length > 0 && (
+          <div className="absolute top-2 right-2 flex flex-col items-end gap-1">
+            {badges.map((badge) => (
+              <span
+                key={badge.label}
+                className={`px-2 py-0.5 backdrop-blur-sm rounded-full text-xs font-medium shadow-sm ${badge.className}`}
+              >
+                {badge.label}
+              </span>
+            ))}
           </div>
         )}
       </div>

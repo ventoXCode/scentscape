@@ -1,9 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { medusa } from "@/lib/medusa/client";
 import { ProductCard } from "@/components/product/product-card";
 import { HeroSection } from "@/components/home/hero-section";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
+import { FragranceOfTheDay } from "@/components/home/fragrance-of-the-day";
+import { MOODS } from "@/lib/discovery/moods";
 
 export const metadata: Metadata = {
   title: "ScentScape — Discover Your Signature Fragrance",
@@ -185,6 +188,64 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Fragrance of the Day */}
+      <Suspense>
+        <FragranceOfTheDay />
+      </Suspense>
+
+      {/* Explore by Mood */}
+      <section className="py-section bg-surface-subtle/50">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <ScrollReveal>
+            <p className="text-accent-primary font-medium text-sm uppercase tracking-wide text-center mb-2">
+              New Way to Browse
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-text-primary text-center mb-4">
+              Explore by Mood
+            </h2>
+            <p className="text-text-secondary text-center mb-10 max-w-2xl mx-auto">
+              Skip the technical jargon. Browse fragrances by how you want to
+              feel.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {MOODS.slice(0, 4).map((mood, i) => (
+              <ScrollReveal key={mood.slug} delay={i * 80}>
+                <Link
+                  href={`/moods/${mood.slug}`}
+                  className={`group block rounded-xl border border-border-default overflow-hidden shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200 bg-gradient-to-br ${mood.gradient} p-5 text-center`}
+                >
+                  <span
+                    className="text-3xl block mb-2 group-hover:scale-110 transition-transform duration-200"
+                    aria-hidden="true"
+                  >
+                    {mood.emoji}
+                  </span>
+                  <h3 className="font-display text-sm sm:text-base font-semibold text-text-primary mb-0.5">
+                    {mood.title}
+                  </h3>
+                  <p className="text-xs text-text-muted hidden sm:block">
+                    {mood.tagline}
+                  </p>
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal>
+            <div className="text-center mt-8">
+              <Link
+                href="/moods"
+                className="text-text-secondary hover:text-text-primary font-medium transition-colors"
+              >
+                See all moods &rarr;
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
       {/* Social Proof */}
       <section className="py-section bg-surface-primary">

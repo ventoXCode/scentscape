@@ -13,6 +13,7 @@ const SORT_OPTIONS: SortOption[] = [
   { label: "Price: High to Low", value: "price:desc" },
   { label: "Longest Lasting", value: "longevity:desc" },
   { label: "Strongest Sillage", value: "sillage:desc" },
+  { label: "Best for Beginners", value: "sillage:asc" },
 ];
 
 interface SortSelectProps {
