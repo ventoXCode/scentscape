@@ -172,17 +172,18 @@
 - [ ] Cart drawer: add slide-in/slide-out animation (currently: conditional render with no transition)
 - [ ] Page transition patterns
 
-### 2.6 — Fragrance-specific visual metaphors
-- [ ] Redesign scent pyramid: interactive, layered, visually beautiful (current `scent-pyramid.tsx`: three same-height stacked colored boxes — `bg-amber-50`, `bg-rose-50`, `bg-stone-100` — with text pills inside; doesn't visually communicate the pyramid/temporal concept)
-  - Hoverable notes with sensory descriptions
-  - Visual hierarchy showing temporal progression (top → heart → base)
-  - Animate notes appearing tier by tier on scroll-entry
-- [ ] Redesign accord tags: feel like physical scent swatches with weighted sizing reflecting accord strength (current `accords-display.tsx`: `rounded-full` pills with hardcoded `ACCORD_COLORS` map, all same size — no visual weight)
-  - Make accords clickable links to filtered product listing
-- [ ] Redesign performance ratings: custom radial/arc visualizations (current `performance-ratings.tsx`: horizontal `h-2 bg-gray-200 rounded-full` bars with `bg-black` fill)
-  - Add verbal scale labels alongside numbers (e.g., "Moderate", "Long-lasting")
-  - Add contextual tooltips explaining what sillage/projection mean
-  - Use Intersection Observer to animate bars on scroll-entry (current animation fires on mount, may flash)
+### 2.6 — Fragrance-specific visual metaphors ✅ (partial)
+- [x] Redesign scent pyramid: visual pyramid layout with progressive widths (72% → 86% → 100%), fragrance family color tokens per tier (citrus/floral/woody), educational annotations per tier ("First impression · fades in 15–30 minutes"), hoverable note chips with sensory description tooltips via `lib/fragrance/note-descriptions.ts` (100+ notes)
+  - [x] Hoverable notes with sensory descriptions (CSS group-hover tooltips)
+  - [x] Visual hierarchy showing temporal progression (top → heart → base) via width stepping and color coding
+  - [ ] Animate notes appearing tier by tier on scroll-entry (can wrap in ScrollReveal on product page)
+- [x] Redesign accord tags: swatch-style cards with colored dot + family color backgrounds using design token system, weighted sizing (first 3 accords larger), all accords linked to `/search?accords=X`
+  - [x] Replaced hardcoded `ACCORD_COLORS` map with `ACCORD_FAMILY_MAP` → fragrance family design tokens
+  - [x] Make accords clickable links to filtered product listing
+- [x] Redesign performance ratings: SVG circular ring gauges replacing horizontal bars, verbal scale labels (Fleeting/Short/Moderate/Long-lasting/Legendary etc.), info icon tooltips explaining each metric, IntersectionObserver scroll-triggered fill animation
+  - [x] Add verbal scale labels alongside numbers (e.g., "Moderate", "Long-lasting")
+  - [x] Add contextual tooltips explaining what sillage/projection mean
+  - [x] Use Intersection Observer to animate rings on scroll-entry
 - [ ] Define distinct visual identities per fragrance family (color, pattern, illustration style)
 
 ---
