@@ -1,26 +1,47 @@
 import { medusa } from "@/lib/medusa/client";
+import { completeCart } from "@/lib/medusa/checkout-actions";
 import { formatPrice } from "@/lib/utils/format";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 interface SuccessPageProps {
-  searchParams: Promise<{ order_id?: string }>;
+  searchParams: Promise<{ order_id?: string; cart_id?: string }>;
 }
 
 export default async function CheckoutSuccessPage({ searchParams }: SuccessPageProps) {
-  const { order_id } = await searchParams;
+  const { order_id, cart_id } = await searchParams;
 
-  if (!order_id) {
+  let resolvedOrderId = order_id;
+
+  // Stripe redirect passes cart_id — complete the cart to get the order
+  if (!resolvedOrderId && cart_id) {
+    try {
+      const order = await completeCart(cart_id);
+      resolvedOrderId = order.id;
+    } catch {
+      // Cart may already be completed or invalid
+    }
+  }
+
+  if (!resolvedOrderId) {
     return (
       <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
-        <p className="text-gray-600">Order not found.</p>
-        <Link href="/" className="inline-block mt-4 px-8 py-3 bg-black text-white rounded">
+        <p className="text-gray-600 mb-2">We couldn&apos;t find your order.</p>
+        <p className="text-sm text-gray-500 mb-6">
+          If you just completed a payment, your order may still be processing. Check your email for confirmation.
+        </p>
+        <Link href="/" className="inline-block mt-4 px-8 py-3 bg-black text-white rounded hover:bg-gray-800 transition-colors">
           Return Home
         </Link>
       </div>
     );
   }
 
-  const { order } = await medusa.store.order.retrieve(order_id);
+  // Clear cart cookie after successful checkout
+  const cookieStore = await cookies();
+  cookieStore.delete("cart_id");
+
+  const { order } = await medusa.store.order.retrieve(resolvedOrderId);
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-2xl text-center">

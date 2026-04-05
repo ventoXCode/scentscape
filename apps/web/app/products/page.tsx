@@ -1,24 +1,88 @@
 import { medusa } from "@/lib/medusa/client";
+import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
 import { ProductFilters } from "@/components/filters/product-filters";
+import Link from "next/link";
+
+const PAGE_SIZE = 24;
 
 interface ProductsPageProps {
   searchParams: Promise<{
     family?: string;
     concentration?: string;
     price?: string;
+    page?: string;
   }>;
+}
+
+function buildMeilisearchFilter(params: {
+  family?: string;
+  concentration?: string;
+  price?: string;
+}): string[] {
+  const filters: string[] = [];
+  if (params.family) filters.push(`family = "${params.family}"`);
+  if (params.concentration) filters.push(`concentration = "${params.concentration}"`);
+  if (params.price) {
+    switch (params.price) {
+      case "under-100": filters.push("price < 10000"); break;
+      case "100-200": filters.push("price >= 10000 AND price <= 20000"); break;
+      case "200-400": filters.push("price >= 20000 AND price <= 40000"); break;
+      case "over-400": filters.push("price > 40000"); break;
+    }
+  }
+  return filters;
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
+  const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1);
+  const hasFilters = params.family || params.concentration || params.price;
 
   let products: any[] = [];
+  let totalProducts = 0;
+  let error = false;
+
   try {
-    const result = await medusa.store.product.list({ limit: 50 });
-    products = result.products || [];
+    if (hasFilters) {
+      // Use Meilisearch when filters are active — Medusa doesn't filter by metadata
+      const filters = buildMeilisearchFilter(params);
+      const results = await meilisearch.index(PRODUCTS_INDEX).search<SearchableProduct>("", {
+        filter: filters,
+        limit: PAGE_SIZE,
+        offset: (currentPage - 1) * PAGE_SIZE,
+      });
+      products = results.hits.map((hit) => ({
+        id: hit.id,
+        handle: hit.handle,
+        title: hit.title,
+        thumbnail: hit.thumbnail,
+        metadata: { brand: hit.brand },
+        variants: hit.price != null ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }] : [],
+      }));
+      totalProducts = results.estimatedTotalHits ?? results.hits.length;
+    } else {
+      const result = await medusa.store.product.list({
+        limit: PAGE_SIZE,
+        offset: (currentPage - 1) * PAGE_SIZE,
+      });
+      products = result.products || [];
+      totalProducts = result.count ?? products.length;
+    }
   } catch {
-    // Backend may not be running; render empty state gracefully
+    error = true;
+  }
+
+  const totalPages = Math.max(1, Math.ceil(totalProducts / PAGE_SIZE));
+
+  function pageUrl(page: number) {
+    const p = new URLSearchParams();
+    if (params.family) p.set("family", params.family);
+    if (params.concentration) p.set("concentration", params.concentration);
+    if (params.price) p.set("price", params.price);
+    if (page > 1) p.set("page", String(page));
+    const qs = p.toString();
+    return `/products${qs ? `?${qs}` : ""}`;
   }
 
   return (
@@ -31,16 +95,60 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </aside>
 
         <main className="flex-1">
-          {products.length === 0 ? (
-            <p className="text-gray-500">
-              No fragrances found. Run the seed script to populate the catalog.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+          {error ? (
+            <div className="text-center py-16">
+              <p className="text-gray-600 mb-4">
+                Something went wrong loading fragrances. Please try again later.
+              </p>
+              <Link href="/products" className="text-black underline">
+                Reload
+              </Link>
             </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-gray-500 mb-4">
+                {hasFilters
+                  ? "No fragrances match your filters."
+                  : "No fragrances found. Run the seed script to populate the catalog."}
+              </p>
+              {hasFilters && (
+                <Link href="/products" className="text-black underline">
+                  Clear filters
+                </Link>
+              )}
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <nav aria-label="Product listing pagination" className="flex justify-center items-center gap-2 mt-12">
+                  {currentPage > 1 && (
+                    <Link
+                      href={pageUrl(currentPage - 1)}
+                      className="px-4 py-2 border rounded hover:bg-gray-50 transition-colors"
+                    >
+                      Previous
+                    </Link>
+                  )}
+                  <span className="text-sm text-gray-600 px-4">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  {currentPage < totalPages && (
+                    <Link
+                      href={pageUrl(currentPage + 1)}
+                      className="px-4 py-2 border rounded hover:bg-gray-50 transition-colors"
+                    >
+                      Next
+                    </Link>
+                  )}
+                </nav>
+              )}
+            </>
           )}
         </main>
       </div>

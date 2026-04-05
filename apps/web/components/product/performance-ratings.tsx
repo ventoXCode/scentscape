@@ -9,14 +9,21 @@ function RatingBar({ label, value }: { label: string; value: number | null }) {
 
   return (
     <div className="flex items-center gap-4">
-      <span className="w-24 text-sm text-gray-600 flex-shrink-0">{label}</span>
-      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+      <span id={`rating-${label.toLowerCase()}`} className="w-24 text-sm text-gray-600 flex-shrink-0">{label}</span>
+      <div
+        className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden"
+        role="progressbar"
+        aria-valuenow={value ?? undefined}
+        aria-valuemin={0}
+        aria-valuemax={5}
+        aria-labelledby={`rating-${label.toLowerCase()}`}
+      >
         <div
           className="h-full bg-black rounded-full transition-all duration-500"
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className="w-8 text-sm text-gray-600 text-right flex-shrink-0">
+      <span className="w-8 text-sm text-gray-600 text-right flex-shrink-0" aria-hidden="true">
         {value != null ? value.toFixed(1) : "—"}
       </span>
     </div>

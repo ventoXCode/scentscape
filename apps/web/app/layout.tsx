@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { getCustomer } from "@/lib/medusa/auth-actions";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,6 +26,7 @@ export default async function RootLayout({
         <Providers>
           <Header customer={customer} />
           <main>{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>

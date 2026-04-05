@@ -9,6 +9,7 @@ interface ProductCardProps {
     title: string;
     thumbnail?: string | null;
     description?: string | null;
+    brand?: string | null;
     variants?: Array<{
       prices?: Array<{ amount: number; currency_code: string }>;
     }>;
@@ -18,7 +19,8 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const price = product.variants?.[0]?.prices?.[0];
-  const brand = product.metadata?.brand as string | undefined;
+  // Support both top-level brand (Meilisearch) and metadata.brand (Medusa)
+  const brand = product.brand || (product.metadata?.brand as string | undefined);
 
   return (
     <Link
