@@ -16,7 +16,7 @@ interface VariantSelectorProps {
 
 export function VariantSelector({ variants, onSelect }: VariantSelectorProps) {
   const [selectedId, setSelectedId] = useState<string>(
-    variants[0]?.id ?? ""
+    variants[0]?.id ?? "",
   );
 
   if (!variants || variants.length === 0) return null;
@@ -28,8 +28,17 @@ export function VariantSelector({ variants, onSelect }: VariantSelectorProps) {
 
   return (
     <div className="mb-4">
-      <p id="variant-selector-label" className="text-sm font-medium text-gray-700 mb-2">Size</p>
-      <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="variant-selector-label">
+      <p
+        id="variant-selector-label"
+        className="text-sm font-medium text-text-secondary mb-2"
+      >
+        Size
+      </p>
+      <div
+        className="flex flex-wrap gap-2"
+        role="radiogroup"
+        aria-labelledby="variant-selector-label"
+      >
         {variants.map((variant) => {
           const price = variant.prices?.[0];
           const isSelected = variant.id === selectedId;
@@ -42,13 +51,15 @@ export function VariantSelector({ variants, onSelect }: VariantSelectorProps) {
               aria-checked={isSelected}
               className={`px-4 py-2 border rounded-lg text-sm transition-all ${
                 isSelected
-                  ? "border-black bg-black text-white"
-                  : "border-gray-300 hover:border-gray-600 text-gray-800"
+                  ? "border-text-primary bg-text-primary text-text-inverse"
+                  : "border-border-default hover:border-border-strong text-text-primary"
               }`}
             >
               <span>{variant.title}</span>
               {price && (
-                <span className={`ml-2 ${isSelected ? "text-gray-300" : "text-gray-500"}`}>
+                <span
+                  className={`ml-2 ${isSelected ? "text-text-inverse/70" : "text-text-muted"}`}
+                >
                   {formatPrice(price.amount, price.currency_code)}
                 </span>
               )}

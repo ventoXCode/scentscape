@@ -257,11 +257,11 @@
 - [ ] "Similar Fragrances" section based on note composition overlap — absent
 - [x] Breadcrumb navigation
 - [ ] `generateStaticParams` for static generation of product pages (currently all dynamically rendered)
-- [ ] Selected variant price update (currently static — selecting different size doesn't update visible price)
+- [x] Selected variant price update: prominent price display in `ProductPurchaseSection` updates on variant selection; variant selector migrated to design tokens
 
 ### 4.4 — Sorting and filter UX improvements ✅ (partial)
 - [x] Expose sort controls on `/products` and `/search`: price (asc/desc), longevity (desc), sillage (desc) via `SortSelect` component using Meilisearch `sortableAttributes`
-- [ ] Fix `search-facets.tsx` semantic mismatch: uses checkboxes but only allows single-select per facet — either implement true multi-select or switch to radio inputs
+- [x] Fix `search-facets.tsx` semantic mismatch: switched to `type="radio"` inputs with `fieldset`/`legend` pattern and `role="radiogroup"` — matches single-select behavior
 - [ ] Add filter counts (how many products match each option) to prevent zero-result dead ends
 - [ ] Make filter options dynamic from catalog (currently hardcoded in `product-filters.tsx`)
 - [ ] Add beginner-friendly filter tooltips explaining each option
@@ -289,13 +289,13 @@
 
 **Why fifth:** Cross-cutting concern applied after core features exist. Many mobile patterns (bottom nav, swipe quiz, sticky CTAs) require the features they enhance to be built first.
 
-**Current state:** Basic Tailwind responsive (`grid-cols-1 md:grid-cols-2 lg:grid-cols-4` patterns). Header is desktop-oriented — horizontal nav links with `gap-6`, no hamburger/mobile menu, nav items overflow on small screens. SearchBar is fixed `w-64` inside a `max-w-sm` constraint — awkward on mobile. No touch gestures, no bottom nav, no swipe, no PWA, no mobile-specific interaction patterns. Cart drawer works but isn't thumb-zone optimized. Quiz stacks vertically but has no gesture navigation. Product filters use `w-64` sidebar layout with no responsive handling (sidebar would be hidden/broken on mobile). Header is not sticky (`position: sticky` absent).
+**Current state (post-implementation):** Header is responsive with hamburger menu on mobile (`md:hidden`), animated slide-down mobile menu with search, nav links, and auth. Cart icon with bag SVG on mobile. Header is sticky (`sticky top-0 z-40`). Desktop nav hidden on mobile via `hidden md:flex`. Mobile menu closes on route change via `usePathname`. Cart drawer has slide-in/slide-out animation. Search bar moves into mobile menu on small screens.
 
-### 5.1 — Mobile navigation
+### 5.1 — Mobile navigation ✅ (partial)
 - [ ] Bottom navigation bar for mobile: Home, Quiz, Search, Account
 - [ ] Thumb-zone-aware placement (primary actions in bottom 40% of screen)
-- [ ] Mobile hamburger menu or responsive header (currently: all nav links inline, overflow on mobile)
-- [ ] Make header sticky (`sticky top-0 z-40 bg-white shadow`)
+- [x] Mobile hamburger menu: animated slide-down panel with search, nav links (Find Your Scent highlighted), auth controls; closes on route change; hamburger ↔ close icon toggle
+- [x] Header already sticky (`sticky top-0 z-40 bg-surface-elevated`)
 
 ### 5.2 — Touch-first quiz
 - [ ] Swipe left/right navigation between quiz steps

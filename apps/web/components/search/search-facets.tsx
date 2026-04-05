@@ -29,7 +29,10 @@ const FACET_LABELS: Record<string, string> = {
   season: "Season",
 };
 
-export function SearchFacets({ facetDistribution, currentFilters }: SearchFacetsProps) {
+export function SearchFacets({
+  facetDistribution,
+  currentFilters,
+}: SearchFacetsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -46,7 +49,7 @@ export function SearchFacets({ facetDistribution, currentFilters }: SearchFacets
 
       router.push(`/search?${params.toString()}`);
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   const clearAllFilters = () => {
@@ -77,39 +80,43 @@ export function SearchFacets({ facetDistribution, currentFilters }: SearchFacets
 
       {facetKeys.map((facetKey) => {
         const distribution = facetDistribution?.[facetKey];
-        if (!distribution || Object.keys(distribution).length === 0) return null;
+        if (!distribution || Object.keys(distribution).length === 0)
+          return null;
 
-        const currentValue = currentFilters[facetKey as keyof typeof currentFilters];
+        const currentValue =
+          currentFilters[facetKey as keyof typeof currentFilters];
 
         return (
-          <div key={facetKey}>
-            <h3 className="font-medium text-sm mb-3 uppercase tracking-wider text-text-secondary">
+          <fieldset key={facetKey}>
+            <legend className="font-medium text-sm mb-3 uppercase tracking-wider text-text-secondary">
               {FACET_LABELS[facetKey]}
-            </h3>
-            <ul className="space-y-2">
+            </legend>
+            <div className="space-y-2" role="radiogroup">
               {Object.entries(distribution)
                 .sort((a, b) => b[1] - a[1])
                 .map(([value, count]) => {
-                  const isChecked = currentValue === value;
+                  const isSelected = currentValue === value;
                   return (
-                    <li key={value}>
-                      <label className="flex items-center gap-2 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={() => toggleFilter(facetKey, value)}
-                          className="w-4 h-4 rounded border-border-default accent-black cursor-pointer"
-                        />
-                        <span className="text-sm text-text-secondary group-hover:text-text-primary flex-1">
-                          {value}
-                        </span>
-                        <span className="text-xs text-text-muted">{count}</span>
-                      </label>
-                    </li>
+                    <label
+                      key={value}
+                      className="flex items-center gap-2 cursor-pointer group"
+                    >
+                      <input
+                        type="radio"
+                        name={facetKey}
+                        checked={isSelected}
+                        onChange={() => toggleFilter(facetKey, value)}
+                        className="w-4 h-4 border-border-default accent-accent-primary cursor-pointer"
+                      />
+                      <span className="text-sm text-text-secondary group-hover:text-text-primary flex-1">
+                        {value}
+                      </span>
+                      <span className="text-xs text-text-muted">{count}</span>
+                    </label>
                   );
                 })}
-            </ul>
-          </div>
+            </div>
+          </fieldset>
         );
       })}
     </div>
