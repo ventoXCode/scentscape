@@ -275,12 +275,12 @@
 - [ ] Smart filter defaults: pre-filter based on user's quiz results when available
 - [ ] Extended sort options: "Best for beginners," "Most unique," "Best value"
 
-### 4.6 — Collection page upgrade
-- [ ] Editorial feel: hero imagery, descriptive intros, narrative context per collection (currently: text cards with `rounded-xl border-2 p-8` styling, no images)
+### 4.6 — Collection page upgrade ✅ (partial)
+- [x] Editorial feel: collection detail pages have full-width hero section with family-colored background, emoji icon, tagline, editorial narrative paragraph, product count. Collection data model enriched with `tagline`, `editorial`, `icon`, `familyColor` fields.
 - [ ] Dynamic collections alongside curated: trending, seasonal, new arrivals (currently: 6 hardcoded entries)
-- [ ] Distinct visual identity per collection (currently: `COLLECTION_COLORS` map with basic pastel backgrounds)
-- [ ] Support collection images (field exists in `Collection` interface as `image?: string` but unused)
-- [ ] Add product counts per collection
+- [x] Distinct visual identity per collection: each card uses `FAMILY_STYLES` mapped from collection's `familyColor` field (icon background + card colors using fragrance family tokens)
+- [ ] Support collection images (field exists in `Collection` interface as `image?: string` but unused — no image assets available)
+- [x] Product counts shown on collection detail page hero
 - [ ] Add pagination for large collections (currently hardcoded `limit: 50`)
 
 ---
@@ -305,7 +305,7 @@
 - [ ] Sticky CTA on results page
 
 ### 5.3 — Mobile-optimized layouts
-- [ ] Product detail: sticky add-to-cart bar pinned at bottom
+- [x] Product detail: sticky add-to-cart bar on mobile (`fixed bottom-0 z-30 md:hidden`) with price + button, desktop inline button, bottom spacer to prevent content overlap
 - [ ] Image gallery: swipeable carousel with pinch-to-zoom (currently: single static image)
 - [x] Filters: `FilterLayout` component — desktop sidebar, mobile bottom sheet overlay with slide-up animation, "Show Results" button, route-change auto-close. Applied to both `/products` and `/search` pages.
 - [ ] Search: expandable header search bar with recent/suggested queries (currently: fixed `w-64` input)
