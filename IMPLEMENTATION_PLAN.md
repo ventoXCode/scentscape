@@ -164,12 +164,12 @@
 - [ ] Error states: toast notification system for async action feedback (deferred: requires client-side toast infrastructure)
 - [ ] Migrate existing components to import from `components/ui/` instead of inline styles (progressive adoption — tokens applied directly, shared components available for new code)
 
-### 2.5 — Motion and micro-interaction layer
+### 2.5 — Motion and micro-interaction layer ✅ (partial)
 - [x] CSS-only entrance animations: `fade-in-up`, `fade-in`, `float` keyframes in `globals.css` via `@theme` animation tokens
 - [x] `ScrollReveal` client component (`components/home/scroll-reveal.tsx`): IntersectionObserver-driven entrance animations with configurable delay
-- [ ] Define transition tokens: `--transition-fast` (150ms), `--transition-normal` (300ms), `--transition-slow` (500ms) with consistent easing
-- [ ] Card hover states: scale + shadow depth shift + border color (currently: `hover:border-black` and `group-hover:scale-105` only)
-- [ ] Cart drawer: add slide-in/slide-out animation (currently: conditional render with no transition)
+- [x] Define transition tokens: `--transition-timing-function-smooth` cubic-bezier easing, `slide-in-right`/`slide-out-right` animation keyframes in `globals.css`
+- [x] Card hover states: `shadow-card` → `shadow-card-hover` + `border-border-strong` + image `scale-105` — already implemented in `product-card.tsx`
+- [x] Cart drawer: slide-in/slide-out animation with CSS `translate-x` transition (300ms ease-smooth), overlay fade, deferred first render via `hasBeenOpened` state, `pointer-events-none` + `aria-hidden` when closed
 - [ ] Page transition patterns
 
 ### 2.6 — Fragrance-specific visual metaphors ✅ (partial)

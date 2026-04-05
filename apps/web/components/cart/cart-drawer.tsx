@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCart } from "@/components/providers";
 import { removeFromCart, updateCartItem } from "@/lib/medusa/actions";
 import { formatPrice } from "@/lib/utils/format";
-import { useTransition, useEffect, useRef, useCallback } from "react";
+import { useTransition, useEffect, useRef, useCallback, useState } from "react";
 
 interface CartDrawerProps {
   open: boolean;
@@ -16,6 +16,12 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const [isPending, startTransition] = useTransition();
   const panelRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  // Track whether the drawer has ever been opened (skip rendering until first open)
+  const [hasBeenOpened, setHasBeenOpened] = useState(false);
+
+  useEffect(() => {
+    if (open) setHasBeenOpened(true);
+  }, [open]);
 
   const handleClose = useCallback(() => {
     onClose();
@@ -30,7 +36,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
     const panel = panelRef.current;
     if (panel) {
       const firstFocusable = panel.querySelector<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
       );
       firstFocusable?.focus();
     }
@@ -42,7 +48,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
       }
       if (e.key !== "Tab" || !panel) return;
       const focusable = panel.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
       );
       if (focusable.length === 0) return;
       const first = focusable[0];
@@ -60,7 +66,8 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, handleClose]);
 
-  if (!open) return null;
+  // Don't render anything until the drawer has been opened at least once
+  if (!hasBeenOpened) return null;
 
   const handleRemove = (lineItemId: string) => {
     startTransition(async () => {
@@ -77,12 +84,37 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
-      <div className="absolute inset-0 bg-surface-overlay" onClick={handleClose} aria-hidden="true" />
-      <div ref={panelRef} className="absolute right-0 top-0 h-full w-full max-w-md bg-surface-elevated p-6 shadow-modal">
+    <div
+      className={`fixed inset-0 z-50 ${open ? "" : "pointer-events-none"}`}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-drawer-title"
+      aria-hidden={!open}
+    >
+      {/* Overlay with fade */}
+      <div
+        className={`absolute inset-0 bg-surface-overlay transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
+        onClick={handleClose}
+        aria-hidden="true"
+      />
+
+      {/* Panel with slide */}
+      <div
+        ref={panelRef}
+        className={`absolute right-0 top-0 h-full w-full max-w-md bg-surface-elevated p-6 shadow-modal transition-transform duration-300 ease-smooth ${open ? "translate-x-0" : "translate-x-full"}`}
+      >
         <div className="flex items-center justify-between mb-6">
-          <h2 id="cart-drawer-title" className="font-display text-lg font-semibold text-text-primary">Your Cart</h2>
-          <button onClick={handleClose} aria-label="Close cart" className="text-text-secondary hover:text-text-primary transition-colors">
+          <h2
+            id="cart-drawer-title"
+            className="font-display text-lg font-semibold text-text-primary"
+          >
+            Your Cart
+          </h2>
+          <button
+            onClick={handleClose}
+            aria-label="Close cart"
+            className="text-text-secondary hover:text-text-primary transition-colors"
+          >
             Close
           </button>
         </div>
@@ -101,23 +133,39 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
         ) : (
           <div className="space-y-4">
             {cart.items.map((item) => (
-              <div key={item.id} className="flex gap-4 border-b border-border-default pb-4">
+              <div
+                key={item.id}
+                className="flex gap-4 border-b border-border-default pb-4"
+              >
                 <div className="flex-1">
                   <p className="font-medium text-text-primary">{item.title}</p>
-                  <p className="text-sm text-text-muted">{(item as any).variant?.title}</p>
-                  <p className="text-sm text-text-primary">{formatPrice(item.unit_price)}</p>
+                  <p className="text-sm text-text-muted">
+                    {(item as any).variant?.title}
+                  </p>
+                  <p className="text-sm text-text-primary">
+                    {formatPrice(item.unit_price)}
+                  </p>
                   <div className="flex items-center gap-2 mt-2">
                     <button
-                      onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                      onClick={() =>
+                        handleUpdateQuantity(item.id, item.quantity - 1)
+                      }
                       disabled={isPending || item.quantity <= 1}
                       className="w-8 h-8 border border-border-default rounded-lg disabled:opacity-50 text-text-secondary hover:border-border-strong transition-colors"
                       aria-label={`Decrease quantity of ${item.title}`}
                     >
                       -
                     </button>
-                    <span className="text-text-primary" aria-label={`Quantity: ${item.quantity}`}>{item.quantity}</span>
+                    <span
+                      className="text-text-primary"
+                      aria-label={`Quantity: ${item.quantity}`}
+                    >
+                      {item.quantity}
+                    </span>
                     <button
-                      onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                      onClick={() =>
+                        handleUpdateQuantity(item.id, item.quantity + 1)
+                      }
                       disabled={isPending}
                       className="w-8 h-8 border border-border-default rounded-lg disabled:opacity-50 text-text-secondary hover:border-border-strong transition-colors"
                       aria-label={`Increase quantity of ${item.title}`}
