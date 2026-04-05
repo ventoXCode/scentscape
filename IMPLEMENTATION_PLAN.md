@@ -256,7 +256,7 @@
 - [ ] Cross-sell: "If you like this, explore..." based on note/accord similarity — absent
 - [ ] "Similar Fragrances" section based on note composition overlap — absent
 - [x] Breadcrumb navigation
-- [ ] `generateStaticParams` for static generation of product pages (currently all dynamically rendered)
+- [x] `generateStaticParams` for static generation of product pages + `revalidate = 300` ISR
 - [x] Selected variant price update: prominent price display in `ProductPurchaseSection` updates on variant selection; variant selector migrated to design tokens
 
 ### 4.4 — Sorting and filter UX improvements ✅ (partial)
@@ -307,7 +307,7 @@
 ### 5.3 — Mobile-optimized layouts
 - [ ] Product detail: sticky add-to-cart bar pinned at bottom
 - [ ] Image gallery: swipeable carousel with pinch-to-zoom (currently: single static image)
-- [ ] Filters: bottom sheet or full-screen overlay (currently: sidebar `w-64 flex-shrink-0` with no responsive handling)
+- [x] Filters: `FilterLayout` component — desktop sidebar, mobile bottom sheet overlay with slide-up animation, "Show Results" button, route-change auto-close. Applied to both `/products` and `/search` pages.
 - [ ] Search: expandable header search bar with recent/suggested queries (currently: fixed `w-64` input)
 - [ ] Checkout: large touch targets, single-column flow
 

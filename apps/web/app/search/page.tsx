@@ -1,6 +1,7 @@
 import { meilisearch, PRODUCTS_INDEX, SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
 import { SearchFacets } from "@/components/search/search-facets";
+import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import { Suspense } from "react";
 
@@ -44,15 +45,15 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
   }
 
   return (
-    <div className="flex gap-8">
-      <aside className="w-64 flex-shrink-0">
+    <div className="flex flex-col md:flex-row gap-8">
+      <FilterLayout>
         <Suspense>
           <SearchFacets
             facetDistribution={results.facetDistribution as any}
             currentFilters={searchParams}
           />
         </Suspense>
-      </aside>
+      </FilterLayout>
 
       <main className="flex-1">
         {results.hits.length === 0 ? (

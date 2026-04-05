@@ -2,6 +2,7 @@ import { medusa } from "@/lib/medusa/client";
 import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
 import { ProductFilters } from "@/components/filters/product-filters";
+import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -105,10 +106,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </Suspense>
       </div>
 
-      <div className="flex gap-8">
-        <aside className="w-64 flex-shrink-0">
+      <div className="flex flex-col md:flex-row gap-8">
+        <FilterLayout>
           <ProductFilters currentFilters={params} />
-        </aside>
+        </FilterLayout>
 
         <main className="flex-1">
           {error ? (

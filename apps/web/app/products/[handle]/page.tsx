@@ -38,6 +38,19 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 }
 
+export async function generateStaticParams() {
+  try {
+    const { products } = await medusa.store.product.list({ limit: 200 });
+    return (products ?? [])
+      .filter((p: any) => p.handle)
+      .map((p: any) => ({ handle: p.handle }));
+  } catch {
+    return [];
+  }
+}
+
+export const revalidate = 300;
+
 interface FragranceData {
   top_notes: string[];
   heart_notes: string[];
