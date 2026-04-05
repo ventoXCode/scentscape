@@ -165,11 +165,11 @@
 - [ ] Migrate existing components to import from `components/ui/` instead of inline styles (progressive adoption — tokens applied directly, shared components available for new code)
 
 ### 2.5 — Motion and micro-interaction layer
-- [ ] Add Framer Motion (or CSS-only approach) for entrance animations (fade-up, stagger)
+- [x] CSS-only entrance animations: `fade-in-up`, `fade-in`, `float` keyframes in `globals.css` via `@theme` animation tokens
+- [x] `ScrollReveal` client component (`components/home/scroll-reveal.tsx`): IntersectionObserver-driven entrance animations with configurable delay
 - [ ] Define transition tokens: `--transition-fast` (150ms), `--transition-normal` (300ms), `--transition-slow` (500ms) with consistent easing
 - [ ] Card hover states: scale + shadow depth shift + border color (currently: `hover:border-black` and `group-hover:scale-105` only)
 - [ ] Cart drawer: add slide-in/slide-out animation (currently: conditional render with no transition)
-- [ ] Scroll-driven reveal animations for storytelling sections
 - [ ] Page transition patterns
 
 ### 2.6 — Fragrance-specific visual metaphors
@@ -191,36 +191,38 @@
 
 **Why third:** The homepage is the front door. After the design system exists and quiz is rebuilt, the homepage can properly showcase both.
 
-**Current state (`app/page.tsx`):** ~40 lines. Static hero: `text-4xl font-bold` "Discover Your Signature Scent" in plain text, one `text-gray-600` subline, single CTA (`bg-black text-white px-8 py-3 rounded`). Below: "Featured Fragrances" heading with 4 product cards in a `grid-cols-4` grid. No imagery, no animation, no storytelling, no social proof, nothing below the fold. No educational content. The entire page is a single `container mx-auto px-4 py-12`. No `revalidate` or cache directive on data fetch. No metadata/SEO export.
+**Current state (post-implementation):** Full-page homepage with 6 sections. `HeroSection` client component (`components/home/hero-section.tsx`) with full-viewport gradient background, rotating headline words, decorative floating orbs (CSS `float` animation), dual CTAs ("Find Your Scent" gold accent + "Browse Collection" outlined), and anxiety-reduction subline. 3-step value proposition explaining quiz flow with emoji icons. Featured fragrances section with editorial "Editor's Picks" framing and 4 product cards. Social proof with 4 stat counters and 3 testimonial cards (simulated data). "Smarter Than a Filter" how-it-works section with 4 numbered steps explaining the personality-based matching engine. Final CTA re-inviting quiz participation. All below-fold sections use `ScrollReveal` (IntersectionObserver) for staggered fade-in-up entrance animations. `revalidate = 300` for ISR. Full `Metadata` export with OpenGraph tags.
 
-### 3.1 — Immersive hero section
-- [ ] Full-viewport hero with abstract sensory imagery, gradient overlays, or editorial photography
-- [ ] Unmissable primary CTA ("Find Your Scent") with inviting, non-corporate tone
-- [ ] Anxiety-reduction subline ("Not sure where to start? We'll help — for free.")
-- [ ] Animated/rotating elements showcasing fragrance diversity
-- [ ] Above-the-fold content visually complete within 1.5 seconds
+### 3.1 — Immersive hero section ✅
+- [x] Full-viewport hero with gradient overlays and decorative floating orbs (fragrance family colors, blur-3xl, CSS float animations)
+- [x] Unmissable primary CTA ("Find Your Scent") with gold accent color + "Browse Collection" secondary CTA
+- [x] Anxiety-reduction subline ("Free · 2 minutes · No account needed")
+- [x] Animated rotating headline word (Signature → Perfect → Dream → Ideal → Unique) with crossfade transition
+- [x] Above-the-fold content renders immediately (no data dependencies in hero)
 
-### 3.2 — Value proposition section
-- [ ] 3-4 visual cards explaining quiz value: "Tell us about you" → "We analyze 100+ fragrances" → "Get personalized picks"
-- [ ] Make the quiz feel smart and personal, not generic
+### 3.2 — Value proposition section ✅
+- [x] 3 visual cards with emoji icons explaining quiz flow: "Tell Us About You" → "We Analyze 100+ Scents" → "Get Personalized Picks"
+- [x] Emphasizes personality-based approach, not generic quiz ("not a fragrance quiz, a you quiz")
 
-### 3.3 — Social proof and trust
-- [ ] Testimonials or quiz completion statistics (simulated data acceptable for MVP)
-- [ ] Brand partner logos / "as featured in" section
-- [ ] Community highlights or user-generated content teaser
+### 3.3 — Social proof and trust ✅
+- [x] 4 stat counters: 10,000+ quiz completions, 100+ fragrances, 10 scent personalities, 2 min average
+- [x] 3 testimonial cards with user names, archetype labels, and avatar initials (simulated data)
+- [ ] Brand partner logos / "as featured in" section (deferred: no brand partnerships yet)
+- [ ] Community highlights or user-generated content teaser (deferred: no community features yet)
 
 ### 3.4 — Editorial and discovery content
-- [ ] Fragrance 101 educational teaser section
-- [ ] Trending / seasonal picks with editorial framing ("What people are wearing this spring")
-- [ ] Collection highlights with visual storytelling
+- [x] Featured fragrances with editorial "Editor's Picks" framing and "View All" link
+- [ ] Fragrance 101 educational teaser section (deferred to Phase 7 — educational content layer)
+- [ ] Trending / seasonal picks with editorial framing (deferred: requires seasonal logic)
+- [ ] Collection highlights with visual storytelling (deferred: requires collection hero images — Phase 4.6)
 
-### 3.5 — Below-the-fold experience
-- [ ] "How It Works" section demystifying fragrance for beginners
-- [ ] Progressive content layers that reward scrolling
-- [ ] Scroll-driven entrance animations (fade-up, stagger, parallax)
-- [ ] Final CTA section re-inviting quiz participation
-- [ ] Lazy-loaded sections with blur placeholders / skeleton states
-- [ ] Add metadata/SEO exports and `revalidate` directive
+### 3.5 — Below-the-fold experience ✅
+- [x] "Smarter Than a Filter" section with 4 numbered steps demystifying the matching engine
+- [x] Progressive content layers that reward scrolling (6 distinct sections)
+- [x] Scroll-driven entrance animations via `ScrollReveal` component (IntersectionObserver + fade-in-up + staggered delays)
+- [x] Final CTA section re-inviting quiz participation ("Ready to Find Your Scent?")
+- [x] `revalidate = 300` for ISR and full `Metadata` export with OpenGraph tags
+- [ ] Lazy-loaded sections with blur placeholders / skeleton states (deferred: current sections are lightweight enough for immediate render)
 
 ---
 
