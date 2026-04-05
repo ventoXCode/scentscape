@@ -21,18 +21,26 @@ interface ProductCardProps {
     brand?: string | null;
     family?: string | null;
     concentration?: string | null;
+    topNote?: string | null;
     variants?: Array<{
       prices?: Array<{ amount: number; currency_code: string }>;
     }>;
     metadata?: Record<string, unknown> | null;
   };
+  priority?: boolean;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
-  const price = product.variants?.[0]?.prices?.[0];
+export function ProductCard({ product, priority }: ProductCardProps) {
+  const allPrices = product.variants?.flatMap(
+    (v) => v.prices?.map((p) => p.amount) ?? []
+  ) ?? [];
+  const minPrice = allPrices.length ? Math.min(...allPrices) : null;
+  const maxPrice = allPrices.length ? Math.max(...allPrices) : null;
+  const hasRange = minPrice !== null && maxPrice !== null && minPrice !== maxPrice;
   const brand = product.brand || (product.metadata?.brand as string | undefined);
   const family = product.family || (product.metadata?.family as string | undefined);
   const concentration = product.concentration || (product.metadata?.concentration as string | undefined);
+  const topNote = product.topNote || null;
   const familyColor = family ? FAMILY_COLORS[family] || "bg-text-muted" : null;
 
   return (
@@ -46,6 +54,7 @@ export function ProductCard({ product }: ProductCardProps) {
             src={product.thumbnail}
             alt={product.title}
             fill
+            priority={priority}
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
@@ -91,11 +100,18 @@ export function ProductCard({ product }: ProductCardProps) {
             {brand}
           </p>
         )}
-        <h3 className="font-medium text-text-primary mb-2 line-clamp-2">
+        <h3 className="font-medium text-text-primary mb-1 line-clamp-2">
           {product.title}
         </h3>
-        {price && (
-          <p className="text-sm font-semibold text-text-primary">{formatPrice(price.amount)}</p>
+        {topNote && (
+          <p className="text-xs text-text-muted mb-1.5 truncate">
+            Top note: {topNote}
+          </p>
+        )}
+        {minPrice !== null && (
+          <p className="text-sm font-semibold text-text-primary">
+            {hasRange ? `From ${formatPrice(minPrice)}` : formatPrice(minPrice)}
+          </p>
         )}
       </div>
     </Link>

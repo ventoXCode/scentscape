@@ -62,8 +62,24 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {results.hits.map((product) => (
-              <ProductCard key={product.id} product={product as any} />
+            {results.hits.map((hit, i) => (
+              <ProductCard
+                key={hit.id}
+                priority={i < 6}
+                product={{
+                  id: hit.id,
+                  handle: hit.handle,
+                  title: hit.title,
+                  thumbnail: hit.thumbnail,
+                  brand: hit.brand,
+                  family: hit.family,
+                  concentration: hit.concentration,
+                  topNote: hit.top_notes?.[0] || null,
+                  variants: hit.price != null
+                    ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
+                    : [],
+                }}
+              />
             ))}
           </div>
         )}

@@ -242,19 +242,19 @@
 ### 4.2 — Enhanced product cards ✅ (partial)
 - [x] Add fragrance family visual indicator — color dot with family name badge, using `FAMILY_COLORS` mapped to design tokens (Fresh, Floral, Amber, Woody, Citrus, Aromatic)
 - [x] Add concentration badge on product card image overlay
-- [ ] Add key mood/vibe and one standout note — currently not shown
+- [x] Add key mood/vibe and one standout note — Top note displayed on each product card from Meilisearch data
 - [ ] Hover state: expanded quick-preview with additional info (current: shadow + scale transition)
 - [ ] Visual badges: "Trending," "Great for beginners," "Staff pick," seasonal markers
-- [ ] Add `priority` prop on above-fold product card images for LCP optimization
-- [ ] Price range display for multi-variant products ("From $95")
+- [x] Add `priority` prop on above-fold product card images for LCP optimization
+- [x] Price range display for multi-variant products — Shows 'From $X' when multiple variant prices exist
 - [ ] Premium feel: refined aspect ratios, image treatments, typography
 
 ### 4.3 — Product detail page enrichment ✅ (partial)
 - [x] "Scent Journey" narrative: timeline-based component (`scent-journey.tsx`) describing opening → heart → drydown with auto-generated prose from note data, visual timeline with family-colored dots/lines
 - [x] "Perfect For" section: editorial grid (`perfect-for.tsx`) with emoji icons, descriptive vibes per season/occasion, concentration-based wear tips — replaces raw season/occasion tags
-- [ ] "How to Wear" tips for fragrance newcomers — absent
-- [ ] Cross-sell: "If you like this, explore..." based on note/accord similarity — absent
-- [ ] "Similar Fragrances" section based on note composition overlap — absent
+- [x] "How to Wear" tips for fragrance newcomers — HowToWear component with concentration-based tips, pulse point guide, projection-aware advice
+- [x] Cross-sell: "If you like this, explore..." based on note/accord similarity — covered by Similar Fragrances component
+- [x] "Similar Fragrances" section based on note composition overlap — SimilarFragrances component using Meilisearch accord-based text search, shows top 4 similar products
 - [x] Breadcrumb navigation
 - [x] `generateStaticParams` for static generation of product pages + `revalidate = 300` ISR
 - [x] Selected variant price update: prominent price display in `ProductPurchaseSection` updates on variant selection; variant selector migrated to design tokens
@@ -262,8 +262,8 @@
 ### 4.4 — Sorting and filter UX improvements ✅ (partial)
 - [x] Expose sort controls on `/products` and `/search`: price (asc/desc), longevity (desc), sillage (desc) via `SortSelect` component using Meilisearch `sortableAttributes`
 - [x] Fix `search-facets.tsx` semantic mismatch: switched to `type="radio"` inputs with `fieldset`/`legend` pattern and `role="radiogroup"` — matches single-select behavior
-- [ ] Add filter counts (how many products match each option) to prevent zero-result dead ends
-- [ ] Make filter options dynamic from catalog (currently hardcoded in `product-filters.tsx`)
+- [x] Add filter counts (how many products match each option) to prevent zero-result dead ends
+- [x] Make filter options dynamic from catalog — ProductFilters accepts Meilisearch facet distribution, falls back to hardcoded options
 - [ ] Add beginner-friendly filter tooltips explaining each option
 - [ ] Visual filter icons instead of plain radio buttons/checkboxes
 

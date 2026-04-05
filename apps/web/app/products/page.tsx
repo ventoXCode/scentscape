@@ -42,46 +42,49 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const params = await searchParams;
   const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const hasFilters = params.family || params.concentration || params.price;
-  const hasSort = !!params.sort;
-  const useMeilisearch = hasFilters || hasSort;
 
   let products: any[] = [];
   let totalProducts = 0;
+  let facetDistribution: Record<string, Record<string, number>> | undefined;
   let error = false;
 
   try {
-    if (useMeilisearch) {
-      // Use Meilisearch when filters or sorting are active — Medusa doesn't filter by metadata
-      const filters = buildMeilisearchFilter(params);
-      const sort = params.sort ? [params.sort] : undefined;
-      const results = await meilisearch.index(PRODUCTS_INDEX).search<SearchableProduct>("", {
-        filter: filters.length ? filters : undefined,
-        sort,
-        limit: PAGE_SIZE,
-        offset: (currentPage - 1) * PAGE_SIZE,
-      });
-      products = results.hits.map((hit) => ({
-        id: hit.id,
-        handle: hit.handle,
-        title: hit.title,
-        thumbnail: hit.thumbnail,
-        brand: hit.brand,
-        family: hit.family,
-        concentration: hit.concentration,
-        metadata: { brand: hit.brand },
-        variants: hit.price != null ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }] : [],
-      }));
-      totalProducts = results.estimatedTotalHits ?? results.hits.length;
-    } else {
+    // Always prefer Meilisearch — gives us enriched fragrance data and facet counts
+    const filters = buildMeilisearchFilter(params);
+    const sort = params.sort ? [params.sort] : undefined;
+    const results = await meilisearch.index(PRODUCTS_INDEX).search<SearchableProduct>("", {
+      filter: filters.length ? filters : undefined,
+      sort,
+      limit: PAGE_SIZE,
+      offset: (currentPage - 1) * PAGE_SIZE,
+      facets: ["family", "concentration"],
+    });
+    products = results.hits.map((hit) => ({
+      id: hit.id,
+      handle: hit.handle,
+      title: hit.title,
+      thumbnail: hit.thumbnail,
+      brand: hit.brand,
+      family: hit.family,
+      concentration: hit.concentration,
+      topNote: hit.top_notes?.[0] || null,
+      metadata: { brand: hit.brand },
+      variants: hit.price != null ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }] : [],
+    }));
+    totalProducts = results.estimatedTotalHits ?? results.hits.length;
+    facetDistribution = results.facetDistribution;
+  } catch {
+    // Meilisearch unavailable — fall back to Medusa
+    try {
       const result = await medusa.store.product.list({
         limit: PAGE_SIZE,
         offset: (currentPage - 1) * PAGE_SIZE,
       });
       products = result.products || [];
       totalProducts = result.count ?? products.length;
+    } catch {
+      error = true;
     }
-  } catch {
-    error = true;
   }
 
   const totalPages = Math.max(1, Math.ceil(totalProducts / PAGE_SIZE));
@@ -108,7 +111,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
       <div className="flex flex-col md:flex-row gap-8">
         <FilterLayout>
-          <ProductFilters currentFilters={params} />
+          <ProductFilters currentFilters={params} facets={facetDistribution} />
         </FilterLayout>
 
         <main className="flex-1">
@@ -137,8 +140,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                {products.map((product, i) => (
+                  <ProductCard key={product.id} product={product} priority={i < 6} />
                 ))}
               </div>
 

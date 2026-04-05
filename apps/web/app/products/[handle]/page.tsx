@@ -10,6 +10,8 @@ import { ProductJsonLd } from "@/components/seo/product-jsonld";
 import { ImageGallery } from "@/components/product/image-gallery";
 import { PerfectFor } from "@/components/product/perfect-for";
 import { ScentJourney } from "@/components/product/scent-journey";
+import { HowToWear } from "@/components/product/how-to-wear";
+import { SimilarFragrances } from "@/components/product/similar-fragrances";
 
 interface ProductPageProps {
   params: Promise<{ handle: string }>;
@@ -183,12 +185,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 heartNotes={fragranceData.heart_notes}
                 baseNotes={fragranceData.base_notes}
               />
+
+              <HowToWear
+                concentration={fragranceData.concentration}
+                projection={fragranceData.projection}
+                seasons={fragranceData.season ?? []}
+              />
             </>
           )}
 
           <ProductPurchaseSection variants={product.variants || []} />
         </div>
       </div>
+
+      {fragranceData && (
+        <SimilarFragrances
+          productId={product.id}
+          family={fragranceData.family}
+          accords={fragranceData.accords}
+        />
+      )}
     </div>
   );
 }

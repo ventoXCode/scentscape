@@ -35,9 +35,23 @@ interface ProductFiltersProps {
     concentration?: string;
     price?: string;
   };
+  facets?: Record<string, Record<string, number>>;
 }
 
-export function ProductFilters({ currentFilters }: ProductFiltersProps) {
+export function ProductFilters({ currentFilters, facets }: ProductFiltersProps) {
+  // Build dynamic options from facets when available, fallback to hardcoded
+  const familyOptions: FilterOption[] = facets?.family
+    ? Object.entries(facets.family)
+        .sort(([, a], [, b]) => b - a)
+        .map(([value]) => ({ label: value, value }))
+    : FAMILY_OPTIONS;
+
+  const concentrationOptions: FilterOption[] = facets?.concentration
+    ? Object.entries(facets.concentration)
+        .sort(([, a], [, b]) => b - a)
+        .map(([value]) => ({ label: value, value }))
+    : CONCENTRATION_OPTIONS;
+
   const router = useRouter();
   const pathname = usePathname();
 
@@ -91,24 +105,30 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
           Scent Family
         </h3>
         <div className="space-y-2">
-          {FAMILY_OPTIONS.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center gap-2 cursor-pointer group"
-            >
-              <input
-                type="radio"
-                name="family"
-                value={option.value}
-                checked={currentFilters.family === option.value}
-                onChange={() => updateFilter("family", option.value)}
-                className="rounded border-border-default text-text-primary focus:ring-border-focus"
-              />
-              <span className="text-sm text-text-secondary group-hover:text-text-primary">
-                {option.label}
-              </span>
-            </label>
-          ))}
+          {familyOptions.map((option) => {
+            const count = facets?.family?.[option.value];
+            return (
+              <label
+                key={option.value}
+                className="flex items-center gap-2 cursor-pointer group"
+              >
+                <input
+                  type="radio"
+                  name="family"
+                  value={option.value}
+                  checked={currentFilters.family === option.value}
+                  onChange={() => updateFilter("family", option.value)}
+                  className="rounded border-border-default text-text-primary focus:ring-border-focus"
+                />
+                <span className="text-sm text-text-secondary group-hover:text-text-primary flex-1">
+                  {option.label}
+                </span>
+                {count != null && (
+                  <span className="text-xs text-text-muted">{count}</span>
+                )}
+              </label>
+            );
+          })}
         </div>
       </div>
 
@@ -118,24 +138,30 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
           Concentration
         </h3>
         <div className="space-y-2">
-          {CONCENTRATION_OPTIONS.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center gap-2 cursor-pointer group"
-            >
-              <input
-                type="radio"
-                name="concentration"
-                value={option.value}
-                checked={currentFilters.concentration === option.value}
-                onChange={() => updateFilter("concentration", option.value)}
-                className="rounded border-border-default text-text-primary focus:ring-border-focus"
-              />
-              <span className="text-sm text-text-secondary group-hover:text-text-primary">
-                {option.label}
-              </span>
-            </label>
-          ))}
+          {concentrationOptions.map((option) => {
+            const count = facets?.concentration?.[option.value];
+            return (
+              <label
+                key={option.value}
+                className="flex items-center gap-2 cursor-pointer group"
+              >
+                <input
+                  type="radio"
+                  name="concentration"
+                  value={option.value}
+                  checked={currentFilters.concentration === option.value}
+                  onChange={() => updateFilter("concentration", option.value)}
+                  className="rounded border-border-default text-text-primary focus:ring-border-focus"
+                />
+                <span className="text-sm text-text-secondary group-hover:text-text-primary flex-1">
+                  {option.label}
+                </span>
+                {count != null && (
+                  <span className="text-xs text-text-muted">{count}</span>
+                )}
+              </label>
+            );
+          })}
         </div>
       </div>
 
