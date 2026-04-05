@@ -2,7 +2,9 @@ import { medusa } from "@/lib/medusa/client";
 import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
 import { ProductFilters } from "@/components/filters/product-filters";
+import { SortSelect } from "@/components/filters/sort-select";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const PAGE_SIZE = 24;
 
@@ -11,6 +13,7 @@ interface ProductsPageProps {
     family?: string;
     concentration?: string;
     price?: string;
+    sort?: string;
     page?: string;
   }>;
 }
@@ -38,17 +41,21 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const params = await searchParams;
   const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const hasFilters = params.family || params.concentration || params.price;
+  const hasSort = !!params.sort;
+  const useMeilisearch = hasFilters || hasSort;
 
   let products: any[] = [];
   let totalProducts = 0;
   let error = false;
 
   try {
-    if (hasFilters) {
-      // Use Meilisearch when filters are active — Medusa doesn't filter by metadata
+    if (useMeilisearch) {
+      // Use Meilisearch when filters or sorting are active — Medusa doesn't filter by metadata
       const filters = buildMeilisearchFilter(params);
+      const sort = params.sort ? [params.sort] : undefined;
       const results = await meilisearch.index(PRODUCTS_INDEX).search<SearchableProduct>("", {
-        filter: filters,
+        filter: filters.length ? filters : undefined,
+        sort,
         limit: PAGE_SIZE,
         offset: (currentPage - 1) * PAGE_SIZE,
       });
@@ -57,6 +64,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         handle: hit.handle,
         title: hit.title,
         thumbnail: hit.thumbnail,
+        brand: hit.brand,
+        family: hit.family,
+        concentration: hit.concentration,
         metadata: { brand: hit.brand },
         variants: hit.price != null ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }] : [],
       }));
@@ -80,6 +90,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     if (params.family) p.set("family", params.family);
     if (params.concentration) p.set("concentration", params.concentration);
     if (params.price) p.set("price", params.price);
+    if (params.sort) p.set("sort", params.sort);
     if (page > 1) p.set("page", String(page));
     const qs = p.toString();
     return `/products${qs ? `?${qs}` : ""}`;
@@ -87,7 +98,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="font-display text-3xl font-bold mb-8 text-text-primary">All Fragrances</h1>
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-display text-3xl font-bold text-text-primary">All Fragrances</h1>
+        <Suspense>
+          <SortSelect basePath="/products" currentSort={params.sort} />
+        </Suspense>
+      </div>
 
       <div className="flex gap-8">
         <aside className="w-64 flex-shrink-0">

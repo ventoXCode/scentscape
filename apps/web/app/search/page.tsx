@@ -1,6 +1,7 @@
 import { meilisearch, PRODUCTS_INDEX, SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
 import { SearchFacets } from "@/components/search/search-facets";
+import { SortSelect } from "@/components/filters/sort-select";
 import { Suspense } from "react";
 
 interface SearchPageProps {
@@ -11,6 +12,7 @@ interface SearchPageProps {
     gender?: string;
     accords?: string;
     season?: string;
+    sort?: string;
   }>;
 }
 
@@ -26,8 +28,10 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
 
   let results;
   try {
+    const sort = searchParams.sort ? [searchParams.sort] : undefined;
     results = await meilisearch.index(PRODUCTS_INDEX).search<SearchableProduct>(query, {
       filter: filters.length ? filters.join(" AND ") : undefined,
+      sort,
       facets: ["family", "concentration", "gender", "accords", "season"],
       limit: 50,
     });
@@ -73,9 +77,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold font-display mb-2">
-        {query ? `Results for "${query}"` : "All Fragrances"}
-      </h1>
+      <div className="flex items-center justify-between mb-2">
+        <h1 className="text-2xl font-bold font-display">
+          {query ? `Results for "${query}"` : "All Fragrances"}
+        </h1>
+        <Suspense>
+          <SortSelect basePath="/search" currentSort={params.sort} />
+        </Suspense>
+      </div>
 
       <Suspense fallback={<div className="animate-pulse h-4 w-32 bg-surface-subtle rounded mb-8" />}>
         <SearchResults searchParams={params} />

@@ -230,17 +230,19 @@
 
 **Why fourth:** With the design system and quiz in place, product experience can leverage both visual language and quiz-driven personalization.
 
-**Current state:** Basic grid listing with non-functional filters (critical bug in Phase 0). Product cards (`product-card.tsx`) show only image+brand+name+price with no family indicator, no mood, no badges, no wishlist icon. Image uses `next/image` but no `blurDataURL` or `priority` for above-fold cards. Product detail page uses plain `<img>` (not `next/image`) for the product image. No image gallery (only thumbnail shown, `product.images` array unused). No related products, no "scent journey" narrative, no "how to wear" tips. Collections are 6 hardcoded entries in `lib/collections/index.ts` with no hero images. `search-facets.tsx` uses checkboxes but implements single-select behavior (semantic mismatch). No sorting controls exposed despite Meilisearch having `sortableAttributes` for price/longevity/sillage configured.
+**Current state (post-implementation):** Product detail page uses `ImageGallery` client component with `next/image`, `priority` loading, and thumbnail strip for multi-image products. Breadcrumb navigation added (Home / Fragrances / Product). Sort controls exposed on both `/products` and `/search` pages (price asc/desc, longevity desc, sillage desc) via `SortSelect` component wired to Meilisearch `sortableAttributes`. Product cards enhanced with fragrance family color dot indicator and concentration badge overlaid on the image. Products page uses Meilisearch for both filtering and sorting (falls back to Medusa only when no filters/sort active).
 
-### 4.1 — Fix product detail page image handling
-- [ ] Replace `<img>` with `next/image` on product detail page (currently unoptimized)
-- [ ] Implement image gallery using `product.images` array (currently only `product.thumbnail` rendered)
-- [ ] Add blur placeholders / loading states for images
+### 4.1 — Fix product detail page image handling ✅
+- [x] Replace `<img>` with `next/image` on product detail page via `ImageGallery` component with `priority` prop for LCP
+- [x] Implement image gallery using `product.images` array with thumbnail strip navigation; falls back to `product.thumbnail` when no images array
+- [x] Breadcrumb navigation added (Home / Fragrances / Product Title)
+- [ ] Add blur placeholders / loading states for images (deferred: requires `blurDataURL` generation pipeline)
 
-### 4.2 — Enhanced product cards
-- [ ] Add fragrance family visual indicator (color dot/icon) — currently not shown on cards
+### 4.2 — Enhanced product cards ✅ (partial)
+- [x] Add fragrance family visual indicator — color dot with family name badge, using `FAMILY_COLORS` mapped to design tokens (Fresh, Floral, Amber, Woody, Citrus, Aromatic)
+- [x] Add concentration badge on product card image overlay
 - [ ] Add key mood/vibe and one standout note — currently not shown
-- [ ] Hover state: expanded quick-preview with additional info (current: `hover:border-black` border change only)
+- [ ] Hover state: expanded quick-preview with additional info (current: shadow + scale transition)
 - [ ] Visual badges: "Trending," "Great for beginners," "Staff pick," seasonal markers
 - [ ] Add `priority` prop on above-fold product card images for LCP optimization
 - [ ] Price range display for multi-variant products ("From $95")
@@ -252,12 +254,12 @@
 - [ ] "How to Wear" tips for fragrance newcomers — absent
 - [ ] Cross-sell: "If you like this, explore..." based on note/accord similarity — absent
 - [ ] "Similar Fragrances" section based on note composition overlap — absent
-- [ ] Breadcrumb navigation (absent)
+- [x] Breadcrumb navigation
 - [ ] `generateStaticParams` for static generation of product pages (currently all dynamically rendered)
 - [ ] Selected variant price update (currently static — selecting different size doesn't update visible price)
 
-### 4.4 — Sorting and filter UX improvements
-- [ ] Expose sort controls on `/products` and `/search`: price, longevity, sillage (already configured as `sortableAttributes` in Meilisearch but never surfaced)
+### 4.4 — Sorting and filter UX improvements ✅ (partial)
+- [x] Expose sort controls on `/products` and `/search`: price (asc/desc), longevity (desc), sillage (desc) via `SortSelect` component using Meilisearch `sortableAttributes`
 - [ ] Fix `search-facets.tsx` semantic mismatch: uses checkboxes but only allows single-select per facet — either implement true multi-select or switch to radio inputs
 - [ ] Add filter counts (how many products match each option) to prevent zero-result dead ends
 - [ ] Make filter options dynamic from catalog (currently hardcoded in `product-filters.tsx`)

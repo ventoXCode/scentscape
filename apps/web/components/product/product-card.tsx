@@ -2,6 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
 
+const FAMILY_COLORS: Record<string, string> = {
+  Fresh: "bg-family-fresh",
+  Floral: "bg-family-floral",
+  Amber: "bg-family-amber",
+  Woody: "bg-family-woody",
+  Citrus: "bg-family-citrus",
+  Aromatic: "bg-family-aromatic",
+};
+
 interface ProductCardProps {
   product: {
     id: string;
@@ -10,6 +19,8 @@ interface ProductCardProps {
     thumbnail?: string | null;
     description?: string | null;
     brand?: string | null;
+    family?: string | null;
+    concentration?: string | null;
     variants?: Array<{
       prices?: Array<{ amount: number; currency_code: string }>;
     }>;
@@ -19,8 +30,10 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const price = product.variants?.[0]?.prices?.[0];
-  // Support both top-level brand (Meilisearch) and metadata.brand (Medusa)
   const brand = product.brand || (product.metadata?.brand as string | undefined);
+  const family = product.family || (product.metadata?.family as string | undefined);
+  const concentration = product.concentration || (product.metadata?.concentration as string | undefined);
+  const familyColor = family ? FAMILY_COLORS[family] || "bg-text-muted" : null;
 
   return (
     <Link
@@ -52,6 +65,23 @@ export function ProductCard({ product }: ProductCardProps) {
                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
+          </div>
+        )}
+
+        {/* Family + concentration badges */}
+        {(family || concentration) && (
+          <div className="absolute top-2 left-2 flex items-center gap-1.5">
+            {family && familyColor && (
+              <span className="flex items-center gap-1 px-2 py-0.5 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-text-primary shadow-sm">
+                <span className={`w-2 h-2 rounded-full ${familyColor}`} aria-hidden="true" />
+                {family}
+              </span>
+            )}
+            {concentration && (
+              <span className="px-2 py-0.5 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-text-secondary shadow-sm">
+                {concentration}
+              </span>
+            )}
           </div>
         )}
       </div>
