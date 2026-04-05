@@ -16,7 +16,7 @@ const DIMENSION_LABELS: { key: keyof PersonalityDimensions; low: string; high: s
 
 export function PersonalityCard({ archetype, dimensions }: PersonalityCardProps) {
   return (
-    <div className={`rounded-2xl bg-gradient-to-br ${archetype.gradient} p-8 md:p-10 shadow-xl`}>
+    <div className={`rounded-2xl bg-gradient-to-br ${archetype.gradient} p-8 md:p-10 shadow-elevated`}>
       <div className={archetype.textColor}>
         <p className={`text-sm font-medium uppercase tracking-widest mb-2 ${archetype.accentColor}`}>
           Your scent personality

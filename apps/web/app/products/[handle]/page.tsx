@@ -87,7 +87,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <ProductJsonLd product={product} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Product Image */}
-        <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+        <div className="aspect-square bg-surface-subtle rounded-lg overflow-hidden">
           {product.thumbnail ? (
             <img
               src={product.thumbnail}
@@ -95,7 +95,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-300">
+            <div className="w-full h-full flex items-center justify-center text-text-muted">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-24 w-24"
@@ -117,27 +117,27 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* Product Info */}
         <div>
           {product.metadata?.brand && (
-            <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">
+            <p className="text-sm text-text-muted uppercase tracking-wider mb-2">
               {product.metadata.brand as string}
             </p>
           )}
-          <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
+          <h1 className="text-3xl font-bold font-display mb-2">{product.title}</h1>
 
           {fragranceData && (
             <div className="flex flex-wrap gap-2 mb-4">
-              <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
+              <span className="px-2 py-1 bg-surface-subtle text-text-secondary rounded text-xs font-medium">
                 {fragranceData.family}
               </span>
-              <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
+              <span className="px-2 py-1 bg-surface-subtle text-text-secondary rounded text-xs font-medium">
                 {fragranceData.concentration}
               </span>
-              <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
+              <span className="px-2 py-1 bg-surface-subtle text-text-secondary rounded text-xs font-medium">
                 {fragranceData.gender}
               </span>
             </div>
           )}
 
-          <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
+          <p className="text-text-secondary mb-6 leading-relaxed">{product.description}</p>
 
           {fragranceData && (
             <>
@@ -163,7 +163,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <div className="mb-6 flex flex-wrap gap-6">
                   {fragranceData.season?.length > 0 && (
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">
+                      <p className="text-xs uppercase tracking-wider text-text-muted mb-2">
                         Season
                       </p>
                       <div className="flex flex-wrap gap-1">
@@ -180,7 +180,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   )}
                   {fragranceData.occasion?.length > 0 && (
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">
+                      <p className="text-xs uppercase tracking-wider text-text-muted mb-2">
                         Occasion
                       </p>
                       <div className="flex flex-wrap gap-1">

@@ -69,7 +69,7 @@ export function SearchFacets({ facetDistribution, currentFilters }: SearchFacets
       {hasActiveFilters && (
         <button
           onClick={clearAllFilters}
-          className="text-sm text-gray-500 underline hover:text-black"
+          className="text-sm text-text-muted underline hover:text-text-primary transition-colors"
         >
           Clear all filters
         </button>
@@ -83,7 +83,7 @@ export function SearchFacets({ facetDistribution, currentFilters }: SearchFacets
 
         return (
           <div key={facetKey}>
-            <h3 className="font-medium text-sm mb-3 uppercase tracking-wider text-gray-700">
+            <h3 className="font-medium text-sm mb-3 uppercase tracking-wider text-text-secondary">
               {FACET_LABELS[facetKey]}
             </h3>
             <ul className="space-y-2">
@@ -98,12 +98,12 @@ export function SearchFacets({ facetDistribution, currentFilters }: SearchFacets
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => toggleFilter(facetKey, value)}
-                          className="w-4 h-4 rounded border-gray-300 accent-black cursor-pointer"
+                          className="w-4 h-4 rounded border-border-default accent-black cursor-pointer"
                         />
-                        <span className="text-sm text-gray-700 group-hover:text-black flex-1">
+                        <span className="text-sm text-text-secondary group-hover:text-text-primary flex-1">
                           {value}
                         </span>
-                        <span className="text-xs text-gray-400">{count}</span>
+                        <span className="text-xs text-text-muted">{count}</span>
                       </label>
                     </li>
                   );

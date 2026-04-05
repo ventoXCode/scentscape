@@ -23,18 +23,18 @@ export function QuizLoading() {
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
       {/* Animated rings */}
       <div className="relative w-24 h-24 mb-8">
-        <div className="absolute inset-0 rounded-full border-2 border-gray-200 animate-ping opacity-20" />
-        <div className="absolute inset-2 rounded-full border-2 border-gray-300 animate-ping opacity-30 [animation-delay:200ms]" />
-        <div className="absolute inset-4 rounded-full border-2 border-gray-400 animate-ping opacity-40 [animation-delay:400ms]" />
+        <div className="absolute inset-0 rounded-full border-2 border-border-default animate-ping opacity-20" />
+        <div className="absolute inset-2 rounded-full border-2 border-border-default animate-ping opacity-30 [animation-delay:200ms]" />
+        <div className="absolute inset-4 rounded-full border-2 border-border-strong animate-ping opacity-40 [animation-delay:400ms]" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-10 h-10 rounded-full bg-black animate-pulse" />
+          <div className="w-10 h-10 rounded-full bg-text-primary animate-pulse" />
         </div>
       </div>
 
-      <p className="text-lg font-medium text-gray-900 transition-opacity duration-500">
+      <p className="text-lg font-medium text-text-primary transition-opacity duration-500">
         {MESSAGES[messageIndex]}
       </p>
-      <p className="text-sm text-gray-400 mt-2">
+      <p className="text-sm text-text-muted mt-2">
         This takes just a moment
       </p>
     </div>

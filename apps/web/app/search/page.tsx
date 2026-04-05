@@ -33,7 +33,7 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
     });
   } catch {
     return (
-      <div className="text-center py-16 text-gray-500">
+      <div className="text-center py-16 text-text-muted">
         Search is not available right now. Please try again later.
       </div>
     );
@@ -52,7 +52,7 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
 
       <main className="flex-1">
         {results.hits.length === 0 ? (
-          <div className="text-center py-16 text-gray-500">
+          <div className="text-center py-16 text-text-muted">
             No fragrances found{query ? ` for "${query}"` : ""}. Try adjusting your filters.
           </div>
         ) : (
@@ -73,11 +73,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-2">
+      <h1 className="text-2xl font-bold font-display mb-2">
         {query ? `Results for "${query}"` : "All Fragrances"}
       </h1>
 
-      <Suspense fallback={<div className="animate-pulse h-4 w-32 bg-gray-200 rounded mb-8" />}>
+      <Suspense fallback={<div className="animate-pulse h-4 w-32 bg-surface-subtle rounded mb-8" />}>
         <SearchResults searchParams={params} />
       </Suspense>
     </div>

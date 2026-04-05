@@ -78,22 +78,22 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
   return (
     <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
-      <div className="absolute inset-0 bg-black/50" onClick={handleClose} aria-hidden="true" />
-      <div ref={panelRef} className="absolute right-0 top-0 h-full w-full max-w-md bg-white p-6 shadow-xl">
+      <div className="absolute inset-0 bg-surface-overlay" onClick={handleClose} aria-hidden="true" />
+      <div ref={panelRef} className="absolute right-0 top-0 h-full w-full max-w-md bg-surface-elevated p-6 shadow-modal">
         <div className="flex items-center justify-between mb-6">
-          <h2 id="cart-drawer-title" className="text-lg font-semibold">Your Cart</h2>
-          <button onClick={handleClose} aria-label="Close cart">
+          <h2 id="cart-drawer-title" className="font-display text-lg font-semibold text-text-primary">Your Cart</h2>
+          <button onClick={handleClose} aria-label="Close cart" className="text-text-secondary hover:text-text-primary transition-colors">
             Close
           </button>
         </div>
 
         {!cart?.items?.length ? (
           <div className="text-center py-8">
-            <p className="text-gray-500 mb-4">Your cart is empty</p>
+            <p className="text-text-muted mb-4">Your cart is empty</p>
             <Link
               href="/products"
               onClick={handleClose}
-              className="inline-block px-6 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors"
+              className="inline-block px-6 py-2.5 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary transition-colors"
             >
               Start Shopping
             </Link>
@@ -101,25 +101,25 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
         ) : (
           <div className="space-y-4">
             {cart.items.map((item) => (
-              <div key={item.id} className="flex gap-4 border-b pb-4">
+              <div key={item.id} className="flex gap-4 border-b border-border-default pb-4">
                 <div className="flex-1">
-                  <p className="font-medium">{item.title}</p>
-                  <p className="text-sm text-gray-500">{(item as any).variant?.title}</p>
-                  <p className="text-sm">{formatPrice(item.unit_price)}</p>
+                  <p className="font-medium text-text-primary">{item.title}</p>
+                  <p className="text-sm text-text-muted">{(item as any).variant?.title}</p>
+                  <p className="text-sm text-text-primary">{formatPrice(item.unit_price)}</p>
                   <div className="flex items-center gap-2 mt-2">
                     <button
                       onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                       disabled={isPending || item.quantity <= 1}
-                      className="w-8 h-8 border rounded disabled:opacity-50"
+                      className="w-8 h-8 border border-border-default rounded-lg disabled:opacity-50 text-text-secondary hover:border-border-strong transition-colors"
                       aria-label={`Decrease quantity of ${item.title}`}
                     >
                       -
                     </button>
-                    <span aria-label={`Quantity: ${item.quantity}`}>{item.quantity}</span>
+                    <span className="text-text-primary" aria-label={`Quantity: ${item.quantity}`}>{item.quantity}</span>
                     <button
                       onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                       disabled={isPending}
-                      className="w-8 h-8 border rounded disabled:opacity-50"
+                      className="w-8 h-8 border border-border-default rounded-lg disabled:opacity-50 text-text-secondary hover:border-border-strong transition-colors"
                       aria-label={`Increase quantity of ${item.title}`}
                     >
                       +
@@ -127,7 +127,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                     <button
                       onClick={() => handleRemove(item.id)}
                       disabled={isPending}
-                      className="text-red-500 text-sm ml-4 disabled:opacity-50"
+                      className="text-error text-sm ml-4 disabled:opacity-50 hover:underline"
                       aria-label={`Remove ${item.title} from cart`}
                     >
                       Remove
@@ -136,15 +136,15 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                 </div>
               </div>
             ))}
-            <div className="pt-4 border-t">
-              <div className="flex justify-between font-semibold">
+            <div className="pt-4 border-t border-border-default">
+              <div className="flex justify-between font-semibold text-text-primary">
                 <span>Total</span>
                 <span>{formatPrice((cart as any).total || 0)}</span>
               </div>
               <Link
                 href="/checkout"
                 onClick={handleClose}
-                className="block w-full mt-4 bg-black text-white text-center py-3 rounded hover:bg-gray-800 transition-colors"
+                className="block w-full mt-4 bg-text-primary text-text-inverse text-center py-3 rounded-lg font-medium hover:bg-text-secondary transition-colors"
               >
                 Checkout
               </Link>

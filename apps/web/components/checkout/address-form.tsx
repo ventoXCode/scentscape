@@ -56,7 +56,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             value={formData.first_name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
         <div>
@@ -70,7 +70,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             value={formData.last_name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
       </div>
@@ -87,7 +87,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           onChange={handleChange}
           required
           placeholder="Street address"
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
+          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
         />
       </div>
 
@@ -102,7 +102,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           value={formData.city}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
+          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
         />
       </div>
 
@@ -118,7 +118,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             value={formData.province}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
         <div>
@@ -132,7 +132,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             value={formData.postal_code}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
       </div>
@@ -147,7 +147,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           value={formData.country_code}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black bg-white"
+          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus bg-surface-elevated"
         >
           <option value="us">United States</option>
           <option value="ca">Canada</option>
@@ -161,7 +161,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
 
       <div>
         <label htmlFor="phone" className="block text-sm font-medium mb-1">
-          Phone <span className="text-gray-400 font-normal">(optional)</span>
+          Phone <span className="text-text-muted font-normal">(optional)</span>
         </label>
         <input
           type="tel"
@@ -169,14 +169,14 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           name="phone"
           value={formData.phone}
           onChange={handleChange}
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
+          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
         />
       </div>
 
       <button
         type="submit"
         disabled={isPending}
-        className="w-full px-6 py-3 bg-black text-white rounded disabled:opacity-50 hover:bg-gray-800 transition-colors"
+        className="w-full px-6 py-3 bg-text-primary text-text-inverse rounded-lg disabled:opacity-50 hover:bg-text-secondary transition-colors"
       >
         {isPending ? "Saving..." : "Continue to Payment"}
       </button>

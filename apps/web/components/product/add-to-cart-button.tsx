@@ -38,10 +38,10 @@ export function AddToCartButton({ variantId }: AddToCartButtonProps) {
         disabled={isPending || !variantId}
         className={`w-full py-3 px-6 rounded-lg font-medium transition-all ${
           error
-            ? "bg-red-600 text-white"
+            ? "bg-error text-text-inverse"
             : added
-              ? "bg-green-600 text-white"
-              : "bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              ? "bg-success text-text-inverse"
+              : "bg-text-primary text-text-inverse hover:bg-text-secondary disabled:opacity-50 disabled:cursor-not-allowed"
         }`}
       >
         {isPending ? "Adding..." : error ? "Try Again" : added ? "Added to Cart!" : "Add to Cart"}
@@ -51,7 +51,7 @@ export function AddToCartButton({ variantId }: AddToCartButtonProps) {
         {error && error}
       </div>
       {error && (
-        <p className="text-red-600 text-sm mt-2">{error}</p>
+        <p className="text-error text-sm mt-2">{error}</p>
       )}
     </div>
   );

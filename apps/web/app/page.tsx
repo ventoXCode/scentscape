@@ -15,22 +15,26 @@ export default async function HomePage() {
   return (
     <div className="container mx-auto px-4 py-12">
       <section className="text-center mb-16">
-        <h1 className="text-4xl font-bold mb-4">Discover Your Signature Scent</h1>
-        <p className="text-gray-600 mb-8">
+        <h1 className="font-display text-4xl md:text-5xl font-bold mb-4 text-text-primary">
+          Discover Your Signature Scent
+        </h1>
+        <p className="text-text-secondary mb-8 text-lg">
           Explore our curated collection of premium fragrances
         </p>
         <Link
           href="/quiz"
-          className="inline-block bg-black text-white px-8 py-3 rounded"
+          className="inline-block bg-text-primary text-text-inverse px-8 py-3 rounded-lg font-medium hover:bg-text-secondary transition-colors"
         >
           Take the Scent Quiz
         </Link>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold mb-6">Featured Fragrances</h2>
+        <h2 className="font-display text-2xl font-semibold mb-6 text-text-primary">
+          Featured Fragrances
+        </h2>
         {products.length === 0 ? (
-          <p className="text-gray-500">
+          <p className="text-text-muted">
             No fragrances found. Add products in the Medusa admin to see them here.
           </p>
         ) : (

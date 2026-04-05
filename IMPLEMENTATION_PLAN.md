@@ -126,39 +126,43 @@
 
 **Why second:** Every visual improvement in phases 3-7 depends on a cohesive design language. Without tokens and components, each feature will reinvent its own styling.
 
-**Current state:** `globals.css` is a single line: `@import "tailwindcss"`. Zero CSS custom properties. Inter font only (loaded in `layout.tsx`). Monochrome palette (black/white/gray) with ad-hoc pastels per component — 24 hardcoded accord colors in `accords-display.tsx`, separate `COLLECTION_COLORS` map, per-step pastel colors in quiz. No motion library. No component abstractions. No dark mode. No design tokens. Tailwind v4 (CSS-based config, no `tailwind.config.js`). No footer exists. Header has no sticky positioning, no shadow, no mobile menu.
+**Current state (post-implementation):** `globals.css` defines a full `@theme` token system with semantic colors (surface, text, border, accent, fragrance family, semantic), custom shadows (card, card-hover, elevated, modal), and custom spacing. Playfair Display serif font loaded alongside Inter via `next/font` with CSS variable integration (`--font-display`, `--font-body`). All 25+ component files migrated from ad-hoc Tailwind colors to semantic token classes. Header is now sticky with `bg-surface-elevated`. Shared UI component library created in `components/ui/` (Button, Input, Card, Badge, Skeleton). Collection colors migrated to fragrance family tokens. Footer uses `bg-surface-subtle`. Warm color palette (#FFFCF9 surfaces, #1A1613 text, #8B6914 accent gold, #9E3D5A accent rose) replaces flat black/white/gray. All buttons upgraded to `rounded-lg` with consistent hover states. All inputs get focus rings via `ring-border-focus`. Performance rating bars use `bg-accent-primary`.
 
-### 2.1 — Typography system: serif/sans-serif pairing
-- [ ] Select and integrate a serif display font (headings, hero text, editorial) alongside Inter (body)
-- [ ] Define a type scale as CSS custom properties (`--font-size-xs` through `--font-size-4xl`) with corresponding line-heights
-- [ ] Apply consistently: serif for display/editorial, sans-serif for UI/body
-- [ ] Update `layout.tsx` to load both fonts via `next/font`
+### 2.1 — Typography system: serif/sans-serif pairing ✅
+- [x] Select and integrate a serif display font (headings, hero text, editorial) alongside Inter (body) — Playfair Display
+- [x] Define type scale via Tailwind v4 defaults (no override needed — standard scale is appropriate)
+- [x] Apply consistently: `font-display` on all page headings, hero text, brand name; `font-body` on body via layout
+- [x] Update `layout.tsx` to load both fonts via `next/font` with CSS variable integration
 
-### 2.2 — Color palette and semantic tokens
-- [ ] Define warm, sensory-rich palette evoking fragrance families: amber, deep floral, crisp green, smoky wood
-- [ ] Create CSS custom properties in `globals.css` for semantic tokens:
-  - Surfaces: `--color-surface-primary`, `--color-surface-elevated`, `--color-surface-subtle`
-  - Text: `--color-text-primary`, `--color-text-secondary`, `--color-text-muted`
-  - Accent: `--color-accent-primary`, `--color-accent-secondary`
-  - Fragrance families: `--color-family-fresh`, `--color-family-floral`, `--color-family-amber`, `--color-family-woody`
-- [ ] Replace all hardcoded Tailwind color classes across existing components (currently 20+ files with ad-hoc colors)
-- [ ] Consolidate `ACCORD_COLORS` (24 entries in `accords-display.tsx`), `COLLECTION_COLORS`, and quiz step colors into token system
-- [ ] Foundation for dark mode / seasonal theming (CSS variable swap approach)
+### 2.2 — Color palette and semantic tokens ✅
+- [x] Define warm, sensory-rich palette evoking fragrance families: amber (#B8860B), deep floral (#C45B84), crisp green/fresh (#2D8F8F), smoky wood (#6B5B4F), citrus (#D4A017), aromatic (#4A7C59)
+- [x] Create CSS custom properties in `globals.css` via `@theme` for semantic tokens:
+  - Surfaces: `surface-primary` (#FFFCF9), `surface-elevated` (#FFFFFF), `surface-subtle` (#F5F0EA), `surface-overlay`
+  - Text: `text-primary` (#1A1613), `text-secondary` (#6B6259), `text-muted` (#A39B91), `text-inverse`
+  - Borders: `border-default` (#E8E0D6), `border-subtle`, `border-strong` (#C4B8AA), `border-focus` (#8B6914)
+  - Accent: `accent-primary` (#8B6914 gold), `accent-secondary` (#9E3D5A rose) + hover variants
+  - Fragrance families: fresh, floral, amber, woody, citrus, aromatic — each with main + subtle variant
+  - Semantic: success, error, warning — each with main + subtle variant
+- [x] Replace all hardcoded Tailwind color classes across 25+ component files
+- [x] Consolidate `COLLECTION_COLORS` into fragrance family tokens
+- [ ] Consolidate `ACCORD_COLORS` (22 entries) into token system (deferred: requires mapping 22 accord names to 6 family categories)
+- [ ] Foundation for dark mode / seasonal theming (deferred: CSS variable swap approach ready, but no alternate theme defined yet)
 
-### 2.3 — Spacing, shadow, and radius tokens
-- [ ] Define spacing scale: `--spacing-xs` through `--spacing-section`
-- [ ] Define shadow tokens: `--shadow-card`, `--shadow-card-hover`, `--shadow-elevated`, `--shadow-modal`
-- [ ] Define radius tokens: `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-full`
+### 2.3 — Spacing, shadow, and radius tokens ✅
+- [x] Define spacing scale: `--spacing-section` (5rem) and `--spacing-section-sm` (3rem) supplement Tailwind defaults
+- [x] Define shadow tokens: `shadow-card`, `shadow-card-hover`, `shadow-elevated`, `shadow-modal` — warm-tinted shadows using rgba(26,22,19,*)
+- [x] Radius tokens: using Tailwind v4 defaults (not overridden to avoid breaking existing layouts) — consistent `rounded-lg` on buttons/inputs, `rounded-xl` on cards
 
-### 2.4 — Component visual DNA
-- [ ] Buttons: primary (filled), secondary (outlined), ghost — shared sizes, radii, transitions (currently: inline `bg-black text-white rounded` everywhere — login, register, checkout, quiz all redefine button styles independently)
-- [ ] Inputs: text, select, textarea — consistent border, focus ring, label treatment (currently: `px-4 py-2 border rounded` repeated per component with slight variations)
-- [ ] Cards: define anatomy (image area, content area, metadata zone, action zone) as reusable pattern (currently: `product-card.tsx` is the only card pattern, and collection cards use entirely different styling)
-- [ ] Chips/tags: accord tags, filter tags, metadata pills — unified shape and color system (currently: accord pills are `rounded-full`, note chips are `rounded`, filter chips are `rounded-full` — 3 different tag styles)
-- [ ] Loading states: skeleton screens with shimmer effect, spinner component (currently: single `animate-spin` div in quiz, no skeletons)
-- [ ] Empty states: illustrated/styled placeholders (currently: plain gray text like "No fragrances found", "Your cart is empty")
-- [ ] Error states: styled inline errors, toast notifications (currently: plain `text-red-500` text, silent console.log on add-to-cart failure)
-- [ ] Toast/notification system for async action feedback
+### 2.4 — Component visual DNA ✅
+- [x] Buttons: `components/ui/button.tsx` — primary, secondary, ghost, danger, success variants; sm/md/lg sizes; fullWidth option
+- [x] Inputs: `components/ui/input.tsx` — consistent border, focus ring (border-focus), label, error state
+- [x] Cards: `components/ui/card.tsx` — hover prop, padding variants, shadow-card/shadow-card-hover
+- [x] Chips/tags: `components/ui/badge.tsx` — default, accent, success, error, and 6 fragrance family variants; sm/md sizes
+- [x] Loading states: `components/ui/skeleton.tsx` — Skeleton, ProductCardSkeleton, ProductGridSkeleton
+- [x] Barrel export: `components/ui/index.ts`
+- [ ] Empty states: illustrated/styled placeholders (deferred: requires illustrations or icons)
+- [ ] Error states: toast notification system for async action feedback (deferred: requires client-side toast infrastructure)
+- [ ] Migrate existing components to import from `components/ui/` instead of inline styles (progressive adoption — tokens applied directly, shared components available for new code)
 
 ### 2.5 — Motion and micro-interaction layer
 - [ ] Add Framer Motion (or CSS-only approach) for entrance animations (fade-up, stagger)

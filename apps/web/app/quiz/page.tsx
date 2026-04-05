@@ -144,8 +144,8 @@ function QuizContent() {
   // SSR/hydration guard
   if (!mounted || !session) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-pulse w-8 h-8 rounded-full bg-gray-200" />
+      <div className="min-h-screen bg-surface-elevated flex items-center justify-center">
+        <div className="animate-pulse w-8 h-8 rounded-full bg-surface-subtle" />
       </div>
     );
   }
@@ -158,9 +158,9 @@ function QuizContent() {
 
   if (complete) {
     return (
-      <div className="min-h-screen bg-white">
-        <div className="fixed top-0 left-0 right-0 h-1 bg-gray-100 z-50">
-          <div className="h-full bg-black w-full" />
+      <div className="min-h-screen bg-surface-elevated">
+        <div className="fixed top-0 left-0 right-0 h-1 bg-surface-subtle z-50">
+          <div className="h-full bg-text-primary w-full" />
         </div>
         <QuizResults session={session} onRetake={handleRetake} />
       </div>
@@ -171,11 +171,11 @@ function QuizContent() {
   if (!question) return null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface-elevated">
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-gray-100 z-50">
+      <div className="fixed top-0 left-0 right-0 h-1 bg-surface-subtle z-50">
         <div
-          className="h-full bg-black transition-all duration-500 ease-out"
+          className="h-full bg-text-primary transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -200,8 +200,8 @@ export default function QuizPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <div className="animate-pulse w-8 h-8 rounded-full bg-gray-200" />
+        <div className="min-h-screen bg-surface-elevated flex items-center justify-center">
+          <div className="animate-pulse w-8 h-8 rounded-full bg-surface-subtle" />
         </div>
       }
     >

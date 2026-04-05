@@ -46,7 +46,7 @@ export function ProfileForm({
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border border-border-default rounded-lg"
           />
         </div>
         <div>
@@ -56,7 +56,7 @@ export function ProfileForm({
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border border-border-default rounded-lg"
           />
         </div>
       </div>
@@ -68,19 +68,19 @@ export function ProfileForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full px-4 py-2 border rounded"
+          className="w-full px-4 py-2 border border-border-default rounded-lg"
         />
       </div>
 
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && <p className="text-error text-sm">{error}</p>}
       {success && (
-        <p className="text-green-600 text-sm">Profile updated successfully.</p>
+        <p className="text-success text-sm">Profile updated successfully.</p>
       )}
 
       <button
         type="submit"
         disabled={isPending}
-        className="w-full py-3 bg-black text-white rounded disabled:opacity-50"
+        className="w-full py-3 bg-text-primary text-text-inverse rounded-lg disabled:opacity-50"
       >
         {isPending ? "Saving..." : "Save Changes"}
       </button>

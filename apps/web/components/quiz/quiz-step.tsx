@@ -76,21 +76,21 @@ export function QuizStep({
     >
       {/* Step indicator */}
       <div className="text-center pt-8 pb-2">
-        <span className="text-sm text-gray-400 tracking-wide">
+        <span className="text-sm text-text-muted tracking-wide">
           {stepNumber} of {totalSteps}
         </span>
       </div>
 
       {/* Question */}
       <div className="text-center px-4 pb-8">
-        <h2 className="text-2xl md:text-3xl font-bold mb-2 tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-display font-bold mb-2 tracking-tight">
           {question.title}
         </h2>
-        <p className="text-gray-500 text-sm md:text-base">
+        <p className="text-text-muted text-sm md:text-base">
           {question.subtitle}
         </p>
         {isMulti && question.maxSelections && (
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs text-text-muted mt-1">
             Select up to {question.maxSelections}
           </p>
         )}
@@ -122,8 +122,8 @@ export function QuizStep({
                 }
                 className={`group relative p-5 rounded-xl border-2 text-left transition-all duration-200 ${
                   isSelected
-                    ? "border-black bg-black/[0.03] shadow-md scale-[1.02]"
-                    : "border-gray-200 bg-white hover:border-gray-400 hover:shadow-sm"
+                    ? "border-text-primary bg-text-primary/[0.03] shadow-card-hover scale-[1.02]"
+                    : "border-border-default bg-surface-elevated hover:border-border-strong hover:shadow-sm"
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -134,13 +134,13 @@ export function QuizStep({
                     <p className="font-semibold text-sm md:text-base">
                       {option.label}
                     </p>
-                    <p className="text-xs md:text-sm text-gray-500 mt-0.5">
+                    <p className="text-xs md:text-sm text-text-muted mt-0.5">
                       {option.description}
                     </p>
                   </div>
                 </div>
                 {isSelected && (
-                  <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-black flex items-center justify-center">
+                  <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-text-primary flex items-center justify-center">
                     <svg
                       className="w-3 h-3 text-white"
                       fill="none"
@@ -168,7 +168,7 @@ export function QuizStep({
           {canGoBack && (
             <button
               onClick={onBack}
-              className="px-5 py-3 rounded-lg border border-gray-300 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+              className="px-5 py-3 rounded-lg border border-border-default text-sm font-medium text-text-secondary hover:bg-surface-subtle transition-colors"
             >
               Back
             </button>
@@ -180,7 +180,7 @@ export function QuizStep({
                 setTimeout(onNext, 300);
               }}
               disabled={selectedMulti.length === 0}
-              className="flex-1 py-3 rounded-lg bg-black text-white text-sm font-medium disabled:opacity-40 hover:bg-gray-800 transition-colors"
+              className="flex-1 py-3 rounded-lg bg-text-primary text-text-inverse text-sm font-medium disabled:opacity-40 hover:bg-text-secondary transition-colors"
             >
               Continue
             </button>

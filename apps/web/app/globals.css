@@ -1,1 +1,63 @@
 @import "tailwindcss";
+
+@theme {
+  /* ─── Typography ─── */
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-body: "Inter", "system-ui", sans-serif;
+
+  /* ─── Colors: Surfaces ─── */
+  --color-surface-primary: #FFFCF9;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-subtle: #F5F0EA;
+  --color-surface-overlay: rgba(26, 22, 19, 0.5);
+
+  /* ─── Colors: Text ─── */
+  --color-text-primary: #1A1613;
+  --color-text-secondary: #6B6259;
+  --color-text-muted: #A39B91;
+  --color-text-inverse: #FFFCF9;
+
+  /* ─── Colors: Borders ─── */
+  --color-border-default: #E8E0D6;
+  --color-border-subtle: #F0EBE4;
+  --color-border-strong: #C4B8AA;
+  --color-border-focus: #8B6914;
+
+  /* ─── Colors: Accent ─── */
+  --color-accent-primary: #8B6914;
+  --color-accent-primary-hover: #A37D1A;
+  --color-accent-secondary: #9E3D5A;
+  --color-accent-secondary-hover: #B34868;
+
+  /* ─── Colors: Fragrance Families ─── */
+  --color-family-fresh: #2D8F8F;
+  --color-family-fresh-subtle: #E6F5F5;
+  --color-family-floral: #C45B84;
+  --color-family-floral-subtle: #FBE9F1;
+  --color-family-amber: #B8860B;
+  --color-family-amber-subtle: #FBF3E0;
+  --color-family-woody: #6B5B4F;
+  --color-family-woody-subtle: #F0EBE7;
+  --color-family-citrus: #D4A017;
+  --color-family-citrus-subtle: #FDF6E3;
+  --color-family-aromatic: #4A7C59;
+  --color-family-aromatic-subtle: #EBF5EE;
+
+  /* ─── Colors: Semantic ─── */
+  --color-success: #2D7D46;
+  --color-success-subtle: #E8F5EC;
+  --color-error: #C53030;
+  --color-error-subtle: #FDE8E8;
+  --color-warning: #B7791F;
+  --color-warning-subtle: #FEFCBF;
+
+  /* ─── Shadows ─── */
+  --shadow-card: 0 1px 3px rgba(26, 22, 19, 0.06), 0 1px 2px rgba(26, 22, 19, 0.04);
+  --shadow-card-hover: 0 4px 12px rgba(26, 22, 19, 0.1), 0 2px 4px rgba(26, 22, 19, 0.06);
+  --shadow-elevated: 0 8px 24px rgba(26, 22, 19, 0.12), 0 4px 8px rgba(26, 22, 19, 0.06);
+  --shadow-modal: 0 16px 48px rgba(26, 22, 19, 0.18), 0 8px 16px rgba(26, 22, 19, 0.08);
+
+  /* ─── Spacing (supplements Tailwind defaults) ─── */
+  --spacing-section: 5rem;
+  --spacing-section-sm: 3rem;
+}

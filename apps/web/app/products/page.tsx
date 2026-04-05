@@ -87,7 +87,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">All Fragrances</h1>
+      <h1 className="font-display text-3xl font-bold mb-8 text-text-primary">All Fragrances</h1>
 
       <div className="flex gap-8">
         <aside className="w-64 flex-shrink-0">
@@ -97,22 +97,22 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         <main className="flex-1">
           {error ? (
             <div className="text-center py-16">
-              <p className="text-gray-600 mb-4">
+              <p className="text-text-secondary mb-4">
                 Something went wrong loading fragrances. Please try again later.
               </p>
-              <Link href="/products" className="text-black underline">
+              <Link href="/products" className="text-text-primary underline">
                 Reload
               </Link>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-gray-500 mb-4">
+              <p className="text-text-muted mb-4">
                 {hasFilters
                   ? "No fragrances match your filters."
                   : "No fragrances found. Run the seed script to populate the catalog."}
               </p>
               {hasFilters && (
-                <Link href="/products" className="text-black underline">
+                <Link href="/products" className="text-text-primary underline">
                   Clear filters
                 </Link>
               )}
@@ -130,18 +130,18 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                   {currentPage > 1 && (
                     <Link
                       href={pageUrl(currentPage - 1)}
-                      className="px-4 py-2 border rounded hover:bg-gray-50 transition-colors"
+                      className="px-4 py-2 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors text-text-secondary"
                     >
                       Previous
                     </Link>
                   )}
-                  <span className="text-sm text-gray-600 px-4">
+                  <span className="text-sm text-text-secondary px-4">
                     Page {currentPage} of {totalPages}
                   </span>
                   {currentPage < totalPages && (
                     <Link
                       href={pageUrl(currentPage + 1)}
-                      className="px-4 py-2 border rounded hover:bg-gray-50 transition-colors"
+                      className="px-4 py-2 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors text-text-secondary"
                     >
                       Next
                     </Link>

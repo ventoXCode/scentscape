@@ -96,7 +96,7 @@ export function SearchBar() {
           aria-controls={listboxId}
           aria-autocomplete="list"
           aria-activedescendant={activeIndex >= 0 ? `search-option-${activeIndex}` : undefined}
-          className="w-64 px-4 py-2 border rounded-lg text-sm"
+          className="w-64 px-4 py-2 border border-border-default rounded-lg text-sm"
         />
       </form>
 
@@ -105,7 +105,7 @@ export function SearchBar() {
           id={listboxId}
           role="listbox"
           aria-label="Search suggestions"
-          className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-50"
+          className="absolute top-full left-0 right-0 mt-1 bg-surface-elevated border border-border-default rounded-lg shadow-elevated z-50"
         >
           {suggestions.length > 0 ? (
             <>
@@ -117,7 +117,7 @@ export function SearchBar() {
                   aria-selected={index === activeIndex}
                   href={`/products/${product.handle}`}
                   className={`flex items-center gap-3 p-3 first:rounded-t-lg ${
-                    index === activeIndex ? "bg-gray-100" : "hover:bg-gray-50"
+                    index === activeIndex ? "bg-surface-subtle" : "hover:bg-surface-subtle"
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -130,18 +130,18 @@ export function SearchBar() {
                       className="object-cover rounded flex-shrink-0"
                     />
                   ) : (
-                    <div className="w-10 h-10 bg-gray-100 rounded flex-shrink-0" />
+                    <div className="w-10 h-10 bg-surface-subtle rounded flex-shrink-0" />
                   )}
                   <div className="min-w-0">
                     <p className="font-medium text-sm truncate">{product.title}</p>
-                    <p className="text-xs text-gray-500 truncate">{product.brand}</p>
+                    <p className="text-xs text-text-muted truncate">{product.brand}</p>
                   </div>
                 </Link>
               ))}
-              <div className="border-t">
+              <div className="border-t border-border-default">
                 <Link
                   href={`/search?q=${encodeURIComponent(query)}`}
-                  className="block px-3 py-2 text-xs text-gray-500 hover:bg-gray-50 rounded-b-lg text-center"
+                  className="block px-3 py-2 text-xs text-text-muted hover:bg-surface-subtle rounded-b-lg text-center"
                   onClick={() => setIsOpen(false)}
                 >
                   See all results for &ldquo;{query}&rdquo;
@@ -150,10 +150,10 @@ export function SearchBar() {
             </>
           ) : (
             <div className="px-4 py-6 text-center">
-              <p className="text-sm text-gray-500">No results found for &ldquo;{query}&rdquo;</p>
+              <p className="text-sm text-text-muted">No results found for &ldquo;{query}&rdquo;</p>
               <Link
                 href={`/search?q=${encodeURIComponent(query)}`}
-                className="text-xs text-gray-400 underline mt-1 inline-block"
+                className="text-xs text-text-muted underline mt-1 inline-block"
                 onClick={() => setIsOpen(false)}
               >
                 Try full search

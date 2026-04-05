@@ -28,18 +28,18 @@ export function Header({ customer }: HeaderProps) {
   };
 
   return (
-    <header className="border-b">
+    <header className="sticky top-0 z-40 border-b border-border-default bg-surface-elevated">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-4">
-        <Link href="/" className="text-xl font-semibold flex-shrink-0">
+        <Link href="/" className="font-display text-xl font-semibold flex-shrink-0 text-text-primary">
           ScentScape
         </Link>
         <div className="flex-1 max-w-sm">
           <SearchBar />
         </div>
         <nav className="flex items-center gap-6">
-          <Link href="/products">Shop</Link>
-          <Link href="/collections">Collections</Link>
-          <Link href="/quiz">Find Your Scent</Link>
+          <Link href="/products" className="text-text-secondary hover:text-text-primary transition-colors">Shop</Link>
+          <Link href="/collections" className="text-text-secondary hover:text-text-primary transition-colors">Collections</Link>
+          <Link href="/quiz" className="text-text-secondary hover:text-text-primary transition-colors">Find Your Scent</Link>
 
           {customer ? (
             <>
@@ -49,7 +49,7 @@ export function Header({ customer }: HeaderProps) {
               <button
                 onClick={handleLogout}
                 disabled={isPending}
-                className="text-gray-500 hover:text-black disabled:opacity-50"
+                className="text-text-muted hover:text-text-primary disabled:opacity-50 transition-colors"
               >
                 {isPending ? "Signing out..." : "Sign Out"}
               </button>
@@ -58,10 +58,10 @@ export function Header({ customer }: HeaderProps) {
             <Link href="/login">Sign In</Link>
           )}
 
-          <button onClick={() => setCartOpen(true)} className="relative">
+          <button onClick={() => setCartOpen(true)} className="relative text-text-secondary hover:text-text-primary transition-colors">
             Cart
             {itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-text-primary text-text-inverse text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {itemCount}
               </span>
             )}

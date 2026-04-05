@@ -78,7 +78,7 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
         {hasFilters && (
           <button
             onClick={clearFilters}
-            className="text-sm text-gray-500 underline hover:text-black"
+            className="text-sm text-text-muted underline hover:text-text-primary"
           >
             Clear all
           </button>
@@ -87,7 +87,7 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
 
       {/* Family */}
       <div>
-        <h3 className="text-sm font-medium text-gray-700 mb-3 uppercase tracking-wider">
+        <h3 className="text-sm font-medium text-text-secondary mb-3 uppercase tracking-wider">
           Scent Family
         </h3>
         <div className="space-y-2">
@@ -102,9 +102,9 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
                 value={option.value}
                 checked={currentFilters.family === option.value}
                 onChange={() => updateFilter("family", option.value)}
-                className="rounded border-gray-300 text-black focus:ring-black"
+                className="rounded border-border-default text-text-primary focus:ring-border-focus"
               />
-              <span className="text-sm text-gray-700 group-hover:text-black">
+              <span className="text-sm text-text-secondary group-hover:text-text-primary">
                 {option.label}
               </span>
             </label>
@@ -114,7 +114,7 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
 
       {/* Concentration */}
       <div>
-        <h3 className="text-sm font-medium text-gray-700 mb-3 uppercase tracking-wider">
+        <h3 className="text-sm font-medium text-text-secondary mb-3 uppercase tracking-wider">
           Concentration
         </h3>
         <div className="space-y-2">
@@ -129,9 +129,9 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
                 value={option.value}
                 checked={currentFilters.concentration === option.value}
                 onChange={() => updateFilter("concentration", option.value)}
-                className="rounded border-gray-300 text-black focus:ring-black"
+                className="rounded border-border-default text-text-primary focus:ring-border-focus"
               />
-              <span className="text-sm text-gray-700 group-hover:text-black">
+              <span className="text-sm text-text-secondary group-hover:text-text-primary">
                 {option.label}
               </span>
             </label>
@@ -141,7 +141,7 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
 
       {/* Price */}
       <div>
-        <h3 className="text-sm font-medium text-gray-700 mb-3 uppercase tracking-wider">
+        <h3 className="text-sm font-medium text-text-secondary mb-3 uppercase tracking-wider">
           Price Range
         </h3>
         <div className="space-y-2">
@@ -156,9 +156,9 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
                 value={option.value}
                 checked={currentFilters.price === option.value}
                 onChange={() => updateFilter("price", option.value)}
-                className="rounded border-gray-300 text-black focus:ring-black"
+                className="rounded border-border-default text-text-primary focus:ring-border-focus"
               />
-              <span className="text-sm text-gray-700 group-hover:text-black">
+              <span className="text-sm text-text-secondary group-hover:text-text-primary">
                 {option.label}
               </span>
             </label>
@@ -168,16 +168,16 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
 
       {/* Active filter chips */}
       {hasFilters && (
-        <div className="pt-2 border-t">
-          <p className="text-xs text-gray-500 mb-2">Active filters:</p>
+        <div className="pt-2 border-t border-border-default">
+          <p className="text-xs text-text-muted mb-2">Active filters:</p>
           <div className="flex flex-wrap gap-2">
             {currentFilters.family && (
               <button
                 onClick={() => updateFilter("family", currentFilters.family!)}
-                className="flex items-center gap-1 px-2 py-1 bg-black text-white text-xs rounded-full"
+                className="flex items-center gap-1 px-2 py-1 bg-text-primary text-text-inverse text-xs rounded-full"
               >
                 {currentFilters.family}
-                <span className="ml-1 text-gray-300">×</span>
+                <span className="ml-1 text-border-strong">×</span>
               </button>
             )}
             {currentFilters.concentration && (
@@ -188,19 +188,19 @@ export function ProductFilters({ currentFilters }: ProductFiltersProps) {
                     currentFilters.concentration!
                   )
                 }
-                className="flex items-center gap-1 px-2 py-1 bg-black text-white text-xs rounded-full"
+                className="flex items-center gap-1 px-2 py-1 bg-text-primary text-text-inverse text-xs rounded-full"
               >
                 {currentFilters.concentration}
-                <span className="ml-1 text-gray-300">×</span>
+                <span className="ml-1 text-border-strong">×</span>
               </button>
             )}
             {currentFilters.price && (
               <button
                 onClick={() => updateFilter("price", currentFilters.price!)}
-                className="flex items-center gap-1 px-2 py-1 bg-black text-white text-xs rounded-full"
+                className="flex items-center gap-1 px-2 py-1 bg-text-primary text-text-inverse text-xs rounded-full"
               >
                 {currentFilters.price}
-                <span className="ml-1 text-gray-300">×</span>
+                <span className="ml-1 text-border-strong">×</span>
               </button>
             )}
           </div>

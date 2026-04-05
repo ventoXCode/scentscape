@@ -45,26 +45,26 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-500 mb-6">
-        <Link href="/collections" className="hover:text-black">
+      <nav className="text-sm text-text-muted mb-6">
+        <Link href="/collections" className="hover:text-text-primary transition-colors">
           Collections
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">{collection.title}</span>
+        <span className="text-text-primary">{collection.title}</span>
       </nav>
 
       <div className="text-center mb-12">
-        <h1 className="text-3xl font-bold mb-4">{collection.title}</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">{collection.description}</p>
+        <h1 className="font-display text-3xl font-bold mb-4 text-text-primary">{collection.title}</h1>
+        <p className="text-text-secondary max-w-2xl mx-auto">{collection.description}</p>
         {hits.length > 0 && (
-          <p className="text-sm text-gray-400 mt-2">{hits.length} fragrances</p>
+          <p className="text-sm text-text-muted mt-2">{hits.length} fragrances</p>
         )}
       </div>
 
       {hits.length === 0 ? (
-        <div className="text-center py-16 text-gray-500">
+        <div className="text-center py-16 text-text-muted">
           <p className="mb-4">No fragrances in this collection yet.</p>
-          <Link href="/products" className="text-black underline">
+          <Link href="/products" className="text-text-primary underline">
             Browse all fragrances
           </Link>
         </div>

@@ -25,9 +25,9 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.handle}`}
-      className="group block border rounded-lg overflow-hidden hover:border-black transition-colors"
+      className="group block border border-border-default rounded-xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
     >
-      <div className="aspect-square bg-gray-100 relative overflow-hidden">
+      <div className="aspect-square bg-surface-subtle relative overflow-hidden">
         {product.thumbnail ? (
           <Image
             src={product.thumbnail}
@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
+          <div className="w-full h-full flex items-center justify-center text-text-muted">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-16 w-16"
@@ -57,15 +57,15 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="p-4">
         {brand && (
-          <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+          <p className="text-xs text-text-muted uppercase tracking-wider mb-1">
             {brand}
           </p>
         )}
-        <h3 className="font-medium text-gray-900 mb-2 line-clamp-2">
+        <h3 className="font-medium text-text-primary mb-2 line-clamp-2">
           {product.title}
         </h3>
         {price && (
-          <p className="text-sm font-semibold">{formatPrice(price.amount)}</p>
+          <p className="text-sm font-semibold text-text-primary">{formatPrice(price.amount)}</p>
         )}
       </div>
     </Link>

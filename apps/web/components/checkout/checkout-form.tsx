@@ -50,23 +50,23 @@ export function CheckoutForm({ cart }: CheckoutFormProps) {
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                 step === s
-                  ? "bg-black text-white"
+                  ? "bg-text-primary text-text-inverse"
                   : steps.indexOf(step) > i
-                  ? "bg-gray-800 text-white"
-                  : "bg-gray-200 text-gray-500"
+                  ? "bg-text-secondary text-text-inverse"
+                  : "bg-surface-subtle text-text-muted"
               }`}
             >
               {i + 1}
             </div>
             <span
               className={`ml-2 capitalize text-sm ${
-                step === s ? "font-semibold" : "text-gray-500"
+                step === s ? "font-semibold" : "text-text-muted"
               }`}
             >
               {s}
             </span>
             {i < steps.length - 1 && (
-              <div className="w-8 h-px bg-gray-300 mx-4" />
+              <div className="w-8 h-px bg-border-default mx-4" />
             )}
           </div>
         ))}
@@ -142,19 +142,19 @@ function PaymentForm({
     <form onSubmit={handleSubmit}>
       <h2 className="text-lg font-semibold mb-4">Payment Details</h2>
       <PaymentElement />
-      {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
+      {error && <p className="text-error mt-2 text-sm">{error}</p>}
       <div className="flex gap-4 mt-6">
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-3 border rounded hover:bg-gray-50 transition-colors"
+          className="px-6 py-3 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors"
         >
           Back
         </button>
         <button
           type="submit"
           disabled={!stripe || processing}
-          className="flex-1 px-6 py-3 bg-black text-white rounded disabled:opacity-50 hover:bg-gray-800 transition-colors"
+          className="flex-1 px-6 py-3 bg-text-primary text-text-inverse rounded-lg disabled:opacity-50 hover:bg-text-secondary transition-colors"
         >
           {processing ? "Processing..." : "Pay Now"}
         </button>
@@ -183,7 +183,7 @@ function ReviewStep({
     <div>
       <h2 className="text-lg font-semibold mb-4">Review Order</h2>
 
-      <div className="bg-gray-50 rounded-lg p-4 mb-6">
+      <div className="bg-surface-subtle rounded-lg p-4 mb-6">
         <h3 className="font-medium mb-2">Shipping to:</h3>
         <p>
           {shippingData.first_name} {shippingData.last_name}
@@ -192,22 +192,22 @@ function ReviewStep({
         <p>
           {shippingData.city}, {shippingData.province} {shippingData.postal_code}
         </p>
-        <p className="uppercase text-sm text-gray-500 mt-1">
+        <p className="uppercase text-sm text-text-muted mt-1">
           {shippingData.country_code}
         </p>
         {shippingData.phone && (
-          <p className="text-sm text-gray-600 mt-1">{shippingData.phone}</p>
+          <p className="text-sm text-text-secondary mt-1">{shippingData.phone}</p>
         )}
       </div>
 
-      <p className="text-sm text-gray-600 mb-6">
+      <p className="text-sm text-text-secondary mb-6">
         Your payment has been authorized. Click below to place your order.
       </p>
 
       <button
         onClick={handleComplete}
         disabled={isPending}
-        className="w-full px-6 py-3 bg-black text-white rounded disabled:opacity-50 hover:bg-gray-800 transition-colors"
+        className="w-full px-6 py-3 bg-text-primary text-text-inverse rounded-lg disabled:opacity-50 hover:bg-text-secondary transition-colors"
       >
         {isPending ? "Completing order..." : "Complete Order"}
       </button>
