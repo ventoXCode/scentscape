@@ -49,7 +49,7 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
       <FilterLayout>
         <Suspense>
           <SearchFacets
-            facetDistribution={results.facetDistribution as any}
+            facetDistribution={results.facetDistribution as Record<string, Record<string, number>> | undefined}
             currentFilters={searchParams}
           />
         </Suspense>

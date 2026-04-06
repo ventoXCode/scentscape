@@ -140,7 +140,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                 <div className="flex-1">
                   <p className="font-medium text-text-primary">{item.title}</p>
                   <p className="text-sm text-text-muted">
-                    {(item as any).variant?.title}
+                    {(item as unknown as { variant?: { title?: string } }).variant?.title}
                   </p>
                   <p className="text-sm text-text-primary">
                     {formatPrice(item.unit_price)}
@@ -187,7 +187,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
             <div className="pt-4 border-t border-border-default">
               <div className="flex justify-between font-semibold text-text-primary">
                 <span>Total</span>
-                <span>{formatPrice((cart as any).total || 0)}</span>
+                <span>{formatPrice((cart as unknown as { total?: number }).total || 0)}</span>
               </div>
               <Link
                 href="/checkout"

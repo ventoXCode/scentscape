@@ -1,11 +1,9 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState, createContext, useContext, useEffect } from "react";
+import { useState, createContext, useContext, useEffect, useRef } from "react";
 import { getOrCreateCart } from "@/lib/medusa/actions";
 import { WishlistProvider } from "@/lib/wishlist/context";
-
-const queryClient = new QueryClient();
 
 type Cart = Awaited<ReturnType<typeof getOrCreateCart>>;
 
@@ -26,6 +24,12 @@ export function useCart() {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  // Per-instance QueryClient avoids shared state across SSR requests
+  const queryClientRef = useRef<QueryClient | null>(null);
+  if (!queryClientRef.current) {
+    queryClientRef.current = new QueryClient();
+  }
+
   const [cart, setCart] = useState<Cart | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -43,7 +47,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClientRef.current}>
       <CartContext.Provider value={{ cart, refreshCart, cartOpen, setCartOpen }}>
         <WishlistProvider>{children}</WishlistProvider>
       </CartContext.Provider>
