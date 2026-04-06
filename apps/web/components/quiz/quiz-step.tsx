@@ -112,10 +112,12 @@ export function QuizStep({
   const translateClass =
     slideDirection === "left" ? "-translate-x-5" : "translate-x-5";
 
+  const theme = question.theme;
+
   return (
     <div
       {...swipeHandlers}
-      className={`flex flex-col min-h-[100dvh] transition-all duration-300 touch-pan-y ${
+      className={`flex flex-col min-h-[100dvh] transition-all duration-300 touch-pan-y bg-gradient-to-b ${theme?.bg ?? "from-transparent to-transparent"} ${
         animatingOut
           ? `opacity-0 ${translateClass}`
           : "opacity-100 translate-x-0"
@@ -174,7 +176,7 @@ export function QuizStep({
                 }
                 className={`group relative min-h-[3.5rem] p-4 md:p-5 rounded-xl border-2 text-left transition-all duration-200 active:scale-[0.97] ${
                   isSelected
-                    ? "border-text-primary bg-text-primary/[0.03] shadow-card-hover scale-[1.02]"
+                    ? `${theme?.accent ?? "border-text-primary"} bg-text-primary/[0.03] shadow-card-hover scale-[1.02]`
                     : "border-border-default bg-surface-elevated hover:border-border-strong hover:shadow-sm"
                 }`}
               >
@@ -192,7 +194,7 @@ export function QuizStep({
                   </div>
                 </div>
                 {isSelected && (
-                  <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-text-primary flex items-center justify-center">
+                  <div className={`absolute top-3 right-3 w-5 h-5 rounded-full ${theme?.accentBg ?? "bg-text-primary"} flex items-center justify-center`}>
                     <svg
                       className="w-3 h-3 text-white"
                       fill="none"

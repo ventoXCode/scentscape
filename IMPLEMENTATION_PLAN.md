@@ -95,7 +95,7 @@
 - [x] Max selection limit on multi-select steps (priorities max 2, families max 3, occasion max 3) — replaces oldest selection when limit hit
 - [x] "Analyzing your scent profile..." anticipation-building loading state with animated concentric rings and progressive messages
 - [x] Visible "Step X of Y" indicator centered above question
-- [ ] Per-question unique color/imagery/layout (deferred: requires Phase 2 design tokens)
+- [x] Per-question unique color/imagery/layout — each quiz question has a `QuizQuestionTheme` with distinct background gradient, selection accent border, and checkmark color using fragrance family design tokens (woody, amber, citrus, aromatic, floral, fresh). Themes defined in `questions.ts`, applied in `quiz-step.tsx`.
 - [ ] Swipe gesture navigation (deferred: requires touch event handling library)
 
 ### 1.5 — Results experience redesign (replace `quiz-results.tsx`) ✅

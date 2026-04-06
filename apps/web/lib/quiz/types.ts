@@ -34,6 +34,15 @@ export interface QuizOption {
   accordBoosts?: string[];
 }
 
+export interface QuizQuestionTheme {
+  /** Subtle background gradient applied to the step container */
+  bg: string;
+  /** Accent color for selected state border + checkmark */
+  accent: string;
+  /** Accent background for the checkmark circle */
+  accentBg: string;
+}
+
 export interface QuizQuestion {
   id: string;
   title: string;
@@ -43,6 +52,7 @@ export interface QuizQuestion {
   maxSelections?: number;
   options: QuizOption[];
   condition?: (session: QuizSession) => boolean;
+  theme?: QuizQuestionTheme;
 }
 
 // ── Quiz Session (persisted to localStorage) ───────────────────────

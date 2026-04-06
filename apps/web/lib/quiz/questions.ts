@@ -1,12 +1,72 @@
-import { QuizQuestion, QuizSession } from "./types";
+import { QuizQuestion, QuizQuestionTheme, QuizSession } from "./types";
+
+// Each question gets a distinct visual identity via subtle color theming
+const THEMES: Record<string, QuizQuestionTheme> = {
+  environment: {
+    bg: "from-family-woody-subtle/40 to-transparent",
+    accent: "border-family-woody",
+    accentBg: "bg-family-woody",
+  },
+  texture: {
+    bg: "from-family-amber-subtle/40 to-transparent",
+    accent: "border-family-amber",
+    accentBg: "bg-family-amber",
+  },
+  time: {
+    bg: "from-family-citrus-subtle/40 to-transparent",
+    accent: "border-family-citrus",
+    accentBg: "bg-family-citrus",
+  },
+  music: {
+    bg: "from-family-aromatic-subtle/40 to-transparent",
+    accent: "border-family-aromatic",
+    accentBg: "bg-family-aromatic",
+  },
+  impression: {
+    bg: "from-family-floral-subtle/40 to-transparent",
+    accent: "border-family-floral",
+    accentBg: "bg-family-floral",
+  },
+  season: {
+    bg: "from-family-fresh-subtle/40 to-transparent",
+    accent: "border-family-fresh",
+    accentBg: "bg-family-fresh",
+  },
+  experience: {
+    bg: "from-surface-subtle/60 to-transparent",
+    accent: "border-accent-primary",
+    accentBg: "bg-accent-primary",
+  },
+  priorities: {
+    bg: "from-accent-primary/5 to-transparent",
+    accent: "border-accent-primary",
+    accentBg: "bg-accent-primary",
+  },
+  families: {
+    bg: "from-accent-secondary/5 to-transparent",
+    accent: "border-accent-secondary",
+    accentBg: "bg-accent-secondary",
+  },
+  intensity: {
+    bg: "from-family-amber-subtle/30 to-transparent",
+    accent: "border-family-amber",
+    accentBg: "bg-family-amber",
+  },
+  occasion: {
+    bg: "from-family-floral-subtle/30 to-transparent",
+    accent: "border-family-floral",
+    accentBg: "bg-family-floral",
+  },
+};
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
-  // ── 1. Environment ──────────────────────────────────────────────
+  // ── 1. Environment ────��───────────────────────────────��─────────
   {
     id: "environment",
     title: "Pick the place that feels most like you",
     subtitle: "Don't overthink it — go with your gut",
     type: "single",
+    theme: THEMES.environment,
     options: [
       {
         id: "forest",
@@ -57,6 +117,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     title: "Choose the texture that draws you in",
     subtitle: "Imagine running your fingers across it",
     type: "single",
+    theme: THEMES.texture,
     options: [
       {
         id: "silk",
@@ -107,6 +168,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     title: "When do you feel most like yourself?",
     subtitle: "The hour when your energy peaks",
     type: "single",
+    theme: THEMES.time,
     options: [
       {
         id: "dawn",
@@ -157,6 +219,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     title: "Pick the music that matches your energy",
     subtitle: "What's playing in the background of your ideal day?",
     type: "single",
+    theme: THEMES.music,
     options: [
       {
         id: "jazz",
@@ -207,6 +270,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     title: "How do you want people to remember meeting you?",
     subtitle: "The feeling you leave behind",
     type: "single",
+    theme: THEMES.impression,
     options: [
       {
         id: "warm",
@@ -258,6 +322,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     subtitle: "The one you'd live in year-round if you could",
     hint: "Many fragrances are designed with a season in mind. Lighter scents shine in heat, while richer ones bloom in cool air.",
     type: "single",
+    theme: THEMES.season,
     options: [
       {
         id: "spring",
@@ -305,6 +370,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     subtitle: "No wrong answer — this helps us calibrate your results",
     hint: "We'll tailor the next questions and your results to your experience level. Beginners get simpler guidance; enthusiasts get more technical detail.",
     type: "single",
+    theme: THEMES.experience,
     options: [
       {
         id: "beginner",
@@ -336,6 +402,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     title: "What matters most to you in a fragrance?",
     subtitle: "Pick up to 2 — we'll use these to fine-tune your matches",
     type: "multi",
+    theme: THEMES.priorities,
     maxSelections: 2,
     condition: (session: QuizSession) => session.experience === "beginner",
     options: [
@@ -377,6 +444,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     subtitle: "Pick up to 3 families you love",
     hint: "Fragrance families are like genres in music — broad categories that share a common character. Most fragrances blend elements from multiple families.",
     type: "multi",
+    theme: THEMES.families,
     maxSelections: 3,
     condition: (session: QuizSession) => session.experience === "enthusiast",
     options: [
@@ -430,6 +498,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     subtitle: "Think about how you want it to project",
     hint: "Projection is how far your scent radiates from your skin. A 'barely there' fragrance is only noticeable in close conversation, while a 'commanding' one fills an entire room.",
     type: "single",
+    theme: THEMES.intensity,
     options: [
       {
         id: "light",
@@ -461,6 +530,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     title: "When will you wear this most?",
     subtitle: "Pick up to 3 occasions",
     type: "multi",
+    theme: THEMES.occasion,
     maxSelections: 3,
     options: [
       {
