@@ -181,6 +181,39 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
           )}
         </div>
 
+        {/* Shop your profile CTA */}
+        {results.length > 0 && (
+          <div className="mt-10 p-5 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5 rounded-xl border border-border-default">
+            <h4 className="font-display font-semibold text-text-primary mb-1">
+              Shop your scent profile
+            </h4>
+            <p className="text-sm text-text-muted mb-4">
+              Browse our full catalog filtered to match your {archetype.name} personality.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(archetype.familyAffinities)
+                .filter(([, score]) => score >= 0.6)
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 3)
+                .map(([family]) => (
+                  <Link
+                    key={family}
+                    href={`/search?family=${encodeURIComponent(family)}`}
+                    className="px-4 py-2 bg-accent-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-accent-primary-hover transition-colors"
+                  >
+                    Browse {family}
+                  </Link>
+                ))}
+              <Link
+                href="/products"
+                className="px-4 py-2 bg-surface-elevated border border-border-default rounded-lg text-sm font-medium text-text-secondary hover:border-border-strong transition-colors"
+              >
+                Browse All
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Educational links based on results */}
         <div className="mt-10 p-5 bg-surface-subtle rounded-xl">
           <h4 className="font-semibold text-text-primary mb-2">

@@ -273,7 +273,7 @@
 - [ ] Interactive fragrance wheel/map for visual landscape exploration
 - [x] "Fragrance of the Day" rotating editorial spotlight: `FragranceOfTheDay` server component on homepage picks a product deterministically by day-of-year from Meilisearch index. Full-width card with image, brand, title, family/concentration badges, top notes, description excerpt, and price. Graceful null render if Meilisearch unavailable.
 - [x] Beginner-friendly entry points: "New to Fragrance" mood page (`/moods/new-to-fragrance`) sorts by gentlest sillage first with beginner-oriented editorial copy. Homepage "Explore by Mood" section showcases first 4 moods with "See all moods" link. Moods index page has dedicated beginner callout with "Start Here" CTA.
-- [ ] Smart filter defaults: pre-filter based on user's quiz results when available
+- [x] Smart filter defaults: "Shop Your Profile" CTA on quiz results page links to `/search?family=X` for each high-affinity family, connecting quiz personality to filtered product browsing
 - [x] Extended sort options: "Best for Beginners" (`sillage:asc`) added to SortSelect on both `/products` and `/search` pages
 
 ### 4.6 — Collection page upgrade ✅ (partial)
@@ -377,7 +377,7 @@
 - [x] Scent pyramid: educational intro paragraph ("A fragrance unfolds in three layers..."), hoverable tier labels (Top/Heart/Base Notes) with detailed explanations of why each tier behaves differently
 - [x] Note hover tooltips on scent pyramid (pre-existing: 117 note descriptions via `note-descriptions.ts`)
 - [x] Performance rating tooltips with verbal scale labels (pre-existing: `performance-ratings.tsx`)
-- [ ] "What is [note]?" expandable cards on product pages (deferred: requires accordion component)
+- [x] "What is [note]?" expandable cards on product pages — native `<details>`/`<summary>` accordion in `RelatedEducation` component, shows note descriptions from `note-descriptions.ts` with tier labels and "Learn more" links to note profile pages
 
 ### 7.2 — Standalone educational content ✅ (partial)
 - [x] `/learn` educational hub landing page with guide cards, family quick-nav, and quiz CTA
