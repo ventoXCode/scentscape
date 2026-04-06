@@ -13,6 +13,7 @@ import { ScentJourney } from "@/components/product/scent-journey";
 import { HowToWear } from "@/components/product/how-to-wear";
 import { SimilarFragrances } from "@/components/product/similar-fragrances";
 import { WishlistButton } from "@/components/product/wishlist-button";
+import { SITE_URL } from "@/lib/constants";
 
 interface ProductPageProps {
   params: Promise<{ handle: string }>;
@@ -109,7 +110,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <ProductJsonLd product={product} />
+      <ProductJsonLd product={product} fragranceData={fragranceData} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+              { "@type": "ListItem", position: 2, name: "Fragrances", item: `${SITE_URL}/products` },
+              { "@type": "ListItem", position: 3, name: product.title },
+            ],
+          }),
+        }}
+      />
 
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-6">

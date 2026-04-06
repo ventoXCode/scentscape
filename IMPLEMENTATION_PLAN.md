@@ -399,11 +399,15 @@
 - [ ] Quiz results: educational context about the user's scent profile — deferred
 - [ ] Empty states: fill other dead-ends with relevant learning content — deferred
 
-### 7.4 — SEO and content marketing
+### 7.4 — SEO and content marketing ✅ (partial)
 - [ ] Target long-tail keywords: "what does [note] smell like," "best fragrances for [occasion]"
 - [ ] Internal linking strategy: educational content ↔ product pages ↔ quiz
 - [ ] Build topical authority in fragrance discovery and education
-- [ ] Enrich product JSON-LD: fix hardcoded `InStock` availability, add `aggregateRating`, `sku`, `category`, fragrance-specific `additionalProperty` fields
+- [x] Enrich product JSON-LD: `AggregateOffer` for multi-variant products, `category` from fragrance family, fragrance-specific `additionalProperty` fields (family, concentration, gender, top/heart/base notes, accords, seasons, longevity, sillage). `@id` for deduplication.
+- [x] `WebSite` JSON-LD with `SearchAction` on root layout — enables Google sitelinks search box
+- [x] `BreadcrumbList` JSON-LD on product detail pages — structured breadcrumb for rich results
+- [x] Sitemap improvements: added mood detail pages (`/moods/[slug]`), wishlist page; fixed `lastModified` to use stable dates instead of `new Date()` on static pages; typed products properly
+- [ ] Add `aggregateRating` to product JSON-LD (deferred: requires review/rating system)
 
 ---
 
