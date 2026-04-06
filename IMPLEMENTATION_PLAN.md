@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 6.3: cart-customer association on login via transferCart; Phase 2.5: View Transitions API enabled for smooth page navigation cross-fades)
+> Last updated: 2026-04-06 (Phase 5.4: Mobile product interactions — swipe-to-wishlist, long-press quick preview, pull-to-refresh on all catalog pages)
 
 ---
 
@@ -315,10 +315,10 @@
 - [x] Search bar: fluid width on mobile (`w-full sm:w-64`), touch-friendly tap targets (`min-h-[52px]` suggestion rows, larger link targets), `touchstart` outside-click handler for reliable mobile dismiss
 - [x] Checkout: mobile-optimized with single-column stacking address fields (`grid-cols-1 sm:grid-cols-2`), 44px touch targets on all inputs (`py-3`), `inputMode="numeric"` on postal code, responsive step indicator, minimum touch width on Back button, order summary shown first on mobile, `lg:sticky` scoped sidebar, `next/image` for thumbnails
 
-### 5.4 — Mobile product interactions
-- [ ] Product card swipe actions (save to wishlist, quick add)
-- [ ] Long-press quick preview on product cards
-- [ ] Pull-to-refresh on catalog/collection pages
+### 5.4 — Mobile product interactions ✅
+- [x] Product card swipe actions (save to wishlist) — `SwipeableProductCard` client wrapper (`components/product/swipeable-product-card.tsx`) wraps each `ProductCard` on products, search, collections, and moods pages. Swipe-left reveals a wishlist toggle panel (72px action area) with haptic feedback. Touch gesture tracking with drag threshold, smooth spring-back transition, and click prevention during swipe to avoid accidental navigation. Desktop: wrapper uses `md:contents`/`md:hidden` pattern so cards render as direct grid children with no swipe behavior.
+- [x] Long-press quick preview on product cards — 500ms long-press triggers a centered modal overlay (`md:hidden`) with product title, brand, family/concentration badges, price, description (3-line clamp), longevity/sillage verbal labels, wishlist toggle, and "View Details" link. Haptic feedback on activation. Dismiss on tap outside. `role="dialog"` + `aria-modal` for accessibility.
+- [x] Pull-to-refresh on catalog/collection pages — `PullToRefresh` client component (`components/ui/pull-to-refresh.tsx`) wraps page content on products, search, collections, and moods pages. Touch-pull-down from top of page (with resistance factor 0.4) shows spinner indicator; release past 80px threshold triggers `router.refresh()` for ISR revalidation. Mobile-only (`md:hidden`), desktop passthrough.
 
 ### 5.5 — Performance targets
 - [ ] Lighthouse mobile score > 90

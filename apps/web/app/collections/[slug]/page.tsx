@@ -6,6 +6,8 @@ import {
 } from "@/lib/search/meilisearch";
 import { getCollectionBySlug, COLLECTIONS } from "@/lib/collections";
 import { ProductCard } from "@/components/product/product-card";
+import { SwipeableProductCard } from "@/components/product/swipeable-product-card";
+import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -83,6 +85,7 @@ export default async function CollectionPage({
   }
 
   return (
+    <PullToRefresh>
     <div>
       {/* Hero section */}
       <div className={`${heroBg} py-16`}>
@@ -147,9 +150,8 @@ export default async function CollectionPage({
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {hits.map((hit, i) => (
-                <ProductCard
+                <SwipeableProductCard
                   key={hit.id}
-                  priority={i < 4}
                   product={{
                     id: hit.id,
                     handle: hit.handle,
@@ -157,16 +159,33 @@ export default async function CollectionPage({
                     thumbnail: hit.thumbnail,
                     brand: hit.brand,
                     family: hit.family,
+                    description: hit.description,
                     concentration: hit.concentration,
-                    topNote: hit.top_notes?.[0] || null,
-                    sillage: hit.sillage,
                     longevity: hit.longevity,
-                    season: hit.season,
-                    variants: hit.price != null
-                      ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
-                      : [],
+                    sillage: hit.sillage,
+                    price: hit.price,
                   }}
-                />
+                >
+                  <ProductCard
+                    priority={i < 4}
+                    product={{
+                      id: hit.id,
+                      handle: hit.handle,
+                      title: hit.title,
+                      thumbnail: hit.thumbnail,
+                      brand: hit.brand,
+                      family: hit.family,
+                      concentration: hit.concentration,
+                      topNote: hit.top_notes?.[0] || null,
+                      sillage: hit.sillage,
+                      longevity: hit.longevity,
+                      season: hit.season,
+                      variants: hit.price != null
+                        ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
+                        : [],
+                    }}
+                  />
+                </SwipeableProductCard>
               ))}
             </div>
 
@@ -200,5 +219,6 @@ export default async function CollectionPage({
         )}
       </div>
     </div>
+    </PullToRefresh>
   );
 }

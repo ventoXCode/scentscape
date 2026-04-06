@@ -1,8 +1,10 @@
 import { meilisearch, PRODUCTS_INDEX, SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
+import { SwipeableProductCard } from "@/components/product/swipeable-product-card";
 import { SearchFacets } from "@/components/search/search-facets";
 import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
+import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { Suspense } from "react";
 
 export const revalidate = 300;
@@ -84,9 +86,8 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {results.hits.map((hit, i) => (
-              <ProductCard
+              <SwipeableProductCard
                 key={hit.id}
-                priority={i < 6}
                 product={{
                   id: hit.id,
                   handle: hit.handle,
@@ -94,16 +95,33 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
                   thumbnail: hit.thumbnail,
                   brand: hit.brand,
                   family: hit.family,
+                  description: hit.description,
                   concentration: hit.concentration,
-                  topNote: hit.top_notes?.[0] || null,
-                  sillage: hit.sillage,
                   longevity: hit.longevity,
-                  season: hit.season,
-                  variants: hit.price != null
-                    ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
-                    : [],
+                  sillage: hit.sillage,
+                  price: hit.price,
                 }}
-              />
+              >
+                <ProductCard
+                  priority={i < 6}
+                  product={{
+                    id: hit.id,
+                    handle: hit.handle,
+                    title: hit.title,
+                    thumbnail: hit.thumbnail,
+                    brand: hit.brand,
+                    family: hit.family,
+                    concentration: hit.concentration,
+                    topNote: hit.top_notes?.[0] || null,
+                    sillage: hit.sillage,
+                    longevity: hit.longevity,
+                    season: hit.season,
+                    variants: hit.price != null
+                      ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
+                      : [],
+                  }}
+                />
+              </SwipeableProductCard>
             ))}
           </div>
         )}
@@ -117,6 +135,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const query = params.q || "";
 
   return (
+    <PullToRefresh>
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl font-bold font-display">
@@ -131,5 +150,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <SearchResults searchParams={params} />
       </Suspense>
     </div>
+    </PullToRefresh>
   );
 }

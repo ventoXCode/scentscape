@@ -8,6 +8,8 @@ import {
 } from "@/lib/search/meilisearch";
 import { getMoodBySlug, MOODS } from "@/lib/discovery/moods";
 import { ProductCard } from "@/components/product/product-card";
+import { SwipeableProductCard } from "@/components/product/swipeable-product-card";
+import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 
 export const revalidate = 300;
 
@@ -52,6 +54,7 @@ export default async function MoodPage({ params }: MoodPageProps) {
   }
 
   return (
+    <PullToRefresh>
     <div>
       {/* Hero */}
       <div className={`bg-gradient-to-br ${mood.gradient} py-16`}>
@@ -116,9 +119,8 @@ export default async function MoodPage({ params }: MoodPageProps) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {hits.map((hit, i) => (
-              <ProductCard
+              <SwipeableProductCard
                 key={hit.id}
-                priority={i < 4}
                 product={{
                   id: hit.id,
                   handle: hit.handle,
@@ -126,27 +128,45 @@ export default async function MoodPage({ params }: MoodPageProps) {
                   thumbnail: hit.thumbnail,
                   brand: hit.brand,
                   family: hit.family,
+                  description: hit.description,
                   concentration: hit.concentration,
-                  topNote: hit.top_notes?.[0] || null,
-                  sillage: hit.sillage,
                   longevity: hit.longevity,
-                  season: hit.season,
-                  variants:
-                    hit.price != null
-                      ? [
-                          {
-                            prices: [
-                              { amount: hit.price, currency_code: "usd" },
-                            ],
-                          },
-                        ]
-                      : [],
+                  sillage: hit.sillage,
+                  price: hit.price,
                 }}
-              />
+              >
+                <ProductCard
+                  priority={i < 4}
+                  product={{
+                    id: hit.id,
+                    handle: hit.handle,
+                    title: hit.title,
+                    thumbnail: hit.thumbnail,
+                    brand: hit.brand,
+                    family: hit.family,
+                    concentration: hit.concentration,
+                    topNote: hit.top_notes?.[0] || null,
+                    sillage: hit.sillage,
+                    longevity: hit.longevity,
+                    season: hit.season,
+                    variants:
+                      hit.price != null
+                        ? [
+                            {
+                              prices: [
+                                { amount: hit.price, currency_code: "usd" },
+                              ],
+                            },
+                          ]
+                        : [],
+                  }}
+                />
+              </SwipeableProductCard>
             ))}
           </div>
         )}
       </div>
     </div>
+    </PullToRefresh>
   );
 }

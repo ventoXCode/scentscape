@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { medusa } from "@/lib/medusa/client";
 import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
+import { SwipeableProductCard } from "@/components/product/swipeable-product-card";
 import { ProductFilters } from "@/components/filters/product-filters";
 import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
+import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -81,10 +83,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       brand: hit.brand,
       family: hit.family,
       concentration: hit.concentration,
+      description: hit.description,
       topNote: hit.top_notes?.[0] || null,
       sillage: hit.sillage,
       longevity: hit.longevity,
       season: hit.season,
+      price: hit.price,
       metadata: { brand: hit.brand },
       variants: hit.price != null ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }] : [],
     }));
@@ -118,6 +122,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   }
 
   return (
+    <PullToRefresh>
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-display text-3xl font-bold text-text-primary">All Fragrances</h1>
@@ -158,7 +163,24 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product, i) => (
-                  <ProductCard key={product.id} product={product} priority={i < 6} />
+                  <SwipeableProductCard
+                    key={product.id}
+                    product={{
+                      id: product.id,
+                      handle: product.handle || "",
+                      title: product.title,
+                      thumbnail: product.thumbnail ?? null,
+                      brand: product.brand ?? null,
+                      family: product.family ?? null,
+                      description: product.description ?? null,
+                      concentration: product.concentration ?? null,
+                      longevity: product.longevity ?? null,
+                      sillage: product.sillage ?? null,
+                      price: product.price ?? null,
+                    }}
+                  >
+                    <ProductCard product={product} priority={i < 6} />
+                  </SwipeableProductCard>
                 ))}
               </div>
 
@@ -190,5 +212,6 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </main>
       </div>
     </div>
+    </PullToRefresh>
   );
 }
