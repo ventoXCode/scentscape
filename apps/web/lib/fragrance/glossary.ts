@@ -22,3 +22,38 @@ export const METRIC_DESCRIPTIONS: Record<string, string> = {
   sillage: "The scent trail left in the air as you move — how much of a 'wake' your fragrance leaves.",
   projection: "How far the fragrance radiates from your skin — close and intimate vs. filling a room.",
 };
+
+export const GENDER_DESCRIPTIONS: Record<string, string> = {
+  Masculine: "Traditionally marketed to men — often woody, aromatic, or spicy. Anyone can wear any fragrance.",
+  Feminine: "Traditionally marketed to women — often floral, sweet, or powdery. Fragrance has no gender rules.",
+  Unisex: "Designed without a specific gender in mind — universal appeal across all preferences.",
+};
+
+export const SEASON_DESCRIPTIONS: Record<string, string> = {
+  Spring: "Light, fresh, and floral scents that complement mild, breezy weather.",
+  Summer: "Bright citrus, aquatic, and clean scents that stay refreshing in the heat.",
+  Fall: "Warm spices, amber, and woody notes that match the cozy, crisp air.",
+  Winter: "Rich, heavy scents — oud, resins, and deep florals that thrive in cold weather.",
+};
+
+export const ACCORD_DESCRIPTIONS: Record<string, string> = {
+  Amber: "Warm, sweet, and resinous — the cozy, enveloping base of many fragrances.",
+  Aromatic: "Fresh herbs like lavender, rosemary, and sage — natural and clean.",
+  Citrus: "Zesty and bright — lemon, bergamot, and orange for an instant energy boost.",
+  Floral: "Built around flowers — rose, jasmine, lily, and more.",
+  Fruity: "Sweet, juicy fruit notes — peach, raspberry, apple, and berry.",
+  Gourmand: "Edible-smelling notes — vanilla, caramel, chocolate, coffee, and honey.",
+  Green: "Fresh-cut grass, crushed leaves, and garden herbs — natural and alive.",
+  Leather: "Rich, animalic warmth evoking tanned hides and suede.",
+  Marine: "Ocean-inspired — salt, seaweed, and ozonic freshness.",
+  Mossy: "Earthy, damp forest floor — oakmoss and tree bark.",
+  Musky: "Soft, skin-like warmth — clean and intimate.",
+  Oud: "Precious, complex wood resin — smoky, sweet, and deeply luxurious.",
+  Powdery: "Soft, cosmetic-like comfort — iris, heliotrope, and violet.",
+  Smoky: "Campfire, incense, and birch tar — mysterious and bold.",
+  Spicy: "Warm spices — cinnamon, cardamom, pepper, and clove.",
+  Sweet: "Sugar, honey, and candy-like notes — indulgent and inviting.",
+  Tobacco: "Rich, dried leaves with a warm, slightly sweet character.",
+  Vanilla: "Creamy, sweet, and universally loved — warm comfort in a scent.",
+  Woody: "Sandalwood, cedar, and vetiver — grounding and sophisticated.",
+};

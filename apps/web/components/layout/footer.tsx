@@ -34,6 +34,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/explore" className="hover:text-text-primary transition-colors">
+                  Fragrance Wheel
+                </Link>
+              </li>
+              <li>
                 <Link href="/moods" className="hover:text-text-primary transition-colors">
                   Moods
                 </Link>

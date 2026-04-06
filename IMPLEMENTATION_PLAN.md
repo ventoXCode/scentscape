@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 1.6: Quiz data persistence — backend module, save/share API, shareable results pages, account scent profile)
+> Last updated: 2026-04-06 (Phase 4.4/4.5: Filter tooltips + visual icons, interactive fragrance wheel)
 
 ---
 
@@ -259,18 +259,18 @@
 - [x] `generateStaticParams` for static generation of product pages + `revalidate = 300` ISR
 - [x] Selected variant price update: prominent price display in `ProductPurchaseSection` updates on variant selection; variant selector migrated to design tokens
 
-### 4.4 — Sorting and filter UX improvements ✅ (partial)
+### 4.4 — Sorting and filter UX improvements ✅
 - [x] Expose sort controls on `/products` and `/search`: price (asc/desc), longevity (desc), sillage (desc) via `SortSelect` component using Meilisearch `sortableAttributes`
 - [x] Fix `search-facets.tsx` semantic mismatch: switched to `type="radio"` inputs with `fieldset`/`legend` pattern and `role="radiogroup"` — matches single-select behavior
 - [x] Add filter counts (how many products match each option) to prevent zero-result dead ends
 - [x] Make filter options dynamic from catalog — ProductFilters accepts Meilisearch facet distribution, falls back to hardcoded options
 - [x] Extended sort option: "Best for Beginners" (`sillage:asc`) added to `SortSelect` — shows gentlest-projecting fragrances first
-- [ ] Add beginner-friendly filter tooltips explaining each option
-- [ ] Visual filter icons instead of plain radio buttons/checkboxes
+- [x] Beginner-friendly filter tooltips on all facets — extended `glossary.ts` with `GENDER_DESCRIPTIONS`, `SEASON_DESCRIPTIONS`, and `ACCORD_DESCRIPTIONS` (19 common accords). Both `search-facets.tsx` and `product-filters.tsx` now show `?` hover tooltips for all facet types via unified `TOOLTIP_MAPS` lookup.
+- [x] Visual filter icons — family filters show colored dot indicators using `bg-family-*` design tokens, season facets show emoji icons, gender facets show symbol indicators. Product filters expanded to include all 6 families (was missing Citrus and Aromatic).
 
 ### 4.5 — Discovery mechanisms ✅ (partial)
 - [x] Mood-based browsing: 8 mood categories (`lib/discovery/moods.ts`) with index page (`/moods`) and detail pages (`/moods/[slug]`). Moods: Main Character Energy, Quiet Luxury, Sunday Morning, After Dark, Fresh Start, Free Spirit, Sweet Escape, New to Fragrance. Each mood maps to Meilisearch filter + optional sort. Mood cards use gradient backgrounds, emoji identifiers, editorial copy. `generateStaticParams` for SSG, breadcrumb nav, product count. "Moods" added to header nav (desktop + mobile).
-- [ ] Interactive fragrance wheel/map for visual landscape exploration
+- [x] Interactive fragrance wheel at `/explore` — SVG-based wheel with 6 family segments (polar coordinate geometry), hover/click to explore. Shows family emoji, name, and expandable subfamily ring on selection. Detail panel with description, signature notes as pills, subfamilies, and links to `/search?family=X` and `/learn/families/[slug]`. Mobile grid fallback for small screens. `FragranceWheel` client component in `components/discovery/`. "Explore" added to header nav (desktop + mobile), footer, and sitemap. Full `Metadata` export with OpenGraph tags.
 - [x] "Fragrance of the Day" rotating editorial spotlight: `FragranceOfTheDay` server component on homepage picks a product deterministically by day-of-year from Meilisearch index. Full-width card with image, brand, title, family/concentration badges, top notes, description excerpt, and price. Graceful null render if Meilisearch unavailable.
 - [x] Beginner-friendly entry points: "New to Fragrance" mood page (`/moods/new-to-fragrance`) sorts by gentlest sillage first with beginner-oriented editorial copy. Homepage "Explore by Mood" section showcases first 4 moods with "See all moods" link. Moods index page has dedicated beginner callout with "Start Here" CTA.
 - [x] Smart filter defaults: "Shop Your Profile" CTA on quiz results page links to `/search?family=X` for each high-affinity family, connecting quiz personality to filtered product browsing

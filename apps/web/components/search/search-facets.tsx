@@ -2,7 +2,13 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import { CONCENTRATION_DESCRIPTIONS, FAMILY_DESCRIPTIONS } from "@/lib/fragrance/glossary";
+import {
+  CONCENTRATION_DESCRIPTIONS,
+  FAMILY_DESCRIPTIONS,
+  GENDER_DESCRIPTIONS,
+  SEASON_DESCRIPTIONS,
+  ACCORD_DESCRIPTIONS,
+} from "@/lib/fragrance/glossary";
 
 interface FacetDistribution {
   [facetName: string]: {
@@ -28,6 +34,36 @@ const FACET_LABELS: Record<string, string> = {
   gender: "Gender",
   accords: "Accords",
   season: "Season",
+};
+
+const TOOLTIP_MAPS: Record<string, Record<string, string>> = {
+  family: FAMILY_DESCRIPTIONS,
+  concentration: CONCENTRATION_DESCRIPTIONS,
+  gender: GENDER_DESCRIPTIONS,
+  season: SEASON_DESCRIPTIONS,
+  accords: ACCORD_DESCRIPTIONS,
+};
+
+const FAMILY_ICON_COLORS: Record<string, string> = {
+  Fresh: "bg-family-fresh",
+  Floral: "bg-family-floral",
+  Amber: "bg-family-amber",
+  Woody: "bg-family-woody",
+  Citrus: "bg-family-citrus",
+  Aromatic: "bg-family-aromatic",
+};
+
+const SEASON_ICONS: Record<string, string> = {
+  Spring: "🌸",
+  Summer: "☀️",
+  Fall: "🍂",
+  Winter: "❄️",
+};
+
+const GENDER_ICONS: Record<string, string> = {
+  Masculine: "♂",
+  Feminine: "♀",
+  Unisex: "⚤",
 };
 
 export function SearchFacets({
@@ -97,11 +133,10 @@ export function SearchFacets({
                 .sort((a, b) => b[1] - a[1])
                 .map(([value, count]) => {
                   const isSelected = currentValue === value;
-                  const tooltip = facetKey === "concentration"
-                    ? CONCENTRATION_DESCRIPTIONS[value]
-                    : facetKey === "family"
-                      ? FAMILY_DESCRIPTIONS[value]
-                      : undefined;
+                  const tooltip = TOOLTIP_MAPS[facetKey]?.[value];
+                  const familyColor = facetKey === "family" ? FAMILY_ICON_COLORS[value] : undefined;
+                  const seasonIcon = facetKey === "season" ? SEASON_ICONS[value] : undefined;
+                  const genderIcon = facetKey === "gender" ? GENDER_ICONS[value] : undefined;
                   return (
                     <label
                       key={value}
@@ -114,6 +149,15 @@ export function SearchFacets({
                         onChange={() => toggleFilter(facetKey, value)}
                         className="w-4 h-4 border-border-default accent-accent-primary cursor-pointer"
                       />
+                      {familyColor && (
+                        <span className={`w-3 h-3 rounded-full ${familyColor} shrink-0`} aria-hidden="true" />
+                      )}
+                      {seasonIcon && (
+                        <span className="text-sm shrink-0" aria-hidden="true">{seasonIcon}</span>
+                      )}
+                      {genderIcon && (
+                        <span className="text-sm text-text-muted shrink-0" aria-hidden="true">{genderIcon}</span>
+                      )}
                       <span className="text-sm text-text-secondary group-hover/filter:text-text-primary flex-1">
                         {value}
                       </span>
