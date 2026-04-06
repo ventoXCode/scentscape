@@ -44,6 +44,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/samples" className="hover:text-text-primary transition-colors">
+                  Sample Box
+                </Link>
+              </li>
+              <li>
                 <Link href="/search" className="hover:text-text-primary transition-colors">
                   Search
                 </Link>

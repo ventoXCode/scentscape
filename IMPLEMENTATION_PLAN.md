@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 5.5: Performance optimization — dynamic imports, web vitals, PWA manifest)
+> Last updated: 2026-04-06 (Phase 6.2: Sample box foundation — try before you buy, quiz integration, partner-fulfilled ordering)
 
 ---
 
@@ -346,11 +346,14 @@
 - [x] Support multiple retailers per product (Sephora, Nordstrom, FragranceNet) — 3 retailers configured in `lib/affiliate/retailers.ts` with URL templates, taglines, and branded colors
 - [x] Transition messaging: ScentScape as recommendation layer, not only direct seller — disclosure "ScentScape may earn a commission from purchases made through these links"
 
-### 6.2 — Sample box foundation
-- [ ] "Try Before You Buy" concept: quiz results → curated sample kit
-- [ ] Sample box product page / ordering flow ($20-$40 price point)
-- [ ] Integration with quiz results: "Get these 5 as samples"
-- [ ] Backend: sample box as a Medusa product type with dynamic composition
+### 6.2 — Sample box foundation ✅
+- [x] "Try Before You Buy" concept: quiz results → curated sample kit — `SampleBoxCta` component with bulk-add "Get Top N as Samples" button on quiz results page, positioned between results list and "Shop your profile" CTA. `SampleBoxButton` per-result card in compact mode.
+- [x] Sample box product page / ordering flow ($20-$40 price point) — `/samples` landing page with hero, 3-step "How It Works", pricing tiers (Starter $25/3 samples, Discovery $35/5 samples), FAQ section, and sticky `SampleBoxSummary` sidebar with progress bar, item management, tier-aware pricing, and partner checkout link.
+- [x] Integration with quiz results: "Get these 5 as samples" — `SampleBoxCta` on quiz results page adds top 5 recommendations to sample box in one click. Per-result `SampleBoxButton` (compact variant) alongside affiliate links. `SampleBoxButton` (inline variant) on product detail pages below purchase section.
+- [x] Sample box state management — `SampleBoxProvider` React context (`lib/samples/context.tsx`) with localStorage persistence (following wishlist pattern: hydration guard, `useCallback` mutators, max 5 items). `SampleBoxProvider` wired into `providers.tsx`.
+- [x] Sample box configuration — `lib/samples/config.ts` with `SampleBoxTier` and `SamplePartner` types, 2 pricing tiers, partner URL builder with product name search query encoding. Partner checkout tracked via `gtag` event (`sample_box_checkout`).
+- [x] Navigation integration — `/samples` added to sitemap, footer Discover section. Sample box link shown on product pages when item is in box.
+- [ ] Backend: sample box as a Medusa product type with dynamic composition (deferred: current implementation uses partner-fulfilled model per spec — "ScentScape curates, partner fulfills")
 
 ### 6.3 — Premium tier foundation (do not gate quiz)
 - [x] Wishlist implementation — frontend with localStorage persistence

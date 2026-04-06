@@ -10,6 +10,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
 import { AffiliateLinks } from "@/components/product/affiliate-links";
+import { SampleBoxCta } from "@/components/samples/sample-box-cta";
+import { SampleBoxButton } from "@/components/samples/sample-box-button";
 
 interface QuizResultsProps {
   session: QuizSession;
@@ -271,14 +273,39 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
                     </Link>
                   </div>
                 </Link>
-                <div className="pl-12 md:pl-14">
+                <div className="pl-12 md:pl-14 flex flex-wrap items-center gap-2">
                   <AffiliateLinks handle={result.handle} productTitle={result.title} compact />
+                  <SampleBoxButton
+                    product={{
+                      id: result.productId,
+                      handle: result.handle,
+                      title: result.title,
+                      brand: result.brand,
+                      thumbnail: result.thumbnail,
+                      family: result.family,
+                    }}
+                    variant="compact"
+                  />
                 </div>
                 </div>
               ))}
             </div>
           )}
         </div>
+
+        {/* Sample box CTA — try before you buy */}
+        {results.length > 0 && (
+          <SampleBoxCta
+            products={results.slice(0, 5).map((r) => ({
+              id: r.productId,
+              handle: r.handle,
+              title: r.title,
+              brand: r.brand,
+              thumbnail: r.thumbnail,
+              family: r.family,
+            }))}
+          />
+        )}
 
         {/* Shop your profile CTA */}
         {results.length > 0 && (
