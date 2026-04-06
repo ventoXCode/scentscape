@@ -386,7 +386,7 @@
 - [x] `/learn/families/[slug]` — deep dive pages for each family (Fresh, Floral, Amber, Woody, Citrus, Aromatic) with history, characteristics, signature notes with descriptions from `note-descriptions.ts`, subfamilies, when-to-wear, personality profile, and browse CTA linking to `/search?family=X`. `generateStaticParams` for SSG. Prev/next family navigation.
 - [x] `/learn/glossary` — comprehensive glossary with 4 sections (Concentrations, Families, Performance Metrics, General Terms with 18 entries including Accord, Drydown, Flanker, Gourmand, Nose Blindness, Skin Chemistry, etc.). Jump-nav anchors. Families link to detail pages.
 - [x] Data layer: `lib/learn/families.ts` (6 families with extended data, `getNotesForFamily` helper pulling from `note-descriptions.ts`) and `lib/learn/guides.ts` (guide metadata)
-- [ ] Note profiles: deep dives on popular notes (bergamot, oud, sandalwood, vanilla) — deferred
+- [x] Note profiles: `/learn/notes` index (117 notes grouped by family with jump-nav) + `/learn/notes/[slug]` detail pages with description, family context, Meilisearch-powered product discovery, related notes, prev/next navigation. `generateStaticParams` for SSG (93 pages). Added to sitemap, footer, and learn hub.
 - [ ] Seasonal guides: "Best Fragrances for Summer," "Holiday Gift Guide" — deferred
 
 ### 7.3 — Content integration across surfaces ✅ (partial)

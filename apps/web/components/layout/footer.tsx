@@ -65,6 +65,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/learn/notes" className="hover:text-text-primary transition-colors">
+                  Fragrance Notes
+                </Link>
+              </li>
+              <li>
                 <Link href="/learn/glossary" className="hover:text-text-primary transition-colors">
                   Glossary
                 </Link>

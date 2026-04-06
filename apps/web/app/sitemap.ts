@@ -3,6 +3,7 @@ import { medusa } from "@/lib/medusa/client";
 import { COLLECTIONS } from "@/lib/collections";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
 import { MOODS } from "@/lib/discovery/moods";
+import { ALL_NOTES } from "@/lib/learn/notes";
 import { SITE_URL } from "@/lib/constants";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -23,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/learn/how-to-apply`, lastModified: staticDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/learn/families`, lastModified: staticDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/learn/glossary`, lastModified: staticDate, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/learn/notes`, lastModified: staticDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/account/wishlist`, lastModified: staticDate, changeFrequency: "monthly", priority: 0.4 },
   ];
 
@@ -66,5 +68,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...familyPages, ...collectionPages, ...moodPages, ...productPages];
+  // Note profile pages
+  const notePages: MetadataRoute.Sitemap = ALL_NOTES.map((note) => ({
+    url: `${baseUrl}/learn/notes/${note.slug}`,
+    lastModified: staticDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+
+  return [...staticPages, ...familyPages, ...collectionPages, ...moodPages, ...notePages, ...productPages];
 }

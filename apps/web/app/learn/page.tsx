@@ -84,6 +84,32 @@ export default function LearnPage() {
         </div>
       </section>
 
+      {/* Fragrance Notes */}
+      <section className="max-w-4xl mx-auto mb-20">
+        <ScrollReveal>
+          <Link
+            href="/learn/notes"
+            className="group block rounded-xl border border-border-default bg-surface-elevated p-6 shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
+          >
+            <div className="flex items-start gap-4">
+              <span className="text-3xl flex-shrink-0" aria-hidden="true">
+                🧪
+              </span>
+              <div className="min-w-0">
+                <h3 className="font-display text-lg font-semibold text-text-primary group-hover:underline mb-1">
+                  Fragrance Notes Guide
+                </h3>
+                <p className="text-xs text-text-muted mb-2">Reference</p>
+                <p className="text-sm text-text-secondary leading-relaxed">
+                  Explore 117 individual fragrance notes — what each one smells like,
+                  which family it belongs to, and which perfumes feature it.
+                </p>
+              </div>
+            </div>
+          </Link>
+        </ScrollReveal>
+      </section>
+
       {/* Fragrance Families Quick Nav */}
       <section className="max-w-4xl mx-auto mb-20">
         <ScrollReveal>
