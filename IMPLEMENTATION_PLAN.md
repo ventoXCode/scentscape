@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Type safety: all `any` eliminated; SEO: HowTo + BreadcrumbList schemas on learn pages)
+> Last updated: 2026-04-06 (Occasion guides: 5 editorial pages for Date Night, Office, Casual, Special Event, Outdoor)
 
 ---
 
@@ -400,6 +400,7 @@
 - [x] Note profiles: `/learn/notes` index (117 notes grouped by family with jump-nav) + `/learn/notes/[slug]` detail pages with description, family context, Meilisearch-powered product discovery, related notes, prev/next navigation. `generateStaticParams` for SSG (93 pages). Added to sitemap, footer, and learn hub.
 - [x] "How to Find Your Signature Scent" standalone guide (`/learn/signature-scent`) — 7-step practical roadmap (start with what you love, learn the language, narrow by family, sample widely, trust the drydown, match lifestyle, trust instincts), 5 common traps section, internal links to Fragrance 101/families/how-to-apply, ArticleJsonLd, added to sitemap/footer/guides registry
 - [x] Seasonal guides: 4 seasonal fragrance guides at `/learn/seasonal/[slug]` (Spring, Summer, Fall, Winter) — each with editorial intro, science of seasonal wearing, best families with links to family pages, key notes with links to note profiles, numbered wearing tips, occasion suggestions, Meilisearch-powered product grid (8 products filtered by season), collection CTA, and prev/next season navigation. Data layer in `lib/learn/seasonal-guides.ts`. `ArticleJsonLd` structured data. `generateStaticParams` for SSG. Added to learn hub (seasonal section with 4-card grid), sitemap (monthly changeFrequency, priority 0.7), and footer (Seasonal Guides link).
+- [x] Occasion guides: 5 occasion-based fragrance guides at `/learn/occasions/[slug]` (Date Night, Office, Casual, Special Event, Outdoor) — each with editorial intro on why fragrance matters for the occasion, key characteristics, best families with links to family pages, key notes with links to note profiles, numbered wearing tips, scenario suggestions with emoji identifiers, Meilisearch-powered product grid (8 products filtered by occasion), quiz CTA, and prev/next occasion navigation. Data layer in `lib/learn/occasion-guides.ts`. `ArticleJsonLd` structured data. `generateStaticParams` for SSG. Added to learn hub (occasion section with 5-card grid), sitemap (monthly changeFrequency, priority 0.7), and footer (Occasion Guides link).
 
 ### 7.3 — Content integration across surfaces ✅ (partial)
 - [x] Homepage: "Learn the Basics" educational teaser section with 3 guide cards (Fragrance 101, How to Apply, Scent Families) and "See all guides" link — positioned between Mood browsing and Social Proof sections
@@ -412,7 +413,7 @@
 - [x] Empty states: fill dead-ends with discovery content — enriched 7 empty states across the app: products page (removed developer message, added quiz/mood CTAs), checkout success order-not-found (added order history link), collection page (added other collections/quiz/mood links), mood page (added other moods/quiz/browse links), orders page (added quiz/samples/browse CTAs), cart drawer (added "Find Your Scent" quiz CTA), quiz results (added mood/browse/learn links). All empty states now have emoji visual treatment, helpful copy, and multiple discovery paths.
 
 ### 7.4 — SEO and content marketing ✅ (partial)
-- [x] Target long-tail keywords: note profile pages (`/learn/notes/[slug]`) with "What Does X Smell Like?" title pattern (93 SSG pages), family pages with "X Fragrances — What They Smell Like" pattern (6 pages)
+- [x] Target long-tail keywords: note profile pages (`/learn/notes/[slug]`) with "What Does X Smell Like?" title pattern (93 SSG pages), family pages with "X Fragrances — What They Smell Like" pattern (6 pages), occasion guide pages (`/learn/occasions/[slug]`) with "Best Fragrances for [Occasion]" pattern (5 SSG pages)
 - [x] Internal linking strategy: `RelatedEducation` on product pages links to family/note/concentration guides; note profile pages server-render product links (previously client-only, invisible to crawlers); family pages link to search and quiz
 - [x] Build topical authority in fragrance discovery and education — `HowToJsonLd` component (`components/seo/howto-jsonld.tsx`) with `HowTo` schema on how-to-apply page (5 structured steps). `BreadcrumbJsonLd` standalone component (`components/seo/breadcrumb-jsonld.tsx`) for pages without Article schema. `BreadcrumbList` JSON-LD added to `/learn`, `/learn/notes`, `/learn/families` index pages. All learn pages now have structured data for search engine rich results.
 - [x] Enrich product JSON-LD: `AggregateOffer` for multi-variant products, `category` from fragrance family, fragrance-specific `additionalProperty` fields (family, concentration, gender, top/heart/base notes, accords, seasons, longevity, sillage). `@id` for deduplication.

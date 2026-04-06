@@ -4,6 +4,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-jsonld";
 import { GUIDES } from "@/lib/learn/guides";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
 import { SEASONAL_GUIDES } from "@/lib/learn/seasonal-guides";
+import { OCCASION_GUIDES } from "@/lib/learn/occasion-guides";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
 import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
@@ -172,6 +173,41 @@ export default function LearnPage() {
                 </span>
                 <h3 className="font-display font-semibold text-text-primary mb-0.5">
                   {guide.season}
+                </h3>
+                <p className="text-xs text-text-muted">{guide.tagline}</p>
+              </Link>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Occasion Guides */}
+      <section className="max-w-4xl mx-auto mb-20">
+        <ScrollReveal>
+          <h2 className="font-display text-2xl font-bold text-text-primary mb-3">
+            Occasion Fragrance Guides
+          </h2>
+          <p className="text-text-secondary mb-8">
+            Different moments call for different scents. Learn which fragrances
+            work best for every occasion in your life.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {OCCASION_GUIDES.map((guide, i) => (
+            <ScrollReveal key={guide.slug} delay={i * 60}>
+              <Link
+                href={`/learn/occasions/${guide.slug}`}
+                className="group block rounded-xl border border-border-default bg-surface-elevated p-5 text-center shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
+              >
+                <span
+                  className="text-3xl block mb-2 group-hover:scale-110 transition-transform duration-200"
+                  aria-hidden="true"
+                >
+                  {guide.emoji}
+                </span>
+                <h3 className="font-display font-semibold text-text-primary mb-0.5">
+                  {guide.occasion}
                 </h3>
                 <p className="text-xs text-text-muted">{guide.tagline}</p>
               </Link>

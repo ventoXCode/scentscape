@@ -90,6 +90,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/learn/occasions/date-night" className="hover:text-text-primary transition-colors">
+                  Occasion Guides
+                </Link>
+              </li>
+              <li>
                 <Link href="/learn/glossary" className="hover:text-text-primary transition-colors">
                   Glossary
                 </Link>
