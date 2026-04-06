@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 2.5: Grain overlay + hero parallax)
+> Last updated: 2026-04-06 (Phase 6.1: Server-side affiliate click tracking)
 
 ---
 
@@ -352,7 +352,7 @@
 - [x] Design affiliate link component: "Buy at [Retailer]" buttons with tracking params — `components/product/affiliate-links.tsx` with `AffiliateLinks` component, compact mode for quiz cards, disclosure text
 - [x] Integrate on product detail pages (primary purchase path alongside existing add-to-cart) — below purchase section with full 3-retailer layout
 - [x] Integrate on quiz result pages (each recommendation links to retailers) — compact 2-retailer buttons below each result card
-- [x] Affiliate click tracking and attribution — `gtag` event hook for `affiliate_click` with retailer ID and product handle
+- [x] Affiliate click tracking and attribution — dual tracking: server-side redirect endpoint (`/api/affiliate/click`) logs retailer, product, timestamp, user-agent to JSONL file (works even when gtag is blocked by ad blockers), plus client-side `gtag` event for `affiliate_click`
 - [x] Support multiple retailers per product (Sephora, Nordstrom, FragranceNet) — 3 retailers configured in `lib/affiliate/retailers.ts` with URL templates, taglines, and branded colors
 - [x] Transition messaging: ScentScape as recommendation layer, not only direct seller — disclosure "ScentScape may earn a commission from purchases made through these links"
 
