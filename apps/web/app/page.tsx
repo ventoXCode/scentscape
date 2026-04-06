@@ -7,6 +7,7 @@ import { HeroSection } from "@/components/home/hero-section";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
 import { FragranceOfTheDay } from "@/components/home/fragrance-of-the-day";
 import { SeasonalPicks } from "@/components/home/seasonal-picks";
+import { CollectionHighlights } from "@/components/home/collection-highlights";
 import { MOODS } from "@/lib/discovery/moods";
 
 export const metadata: Metadata = {
@@ -332,6 +333,11 @@ export default async function HomePage() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* Collection Highlights */}
+      <ScrollReveal>
+        <CollectionHighlights />
+      </ScrollReveal>
 
       {/* Social Proof */}
       <section className="py-section bg-surface-primary">

@@ -33,7 +33,7 @@ const SEASON_CONFIG: Record<
     editorial:
       "As leaves turn and the air cools, richer scents take center stage. These are the fragrances defining this autumn — spiced, warm, and magnetic.",
     icon: "🍂",
-    collection: "cozy-winter", // closest match until a fall collection exists
+    collection: "fall-favorites",
   },
   Winter: {
     label: "Winter",

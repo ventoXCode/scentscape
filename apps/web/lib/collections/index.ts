@@ -116,6 +116,17 @@ export const COLLECTIONS: Collection[] = [
     familyColor: "floral",
   },
   {
+    slug: "fall-favorites",
+    title: "Fall Favorites",
+    tagline: "Warmth meets mystery",
+    description: "Spiced, warm, and magnetic fragrances that capture the spirit of autumn",
+    editorial:
+      "As the air turns crisp and leaves deepen in color, it\u2019s time for richer, more layered scents. These fall favorites balance warmth and spice \u2014 amber, cinnamon, and wood notes that feel like a favorite sweater.",
+    icon: "\uD83C\uDF42",
+    searchFilter: 'season = "Fall"',
+    familyColor: "woody",
+  },
+  {
     slug: "under-150",
     title: "Under $150",
     tagline: "Great scents, friendly prices",

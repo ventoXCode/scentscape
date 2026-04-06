@@ -215,7 +215,7 @@
 - [x] Featured fragrances with editorial "Editor's Picks" framing and "View All" link
 - [x] Fragrance 101 educational teaser section (implemented in Phase 7.3 — "Learn the Basics" section on homepage)
 - [x] Trending / seasonal picks with editorial framing — `SeasonalPicks` async server component (`components/home/seasonal-picks.tsx`) auto-detects current season, queries Meilisearch for matching products, renders 4-product grid with editorial copy and "See all" link to the relevant collection page. Season configs for Spring/Summer/Fall/Winter with icon, tagline, and editorial text. Placed between Fragrance of the Day and Explore by Mood on homepage.
-- [ ] Collection highlights with visual storytelling (deferred: requires collection hero images — Phase 4.6)
+- [x] Collection highlights with visual storytelling — `CollectionHighlights` component (`components/home/collection-highlights.tsx`) showcases 6 curated collections with gradient cards using fragrance family color tokens, editorial taglines, icons, and "Browse collection" CTAs. Placed between Learn the Basics and Social Proof on homepage.
 
 ### 3.5 — Below-the-fold experience ✅
 - [x] "Smarter Than a Filter" section with 4 numbered steps demystifying the matching engine
@@ -279,7 +279,7 @@
 
 ### 4.6 — Collection page upgrade ✅ (partial)
 - [x] Editorial feel: collection detail pages have full-width hero section with family-colored background, emoji icon, tagline, editorial narrative paragraph, product count. Collection data model enriched with `tagline`, `editorial`, `icon`, `familyColor` fields.
-- [x] Dynamic collections alongside curated: trending, seasonal, new arrivals — added 4 new collections: "Best for Beginners" (sillage ≤ 2.5, sorted asc), "Long-Lasting Legends" (longevity ≥ 4, sorted desc), "Spring Picks" (season = Spring), "Under $150" (price ≤ 15000). Added `searchSort` field to Collection interface, wired to Meilisearch sort param. 10 total collections, all SSG'd and in sitemap.
+- [x] Dynamic collections alongside curated: trending, seasonal, new arrivals — added 5 new collections: "Best for Beginners" (sillage ≤ 2.5, sorted asc), "Long-Lasting Legends" (longevity ≥ 4, sorted desc), "Spring Picks" (season = Spring), "Fall Favorites" (season = Fall), "Under $150" (price ≤ 15000). Added `searchSort` field to Collection interface, wired to Meilisearch sort param. 11 total collections, all SSG'd and in sitemap.
 - [x] Distinct visual identity per collection: each card uses `FAMILY_STYLES` mapped from collection's `familyColor` field (icon background + card colors using fragrance family tokens)
 - [ ] Support collection images (field exists in `Collection` interface as `image?: string` but unused — no image assets available)
 - [x] Product counts shown on collection detail page hero
