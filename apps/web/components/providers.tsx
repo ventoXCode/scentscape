@@ -11,9 +11,13 @@ type Cart = Awaited<ReturnType<typeof getOrCreateCart>>;
 const CartContext = createContext<{
   cart: Cart | null;
   refreshCart: () => Promise<void>;
+  cartOpen: boolean;
+  setCartOpen: (open: boolean) => void;
 }>({
   cart: null,
   refreshCart: async () => {},
+  cartOpen: false,
+  setCartOpen: () => {},
 });
 
 export function useCart() {
@@ -22,6 +26,7 @@ export function useCart() {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const refreshCart = async () => {
     try {
@@ -38,7 +43,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CartContext.Provider value={{ cart, refreshCart }}>
+      <CartContext.Provider value={{ cart, refreshCart, cartOpen, setCartOpen }}>
         {children}
       </CartContext.Provider>
     </QueryClientProvider>

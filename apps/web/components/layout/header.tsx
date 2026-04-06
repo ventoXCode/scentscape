@@ -13,8 +13,7 @@ interface HeaderProps {
 }
 
 export function Header({ customer }: HeaderProps) {
-  const { cart } = useCart();
-  const [cartOpen, setCartOpen] = useState(false);
+  const { cart, cartOpen, setCartOpen } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();

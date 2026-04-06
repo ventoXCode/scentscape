@@ -292,9 +292,12 @@
 
 **Current state (post-implementation):** Header is responsive with hamburger menu on mobile (`md:hidden`), animated slide-down mobile menu with search, nav links, and auth. Cart icon with bag SVG on mobile. Header is sticky (`sticky top-0 z-40`). Desktop nav hidden on mobile via `hidden md:flex`. Mobile menu closes on route change via `usePathname`. Cart drawer has slide-in/slide-out animation. Search bar moves into mobile menu on small screens.
 
-### 5.1 — Mobile navigation ✅ (partial)
-- [ ] Bottom navigation bar for mobile: Home, Quiz, Search, Account
-- [ ] Thumb-zone-aware placement (primary actions in bottom 40% of screen)
+### 5.1 — Mobile navigation ✅
+- [x] Bottom navigation bar for mobile: Home, Shop, Quiz (hero center button), Cart (with badge), Account — `components/layout/bottom-nav.tsx` client component, fixed bottom-0, md:hidden, route-aware active states via `usePathname`, `aria-current="page"` on active item
+- [x] Thumb-zone-aware placement: all 5 nav items in fixed bottom bar (bottom 40% of screen), Quiz as elevated center hero button with `bg-accent-primary` circle, cart opens drawer via shared `cartOpen` state in CartContext
+- [x] Safe area inset handling: `pb-[env(safe-area-inset-bottom)]` on nav, `viewport-fit: cover` via Next.js `Viewport` export
+- [x] Cart drawer state lifted to `CartContext` in `providers.tsx` so both Header and BottomNav can control it
+- [x] Product page sticky add-to-cart bar repositioned to `bottom-16` to stack above bottom nav
 - [x] Mobile hamburger menu: animated slide-down panel with search, nav links (Find Your Scent highlighted), auth controls; closes on route change; hamburger ↔ close icon toggle
 - [x] Header already sticky (`sticky top-0 z-40 bg-surface-elevated`)
 

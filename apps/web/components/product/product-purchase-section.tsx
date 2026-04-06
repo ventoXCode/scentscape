@@ -43,7 +43,8 @@ export function ProductPurchaseSection({
       </div>
 
       {/* Mobile sticky add-to-cart bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 md:hidden bg-surface-elevated border-t border-border-default px-4 py-3 shadow-elevated">
+      {/* Positioned above the bottom nav bar (h-16) */}
+      <div className="fixed bottom-16 left-0 right-0 z-30 md:hidden bg-surface-elevated border-t border-border-default px-4 py-3 shadow-elevated">
         <div className="flex items-center gap-3">
           {price && (
             <p className="text-lg font-semibold text-text-primary font-display flex-shrink-0">
