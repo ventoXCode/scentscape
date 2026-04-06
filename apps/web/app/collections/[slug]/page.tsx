@@ -9,6 +9,8 @@ import { ProductCard } from "@/components/product/product-card";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const PAGE_SIZE = 24;
+
 const FAMILY_BG: Record<string, string> = {
   fresh: "bg-family-fresh-subtle",
   floral: "bg-family-floral-subtle",
@@ -20,6 +22,7 @@ const FAMILY_BG: Record<string, string> = {
 
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
 export async function generateStaticParams() {
@@ -42,26 +45,41 @@ export async function generateMetadata({
 
 export default async function CollectionPage({
   params,
+  searchParams,
 }: CollectionPageProps) {
   const { slug } = await params;
+  const { page: pageParam } = await searchParams;
   const collection = getCollectionBySlug(slug);
 
   if (!collection) notFound();
 
+  const currentPage = Math.max(1, parseInt(pageParam || "1", 10) || 1);
+  const offset = (currentPage - 1) * PAGE_SIZE;
+
   let hits: SearchableProduct[] = [];
+  let totalHits = 0;
   try {
     const results = await meilisearch
       .index(PRODUCTS_INDEX)
       .search<SearchableProduct>("", {
         filter: collection.searchFilter,
-        limit: 50,
+        limit: PAGE_SIZE,
+        offset,
       });
     hits = results.hits;
+    totalHits = results.estimatedTotalHits ?? results.hits.length;
   } catch {
-    // Meilisearch may not be running; render empty state gracefully
+    // Meilisearch may not be running
   }
 
+  const totalPages = Math.ceil(totalHits / PAGE_SIZE);
   const heroBg = FAMILY_BG[collection.familyColor] ?? "bg-surface-subtle";
+
+  function pageUrl(page: number) {
+    return page === 1
+      ? `/collections/${slug}`
+      : `/collections/${slug}?page=${page}`;
+  }
 
   return (
     <div>
@@ -106,9 +124,9 @@ export default async function CollectionPage({
             <p className="text-text-secondary leading-relaxed text-lg">
               {collection.editorial}
             </p>
-            {hits.length > 0 && (
+            {totalHits > 0 && (
               <p className="text-sm text-text-muted mt-4">
-                {hits.length} fragrance{hits.length !== 1 ? "s" : ""}
+                {totalHits} fragrance{totalHits !== 1 ? "s" : ""}
               </p>
             )}
           </div>
@@ -125,30 +143,59 @@ export default async function CollectionPage({
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {hits.map((hit, i) => (
-              <ProductCard
-                key={hit.id}
-                priority={i < 4}
-                product={{
-                  id: hit.id,
-                  handle: hit.handle,
-                  title: hit.title,
-                  thumbnail: hit.thumbnail,
-                  brand: hit.brand,
-                  family: hit.family,
-                  concentration: hit.concentration,
-                  topNote: hit.top_notes?.[0] || null,
-                  sillage: hit.sillage,
-                  longevity: hit.longevity,
-                  season: hit.season,
-                  variants: hit.price != null
-                    ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
-                    : [],
-                }}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {hits.map((hit, i) => (
+                <ProductCard
+                  key={hit.id}
+                  priority={i < 4}
+                  product={{
+                    id: hit.id,
+                    handle: hit.handle,
+                    title: hit.title,
+                    thumbnail: hit.thumbnail,
+                    brand: hit.brand,
+                    family: hit.family,
+                    concentration: hit.concentration,
+                    topNote: hit.top_notes?.[0] || null,
+                    sillage: hit.sillage,
+                    longevity: hit.longevity,
+                    season: hit.season,
+                    variants: hit.price != null
+                      ? [{ prices: [{ amount: hit.price, currency_code: "usd" }] }]
+                      : [],
+                  }}
+                />
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <nav
+                aria-label="Collection pagination"
+                className="flex justify-center items-center gap-2 mt-12"
+              >
+                {currentPage > 1 && (
+                  <Link
+                    href={pageUrl(currentPage - 1)}
+                    className="px-4 py-2 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors text-text-secondary"
+                  >
+                    Previous
+                  </Link>
+                )}
+                <span className="text-sm text-text-secondary px-4">
+                  Page {currentPage} of {totalPages}
+                </span>
+                {currentPage < totalPages && (
+                  <Link
+                    href={pageUrl(currentPage + 1)}
+                    className="px-4 py-2 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors text-text-secondary"
+                  >
+                    Next
+                  </Link>
+                )}
+              </nav>
+            )}
+          </>
         )}
       </div>
     </div>

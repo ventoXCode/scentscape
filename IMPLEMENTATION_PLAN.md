@@ -282,7 +282,7 @@
 - [x] Distinct visual identity per collection: each card uses `FAMILY_STYLES` mapped from collection's `familyColor` field (icon background + card colors using fragrance family tokens)
 - [ ] Support collection images (field exists in `Collection` interface as `image?: string` but unused — no image assets available)
 - [x] Product counts shown on collection detail page hero
-- [ ] Add pagination for large collections (currently hardcoded `limit: 50`)
+- [x] Add pagination for collections: PAGE_SIZE=24, `searchParams.page` URL-driven, `estimatedTotalHits` for total count, Previous/Next navigation matching products page pattern
 
 ---
 
