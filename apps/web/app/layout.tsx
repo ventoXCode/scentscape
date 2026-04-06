@@ -29,7 +29,6 @@ export const metadata: Metadata = {
   title: "ScentScape — Discover Your Signature Fragrance",
   description:
     "Find your perfect fragrance through our personality-based quiz. Explore 100+ scents matched to your unique scent personality.",
-  manifest: "/manifest.json",
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",

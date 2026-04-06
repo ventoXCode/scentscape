@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import type { QuizSession, QuizOutcome } from "@/lib/quiz/types";
+import type { QuizSession, QuizOutcome, RecommendationFeedback } from "@/lib/quiz/types";
 import { getRecommendations } from "@/lib/quiz/recommendation-engine";
-import { saveQuizSession } from "@/lib/quiz/api";
+import { saveQuizSession, updateQuizSessionFeedback } from "@/lib/quiz/api";
 import { PersonalityCard } from "./personality-card";
 import { QuizLoading } from "./quiz-loading";
 import Link from "next/link";
@@ -25,6 +25,7 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
   const [shareId, setShareId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [feedbackMap, setFeedbackMap] = useState<Record<string, RecommendationFeedback>>({});
 
   const fetchResults = () => {
     setLoading(true);
@@ -36,15 +37,47 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
       .finally(() => setLoading(false));
   };
 
+  const handleFeedback = useCallback(
+    (productId: string, feedback: RecommendationFeedback) => {
+      setFeedbackMap((prev) => {
+        const next = { ...prev };
+        // Toggle off if same feedback clicked again
+        if (next[productId] === feedback) {
+          delete next[productId];
+        } else {
+          next[productId] = feedback;
+        }
+        // If session already saved, persist feedback to backend
+        if (shareId && outcome) {
+          const resultsWithFeedback = outcome.results.map((r) => ({
+            ...r,
+            feedback: next[r.productId] as RecommendationFeedback | undefined,
+          }));
+          updateQuizSessionFeedback(shareId, resultsWithFeedback);
+        }
+        return next;
+      });
+    },
+    [shareId, outcome]
+  );
+
   const handleSaveAndShare = useCallback(async () => {
     if (!outcome || saving) return;
     setSaving(true);
-    const result = await saveQuizSession(session, outcome);
+    // Embed current feedback into results before saving
+    const outcomeWithFeedback = {
+      ...outcome,
+      results: outcome.results.map((r) => ({
+        ...r,
+        feedback: feedbackMap[r.productId] as RecommendationFeedback | undefined,
+      })),
+    };
+    const result = await saveQuizSession(session, outcomeWithFeedback);
     setSaving(false);
     if (result) {
       setShareId(result.shareId);
     }
-  }, [session, outcome, saving]);
+  }, [session, outcome, saving, feedbackMap]);
 
   const handleCopyLink = useCallback(async () => {
     if (!shareId) return;
@@ -289,6 +322,39 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
                   </div>
                 </Link>
                 <div className="pl-12 md:pl-14 flex flex-wrap items-center gap-2">
+                  {/* Recommendation feedback */}
+                  <div className="flex items-center gap-1.5 mr-auto">
+                    <button
+                      onClick={() => handleFeedback(result.productId, "love")}
+                      aria-label={`Love ${result.title}`}
+                      aria-pressed={feedbackMap[result.productId] === "love"}
+                      className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-medium transition-all active:scale-[0.95] ${
+                        feedbackMap[result.productId] === "love"
+                          ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                          : "bg-surface-subtle text-text-muted hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
+                      }`}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                        <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.723.723 0 01-.692 0h-.002z" />
+                      </svg>
+                      Love this
+                    </button>
+                    <button
+                      onClick={() => handleFeedback(result.productId, "not_for_me")}
+                      aria-label={`Not for me: ${result.title}`}
+                      aria-pressed={feedbackMap[result.productId] === "not_for_me"}
+                      className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-medium transition-all active:scale-[0.95] ${
+                        feedbackMap[result.productId] === "not_for_me"
+                          ? "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300"
+                          : "bg-surface-subtle text-text-muted hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20"
+                      }`}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                      </svg>
+                      Not for me
+                    </button>
+                  </div>
                   <AffiliateLinks handle={result.handle} productTitle={result.title} compact />
                   <SampleBoxButton
                     product={{

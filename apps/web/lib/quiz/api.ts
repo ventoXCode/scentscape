@@ -1,4 +1,4 @@
-import type { QuizSession, QuizOutcome, PersonalityDimensions } from "./types";
+import type { QuizSession, QuizOutcome, QuizResult, PersonalityDimensions } from "./types";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL ||
@@ -11,18 +11,7 @@ interface SavedQuizSession {
   customer_id: string | null;
   archetype_id: string;
   dimensions: PersonalityDimensions;
-  results: Array<{
-    productId: string;
-    handle: string;
-    title: string;
-    brand: string;
-    thumbnail: string | null;
-    price: number;
-    matchScore: number;
-    explanation: string;
-    family: string;
-    topAccords: string[];
-  }>;
+  results: QuizResult[];
   created_at: string;
 }
 
@@ -71,6 +60,27 @@ export async function getSharedQuizSession(
     return data.quiz_session;
   } catch {
     return null;
+  }
+}
+
+/** Update recommendation feedback on a saved quiz session. */
+export async function updateQuizSessionFeedback(
+  shareId: string,
+  results: QuizResult[]
+): Promise<boolean> {
+  try {
+    const res = await fetch(
+      `${BACKEND_URL}/store/quiz-sessions/${shareId}/feedback`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ results }),
+      }
+    );
+    return res.ok;
+  } catch {
+    return false;
   }
 }
 

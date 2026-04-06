@@ -71,6 +71,8 @@ export interface QuizSession {
 
 // ── Quiz Result ────────────────────────────────────────────────────
 
+export type RecommendationFeedback = "love" | "not_for_me";
+
 export interface QuizResult {
   productId: string;
   handle: string;
@@ -82,6 +84,7 @@ export interface QuizResult {
   explanation: string;
   family: string;
   topAccords: string[];
+  feedback?: RecommendationFeedback;
 }
 
 export interface QuizOutcome {

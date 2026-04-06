@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Editorial badges: Staff Pick + Trending on product cards)
+> Last updated: 2026-04-06 (PWA icons + Quiz recommendation feedback buttons)
 
 ---
 
@@ -110,7 +110,7 @@
 - [x] Error retry preserves answers (retry calls `getRecommendations` without resetting session)
 - [x] Retake fully resets session and clears localStorage
 - [x] "Explore More Like This" path from each recommendation — "Explore more like this →" link per result card navigates to `/search?family=X&accords=Y` using the recommendation's family and primary accord
-- [ ] Feedback buttons per recommendation (deferred: requires backend persistence)
+- [x] Feedback buttons per recommendation — "Love this" (heart) and "Not for me" (X) toggle buttons on each quiz result card. Toggle behavior with `aria-pressed`. Feedback embedded in `results` JSON (no model change needed). `PATCH /store/quiz-sessions/:shareId/feedback` backend endpoint updates saved session. Feedback persisted on Save & Share, and live-patched to backend after save. Read-only "Loved"/"Passed" badges on shared results page (`shared-quiz-results.tsx`). Emerald/rose color coding with dark mode support.
 - [x] Shareable results: unique URL with share_id, OG metadata per archetype — `/quiz/results/[id]` server-rendered page with CTA for visitors. "Save & Share Results" button on quiz results page. (Downloadable image deferred: requires canvas rendering). Dynamic OG image generation (`opengraph-image.tsx`) renders archetype-specific social cards with gradient, name, tagline, and 4-axis personality dimensions via Satori/`ImageResponse`.
 - [x] Save to account: quiz sessions linked to customer_id when authenticated, viewable at `/account/scent-profile` with quiz history and archetype display
 
@@ -332,7 +332,7 @@
 - [x] Minimize JS bundle for initial load — `next/dynamic` code splitting for 4 heavy client components: CheckoutForm (Stripe ~80KB deferred from non-checkout pages), FragranceWheel (329-line SVG computation deferred from non-explore pages), QuizResults (390-line results UI deferred until quiz completion), CartDrawer (216-line drawer deferred until opened). Loading fallbacks for all.
 - [x] `next.config.ts` hardened: `poweredByHeader: false`, `Permissions-Policy` header, `Strict-Transport-Security` HSTS header, immutable cache headers for static assets and images
 - [x] Web Vitals instrumentation: `WebVitalsReporter` client component using `useReportWebVitals` from `next/web-vitals`, reports CLS/FCP/LCP/FID/TTFB/INP to Google Analytics (when gtag available) and console in development
-- [x] PWA foundation: `manifest.json` with app name, theme color (#8B6914 gold), standalone display mode. `appleWebApp` metadata in root layout. `viewport-fit: cover` for safe area insets.
+- [x] PWA foundation: dynamic `manifest.ts` (replaces static `manifest.json`) with app name, theme color (#8B6914 gold), standalone display mode. `appleWebApp` metadata in root layout. `viewport-fit: cover` for safe area insets. Branded favicon via `app/icon.tsx` (32×32 gold gradient "S" via `ImageResponse`). Apple touch icon via `app/apple-icon.tsx` (180×180). PWA icons (192×192, 512×512) generated dynamically via `/api/pwa-icon/[size]` route handler with `ImageResponse`. All icon sizes use consistent gold gradient + serif "S" design.
 - [ ] Service worker for offline quiz access (deferred: requires Workbox or next-pwa integration)
 
 ---
