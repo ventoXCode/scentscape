@@ -161,7 +161,7 @@
 - [x] Loading states: `components/ui/skeleton.tsx` — Skeleton, ProductCardSkeleton, ProductGridSkeleton
 - [x] Barrel export: `components/ui/index.ts`
 - [ ] Empty states: illustrated/styled placeholders (deferred: requires illustrations or icons)
-- [ ] Error states: toast notification system for async action feedback (deferred: requires client-side toast infrastructure)
+- [x] Error states: toast notification system for async action feedback — `components/ui/toast.tsx` with `ToastProvider` context, `useToast` hook, stacked toasts (max 3) with auto-dismiss (success 3s, error 5s, info 4s), slide-in animation, `aria-live` region, mobile-aware positioning (bottom-center above bottom nav, desktop bottom-right). Wired into: add-to-cart (success + error), cart-drawer remove/update (error), wishlist toggle (success/info), login/register (success). Inline form validation errors retained on auth pages.
 - [ ] Migrate existing components to import from `components/ui/` instead of inline styles (progressive adoption — tokens applied directly, shared components available for new code)
 
 ### 2.5 — Motion and micro-interaction layer ✅ (partial)

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/medusa/auth-actions";
+import { useToast } from "@/components/ui/toast";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,6 +21,7 @@ export default function LoginPage() {
     startTransition(async () => {
       try {
         await login(email, password);
+        toast("Welcome back!", "success");
         router.push("/account");
         router.refresh();
       } catch {

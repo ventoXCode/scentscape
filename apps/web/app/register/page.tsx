@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { register } from "@/lib/medusa/auth-actions";
+import { useToast } from "@/components/ui/toast";
 import Link from "next/link";
 
 export default function RegisterPage() {
@@ -12,6 +13,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -26,6 +28,7 @@ export default function RegisterPage() {
           email,
           password,
         });
+        toast("Account created! Welcome to ScentScape.", "success");
         router.push("/account");
         router.refresh();
       } catch {

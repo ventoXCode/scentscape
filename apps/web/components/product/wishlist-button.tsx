@@ -1,6 +1,7 @@
 "use client";
 
 import { useWishlist, type WishlistItem } from "@/lib/wishlist/context";
+import { useToast } from "@/components/ui/toast";
 
 interface WishlistButtonProps {
   product: WishlistItem;
@@ -10,12 +11,17 @@ interface WishlistButtonProps {
 
 export function WishlistButton({ product, variant = "card" }: WishlistButtonProps) {
   const { toggleItem, isWishlisted } = useWishlist();
+  const { toast } = useToast();
   const wishlisted = isWishlisted(product.id);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     toggleItem(product);
+    toast(
+      wishlisted ? "Removed from wishlist" : "Saved to wishlist",
+      wishlisted ? "info" : "success",
+    );
   };
 
   if (variant === "detail") {

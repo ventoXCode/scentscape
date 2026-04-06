@@ -75,6 +75,7 @@
   --animate-slide-up: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-slide-in-from-right: slide-in-from-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-slide-in-from-left: slide-in-from-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-slide-in-toast: slide-in-toast 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 @keyframes fade-in-up {
@@ -134,4 +135,15 @@
 
 @keyframes fade-out {
   to { opacity: 0; }
+}
+
+@keyframes slide-in-toast {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

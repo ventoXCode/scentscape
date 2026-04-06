@@ -5,6 +5,7 @@ import { useCart } from "@/components/providers";
 import { removeFromCart, updateCartItem } from "@/lib/medusa/actions";
 import { formatPrice } from "@/lib/utils/format";
 import { useTransition, useEffect, useRef, useCallback, useState } from "react";
+import { useToast } from "@/components/ui/toast";
 
 interface CartDrawerProps {
   open: boolean;
@@ -13,6 +14,7 @@ interface CartDrawerProps {
 
 export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const { cart, refreshCart } = useCart();
+  const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const panelRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -71,15 +73,24 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
   const handleRemove = (lineItemId: string) => {
     startTransition(async () => {
-      await removeFromCart(lineItemId);
-      await refreshCart();
+      try {
+        await removeFromCart(lineItemId);
+        await refreshCart();
+        toast("Item removed from cart", "info");
+      } catch {
+        toast("Failed to remove item. Please try again.", "error");
+      }
     });
   };
 
   const handleUpdateQuantity = (lineItemId: string, quantity: number) => {
     startTransition(async () => {
-      await updateCartItem(lineItemId, quantity);
-      await refreshCart();
+      try {
+        await updateCartItem(lineItemId, quantity);
+        await refreshCart();
+      } catch {
+        toast("Failed to update quantity. Please try again.", "error");
+      }
     });
   };
 

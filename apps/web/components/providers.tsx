@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, createContext, useContext, useEffect, useRef } from "react";
 import { getOrCreateCart } from "@/lib/medusa/actions";
 import { WishlistProvider } from "@/lib/wishlist/context";
+import { ToastProvider } from "@/components/ui/toast";
 
 type Cart = Awaited<ReturnType<typeof getOrCreateCart>>;
 
@@ -49,7 +50,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <CartContext.Provider value={{ cart, refreshCart, cartOpen, setCartOpen }}>
-        <WishlistProvider>{children}</WishlistProvider>
+        <WishlistProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </WishlistProvider>
       </CartContext.Provider>
     </QueryClientProvider>
   );
