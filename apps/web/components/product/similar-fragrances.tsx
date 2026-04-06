@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "./product-card";
 
@@ -21,10 +22,40 @@ export async function SimilarFragrances({ productId, family, accords }: SimilarF
       .filter((hit) => hit.id !== productId)
       .slice(0, 4);
   } catch {
-    return null;
+    // Meilisearch unavailable — show fallback navigation
   }
 
-  if (similar.length === 0) return null;
+  if (similar.length === 0) {
+    return (
+      <section className="mt-16">
+        <h2 className="font-display text-2xl font-bold text-text-primary mb-4">
+          Keep Exploring
+        </h2>
+        <div className="flex flex-wrap gap-3">
+          {family && (
+            <Link
+              href={`/search?family=${encodeURIComponent(family)}`}
+              className="px-5 py-2.5 bg-surface-subtle text-text-primary rounded-lg text-sm font-medium hover:bg-surface-subtle/80 transition-colors border border-border-default"
+            >
+              More {family} Fragrances
+            </Link>
+          )}
+          <Link
+            href="/products"
+            className="px-5 py-2.5 bg-surface-subtle text-text-primary rounded-lg text-sm font-medium hover:bg-surface-subtle/80 transition-colors border border-border-default"
+          >
+            Browse All Fragrances
+          </Link>
+          <Link
+            href="/quiz"
+            className="px-5 py-2.5 bg-accent-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-accent-primary-hover transition-colors"
+          >
+            Take the Quiz
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="mt-16">

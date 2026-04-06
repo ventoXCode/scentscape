@@ -145,7 +145,7 @@
   - Semantic: success, error, warning — each with main + subtle variant
 - [x] Replace all hardcoded Tailwind color classes across 25+ component files
 - [x] Consolidate `COLLECTION_COLORS` into fragrance family tokens
-- [ ] Consolidate `ACCORD_COLORS` (22 entries) into token system (deferred: requires mapping 22 accord names to 6 family categories)
+- [x] Consolidate `ACCORD_COLORS` into token system — replaced with `ACCORD_FAMILY_MAP` in `accords-display.tsx` mapping 24 accord names to 6 fragrance family design tokens. `FAMILY_CLASSES` provides Tailwind utility lookups (`bg`, `text`, `dot`, `border`) referencing `family-*` CSS custom properties. Original `ACCORD_COLORS` hex map deleted.
 - [ ] Foundation for dark mode / seasonal theming (deferred: CSS variable swap approach ready, but no alternate theme defined yet)
 
 ### 2.3 — Spacing, shadow, and radius tokens ✅
