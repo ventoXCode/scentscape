@@ -336,12 +336,12 @@
 **Current state:** Direct B2C sales only (Medusa + Stripe). Product prices $95-$225 in seed data (all products use identical 3-variant pricing: 30mL/$95, 50mL/$145, 100mL/$225). No affiliate links, no sample boxes, no subscriptions, no partnerships. Quiz connects to revenue only via "browse these products." Full checkout flow exists (3-step: shipping → payment → review) with Stripe Elements. Wishlist is entirely a stub page ("coming soon") with no backend, no data model, no add-to-wishlist button anywhere. Cart is never associated with a customer account on login (guest cart not transferred).
 
 ### 6.1 — Affiliate commerce infrastructure
-- [ ] Design affiliate link component: "Buy at [Retailer]" buttons with tracking params
-- [ ] Integrate on product detail pages (primary purchase path alongside existing add-to-cart)
-- [ ] Integrate on quiz result pages (each recommendation links to retailers)
-- [ ] Affiliate click tracking and attribution
-- [ ] Support multiple retailers per product (Sephora, Nordstrom, FragranceNet)
-- [ ] Transition messaging: ScentScape as recommendation layer, not only direct seller
+- [x] Design affiliate link component: "Buy at [Retailer]" buttons with tracking params — `components/product/affiliate-links.tsx` with `AffiliateLinks` component, compact mode for quiz cards, disclosure text
+- [x] Integrate on product detail pages (primary purchase path alongside existing add-to-cart) — below purchase section with full 3-retailer layout
+- [x] Integrate on quiz result pages (each recommendation links to retailers) — compact 2-retailer buttons below each result card
+- [x] Affiliate click tracking and attribution — `gtag` event hook for `affiliate_click` with retailer ID and product handle
+- [x] Support multiple retailers per product (Sephora, Nordstrom, FragranceNet) — 3 retailers configured in `lib/affiliate/retailers.ts` with URL templates, taglines, and branded colors
+- [x] Transition messaging: ScentScape as recommendation layer, not only direct seller — disclosure "ScentScape may earn a commission from purchases made through these links"
 
 ### 6.2 — Sample box foundation
 - [ ] "Try Before You Buy" concept: quiz results → curated sample kit

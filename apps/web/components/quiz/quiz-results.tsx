@@ -8,6 +8,7 @@ import { QuizLoading } from "./quiz-loading";
 import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
+import { AffiliateLinks } from "@/components/product/affiliate-links";
 
 interface QuizResultsProps {
   session: QuizSession;
@@ -101,8 +102,8 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
           ) : (
             <div className="space-y-4">
               {results.map((result, index) => (
+                <div key={result.productId} className="space-y-2">
                 <Link
-                  key={result.productId}
                   href={`/products/${result.handle}`}
                   className="group flex gap-4 p-4 rounded-xl border border-border-default bg-surface-elevated hover:border-border-strong hover:shadow-card-hover active:scale-[0.99] transition-all duration-200"
                 >
@@ -185,6 +186,10 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
                     </Link>
                   </div>
                 </Link>
+                <div className="pl-12 md:pl-14">
+                  <AffiliateLinks handle={result.handle} productTitle={result.title} compact />
+                </div>
+                </div>
               ))}
             </div>
           )}

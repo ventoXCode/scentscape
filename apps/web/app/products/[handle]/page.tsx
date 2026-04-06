@@ -14,6 +14,7 @@ import { HowToWear } from "@/components/product/how-to-wear";
 import { SimilarFragrances } from "@/components/product/similar-fragrances";
 import { RelatedEducation } from "@/components/product/related-education";
 import { WishlistButton } from "@/components/product/wishlist-button";
+import { AffiliateLinks } from "@/components/product/affiliate-links";
 import { SITE_URL } from "@/lib/constants";
 
 interface ProductPageProps {
@@ -233,6 +234,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           )}
 
           <ProductPurchaseSection variants={product.variants || []} />
+
+          <div className="mt-6 pt-6 border-t border-border-default">
+            <AffiliateLinks handle={product.handle ?? ""} productTitle={product.title} />
+          </div>
         </div>
       </div>
 
