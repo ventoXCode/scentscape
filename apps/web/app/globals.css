@@ -73,6 +73,8 @@
   --animate-slide-in-right: slide-in-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-slide-out-right: slide-out-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-slide-up: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-slide-in-from-right: slide-in-from-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-slide-in-from-left: slide-in-from-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 @keyframes fade-in-up {
@@ -109,4 +111,14 @@
 @keyframes slide-up {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
+}
+
+@keyframes slide-in-from-right {
+  from { opacity: 0; transform: translateX(8%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-from-left {
+  from { opacity: 0; transform: translateX(-8%); }
+  to { opacity: 1; transform: translateX(0); }
 }

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
 
 interface OrderSummaryProps {
@@ -12,17 +13,19 @@ export function OrderSummary({ cart }: OrderSummaryProps) {
   const total = cart.total ?? 0;
 
   return (
-    <div className="bg-surface-subtle rounded-lg p-6 sticky top-8">
+    <div className="bg-surface-subtle rounded-lg p-6 lg:sticky lg:top-8">
       <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
       <div className="space-y-4 mb-6">
         {items.map((item: any) => (
           <div key={item.id} className="flex gap-3">
             {item.thumbnail ? (
-              <img
+              <Image
                 src={item.thumbnail}
                 alt={item.title}
-                className="w-16 h-16 object-cover rounded border border-border-default bg-surface-elevated flex-shrink-0"
+                width={64}
+                height={64}
+                className="object-cover rounded border border-border-default bg-surface-elevated flex-shrink-0"
               />
             ) : (
               <div className="w-16 h-16 bg-surface-subtle rounded border border-border-default flex-shrink-0" />

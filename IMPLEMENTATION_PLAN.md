@@ -310,10 +310,10 @@
 
 ### 5.3 — Mobile-optimized layouts
 - [x] Product detail: sticky add-to-cart bar on mobile (`fixed bottom-0 z-30 md:hidden`) with price + button, desktop inline button, bottom spacer to prevent content overlap
-- [ ] Image gallery: swipeable carousel with pinch-to-zoom (currently: single static image)
+- [x] Image gallery: swipeable carousel with dot indicator on mobile — `useSwipe` hook for touch navigation, slide animations, prev/next arrows on desktop, image counter badge on mobile, dot indicator with active pill state. Thumbnail strip preserved for desktop.
 - [x] Filters: `FilterLayout` component — desktop sidebar, mobile bottom sheet overlay with slide-up animation, "Show Results" button, route-change auto-close. Applied to both `/products` and `/search` pages.
-- [ ] Search: expandable header search bar with recent/suggested queries (currently: fixed `w-64` input)
-- [ ] Checkout: large touch targets, single-column flow
+- [x] Search bar: fluid width on mobile (`w-full sm:w-64`), touch-friendly tap targets (`min-h-[52px]` suggestion rows, larger link targets), `touchstart` outside-click handler for reliable mobile dismiss
+- [x] Checkout: mobile-optimized with single-column stacking address fields (`grid-cols-1 sm:grid-cols-2`), 44px touch targets on all inputs (`py-3`), `inputMode="numeric"` on postal code, responsive step indicator, minimum touch width on Back button, order summary shown first on mobile, `lg:sticky` scoped sidebar, `next/image` for thumbnails
 
 ### 5.4 — Mobile product interactions
 - [ ] Product card swipe actions (save to wishlist, quick add)

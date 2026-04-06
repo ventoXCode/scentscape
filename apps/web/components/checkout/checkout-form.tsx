@@ -44,7 +44,7 @@ export function CheckoutForm({ cart }: CheckoutFormProps) {
   return (
     <div className="space-y-8">
       {/* Step indicators */}
-      <div className="flex items-center">
+      <div className="flex items-center justify-between sm:justify-start">
         {steps.map((s, i) => (
           <div key={s} className="flex items-center">
             <div
@@ -66,7 +66,7 @@ export function CheckoutForm({ cart }: CheckoutFormProps) {
               {s}
             </span>
             {i < steps.length - 1 && (
-              <div className="w-8 h-px bg-border-default mx-4" />
+              <div className="w-4 sm:w-8 h-px bg-border-default mx-2 sm:mx-4" />
             )}
           </div>
         ))}
@@ -147,7 +147,7 @@ function PaymentForm({
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-3 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors"
+          className="min-w-[96px] px-6 py-3 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors"
         >
           Back
         </button>

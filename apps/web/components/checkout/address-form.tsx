@@ -44,7 +44,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <h2 className="text-lg font-semibold">Shipping Address</h2>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="first_name" className="block text-sm font-medium mb-1">
             First Name
@@ -56,7 +56,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             value={formData.first_name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
         <div>
@@ -70,7 +70,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             value={formData.last_name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
       </div>
@@ -87,7 +87,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           onChange={handleChange}
           required
           placeholder="Street address"
-          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+          className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
         />
       </div>
 
@@ -102,11 +102,11 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           value={formData.city}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+          className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="province" className="block text-sm font-medium mb-1">
             State / Province
@@ -118,7 +118,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             value={formData.province}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
         <div>
@@ -129,10 +129,11 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
             type="text"
             id="postal_code"
             name="postal_code"
+            inputMode="numeric"
             value={formData.postal_code}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
           />
         </div>
       </div>
@@ -147,7 +148,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           value={formData.country_code}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus bg-surface-elevated"
+          className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus bg-surface-elevated"
         >
           <option value="us">United States</option>
           <option value="ca">Canada</option>
@@ -169,7 +170,7 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
           name="phone"
           value={formData.phone}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+          className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
         />
       </div>
 

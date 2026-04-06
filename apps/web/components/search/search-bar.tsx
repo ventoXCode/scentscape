@@ -41,13 +41,17 @@ export function SearchBar() {
   }, [query]);
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    function handleClickOutside(e: MouseEvent | TouchEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -96,7 +100,7 @@ export function SearchBar() {
           aria-controls={listboxId}
           aria-autocomplete="list"
           aria-activedescendant={activeIndex >= 0 ? `search-option-${activeIndex}` : undefined}
-          className="w-64 px-4 py-2 border border-border-default rounded-lg text-sm"
+          className="w-full sm:w-64 px-4 py-2.5 border border-border-default rounded-lg text-sm"
         />
       </form>
 
@@ -116,7 +120,7 @@ export function SearchBar() {
                   role="option"
                   aria-selected={index === activeIndex}
                   href={`/products/${product.handle}`}
-                  className={`flex items-center gap-3 p-3 first:rounded-t-lg ${
+                  className={`flex items-center gap-3 p-3 sm:p-3 min-h-[52px] first:rounded-t-lg ${
                     index === activeIndex ? "bg-surface-subtle" : "hover:bg-surface-subtle"
                   }`}
                   onClick={() => setIsOpen(false)}
@@ -141,7 +145,7 @@ export function SearchBar() {
               <div className="border-t border-border-default">
                 <Link
                   href={`/search?q=${encodeURIComponent(query)}`}
-                  className="block px-3 py-2 text-xs text-text-muted hover:bg-surface-subtle rounded-b-lg text-center"
+                  className="block px-3 py-3 text-sm text-text-muted hover:bg-surface-subtle rounded-b-lg text-center"
                   onClick={() => setIsOpen(false)}
                 >
                   See all results for &ldquo;{query}&rdquo;
@@ -153,7 +157,7 @@ export function SearchBar() {
               <p className="text-sm text-text-muted">No results found for &ldquo;{query}&rdquo;</p>
               <Link
                 href={`/search?q=${encodeURIComponent(query)}`}
-                className="text-xs text-text-muted underline mt-1 inline-block"
+                className="text-sm text-text-muted underline mt-2 inline-block py-1"
                 onClick={() => setIsOpen(false)}
               >
                 Try full search
