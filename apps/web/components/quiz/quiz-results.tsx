@@ -13,6 +13,7 @@ import { Button, Badge } from "@/components/ui";
 import { AffiliateLinks } from "@/components/product/affiliate-links";
 import { SampleBoxCta } from "@/components/samples/sample-box-cta";
 import { SampleBoxButton } from "@/components/samples/sample-box-button";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 
 interface QuizResultsProps {
   session: QuizSession;
@@ -442,6 +443,14 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
               Fragrance 101
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter signup */}
+        <div className="mt-10">
+          <NewsletterSignup
+            heading="Get Your Scent Briefing"
+            description={`As a ${archetype.name}, you'll love our monthly picks tailored to your personality.`}
+          />
         </div>
 
         {/* Desktop-only inline actions */}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 
 export function Footer() {
   return (
@@ -124,23 +125,16 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-medium mb-3 text-text-primary">Legal</h3>
-            <ul className="space-y-2 text-sm text-text-secondary">
-              <li>
-                <span className="text-text-muted">Privacy Policy</span>
-              </li>
-              <li>
-                <span className="text-text-muted">Terms of Service</span>
-              </li>
-              <li>
-                <span className="text-text-muted">Cookie Policy</span>
-              </li>
-            </ul>
+            <NewsletterSignup variant="inline" heading="Scent Briefing" />
           </div>
         </div>
 
-        <div className="border-t border-border-default mt-8 pt-8 text-center text-sm text-text-muted">
+        <div className="border-t border-border-default mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-text-muted">
           <p>&copy; {new Date().getFullYear()} ScentScape. All rights reserved.</p>
+          <div className="flex gap-4">
+            <span>Privacy Policy</span>
+            <span>Terms of Service</span>
+          </div>
         </div>
       </div>
     </footer>

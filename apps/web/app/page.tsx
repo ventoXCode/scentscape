@@ -10,6 +10,7 @@ import { FragranceOfTheDay } from "@/components/home/fragrance-of-the-day";
 import { SeasonalPicks } from "@/components/home/seasonal-picks";
 import { CollectionHighlights } from "@/components/home/collection-highlights";
 import { RecentlyViewed } from "@/components/home/recently-viewed";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { MOODS } from "@/lib/discovery/moods";
 
 export const metadata: Metadata = {
@@ -430,6 +431,15 @@ export default async function HomePage() {
               </ScrollReveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Newsletter Signup */}
+      <section className="py-section-sm md:py-section bg-surface-primary">
+        <div className="container mx-auto px-4">
+          <ScrollReveal>
+            <NewsletterSignup />
+          </ScrollReveal>
         </div>
       </section>
 

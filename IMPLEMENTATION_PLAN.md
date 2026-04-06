@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 4.5: Recently viewed products)
+> Last updated: 2026-04-06 (Phase 6.3: Newsletter email capture)
 
 ---
 
@@ -371,6 +371,7 @@
 - [x] User account scent profile persistence — covered by Phase 1.6 (quiz sessions linked to customer, `/account/scent-profile` page)
 - [x] Cart-customer association on login (guest cart → customer cart merge)
   - [x] `transferGuestCart()` in `auth-actions.ts` calls `medusa.store.cart.transferCart` after login/register with the customer's auth token
+- [x] Newsletter / monthly scent briefing email capture — `NewsletterSignup` client component (`components/newsletter/newsletter-signup.tsx`) with `card` and `inline` variants, email validation, loading/success/error states. API route (`/api/newsletter/subscribe`) validates email, deduplicates, persists to `.data/newsletter-subscribers.json`. Integrated on homepage (between "How It Works" and final CTA), quiz results page (personalized CTA per archetype), and footer (inline variant replacing Legal column). `.data/` added to `.gitignore`.
 - [ ] Foundation for gating infrastructure: identify which features could be premium
 - [ ] Premium feature candidates: AI advisor, saved profiles, community features, monthly scent briefing
 
