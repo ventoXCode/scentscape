@@ -66,6 +66,7 @@ export interface QuizSession {
   intensity: string | null;
   occasions: string[];
   experience: string | null;
+  budget: string | null;
 }
 
 // ── Quiz Result ────────────────────────────────────────────────────
@@ -106,5 +107,6 @@ export function createEmptySession(): QuizSession {
     intensity: null,
     occasions: [],
     experience: null,
+    budget: null,
   };
 }

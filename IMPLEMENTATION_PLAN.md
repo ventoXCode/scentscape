@@ -52,7 +52,7 @@
 
 **Why first:** The quiz is the hero product — the primary conversion funnel and brand differentiator. Every spec references it. The current implementation is a basic product filter, not a personality assessment. This is the single highest-impact rewrite.
 
-**Current state (post-implementation):** 10-question branching personality quiz with 4-axis personality model (warmth↔freshness, boldness↔subtlety, classic↔avant-garde, intimate↔projecting). 10 named archetypes (Velvet Dusk, Morning Mist, Gilded Ember, etc.) matched via Euclidean distance. Questions span lifestyle/personality (environment, texture, time, music, impression, season) and fragrance-specific (experience, priorities/families branching, intensity, occasion). Non-deterministic recommendation engine with weighted random sampling from top 30 candidates, brand diversity enforcement (max 2/brand), multi-dimensional proportional scoring (family 30pts, accords 25pts, intensity 20pts, occasion 15pts, season 10pts). Natural language explanations per recommendation. URL-based step routing with localStorage persistence. Auto-advance on single-select, max selection limits on multi-select. Personality archetype card with gradient visual identity and dimension bars leads results. Frontend-only via Meilisearch.
+**Current state (post-implementation):** 11-question branching personality quiz with 4-axis personality model (warmth↔freshness, boldness↔subtlety, classic↔avant-garde, intimate↔projecting). 10 named archetypes (Velvet Dusk, Morning Mist, Gilded Ember, etc.) matched via Euclidean distance. Questions span lifestyle/personality (environment, texture, time, music, impression, season) and fragrance-specific (experience, priorities/families branching, intensity, occasion, budget). Non-deterministic recommendation engine with weighted random sampling from top 30 candidates, brand diversity enforcement (max 2/brand), multi-dimensional proportional scoring (family 30pts, accords 25pts, intensity 20pts, occasion 15pts, season 10pts, budget 10pts). Natural language explanations per recommendation. URL-based step routing with localStorage persistence. Auto-advance on single-select, max selection limits on multi-select. Personality archetype card with gradient visual identity and dimension bars leads results. Frontend-only via Meilisearch.
 
 ### 1.1 — Personality model and archetypes ✅
 - [x] Design multi-dimensional personality axes: warmth↔freshness, boldness↔subtlety, classic↔avant-garde, intimate↔projecting (4D space, each -1 to +1)
@@ -81,7 +81,7 @@
 - [x] Add seasonal relevance scoring via season question → product season match
 - [x] Generate per-recommendation natural language explanations ("As a Velvet Dusk, you're naturally drawn to...")
 - [x] Derive scent personality archetype via Euclidean distance in 4D personality space
-- [ ] Add price range awareness to scoring/filtering (deferred: no price preference question yet)
+- [x] Add price range awareness to scoring/filtering — budget question added as quiz step 11 (single-select: Under $100, $100–$175, $175+, No preference). Budget stored on `QuizSession.budget`, special-cased in `quiz-engine.ts`. Recommendation engine adds 0-10 pts budget scoring component with partial credit for near-range products. "No preference" gets neutral 5pt baseline. Total theoretical max now ~110pts (clamped to 100 in display).
 - [ ] Consider embedding-based similarity rather than rule-based matching (deferred: requires ML infrastructure)
 
 ### 1.4 — Immersive quiz UX (replace current minimal UI) ✅
@@ -96,7 +96,7 @@
 - [x] "Analyzing your scent profile..." anticipation-building loading state with animated concentric rings and progressive messages
 - [x] Visible "Step X of Y" indicator centered above question
 - [x] Per-question unique color/imagery/layout — each quiz question has a `QuizQuestionTheme` with distinct background gradient, selection accent border, and checkmark color using fragrance family design tokens (woody, amber, citrus, aromatic, floral, fresh). Themes defined in `questions.ts`, applied in `quiz-step.tsx`.
-- [ ] Swipe gesture navigation (deferred: requires touch event handling library)
+- [x] Swipe gesture navigation — implemented via `useSwipe` hook in `quiz-step.tsx` (Phase 5.2). Swipe-left advances on multi-select steps, swipe-right goes back.
 
 ### 1.5 — Results experience redesign (replace `quiz-results.tsx`) ✅
 - [x] Lead with scent personality archetype: gradient card with name, tagline, full description, 4-axis personality dimension visualization

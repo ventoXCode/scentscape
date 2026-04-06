@@ -76,6 +76,7 @@ export function applySingleAnswer(
   // Track special fields
   if (questionId === "intensity") next.intensity = optionId;
   if (questionId === "experience") next.experience = optionId;
+  if (questionId === "budget") next.budget = optionId;
 
   return next;
 }

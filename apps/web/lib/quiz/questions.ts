@@ -57,6 +57,11 @@ const THEMES: Record<string, QuizQuestionTheme> = {
     accent: "border-family-floral",
     accentBg: "bg-family-floral",
   },
+  budget: {
+    bg: "from-family-citrus-subtle/30 to-transparent",
+    accent: "border-family-citrus",
+    accentBg: "bg-family-citrus",
+  },
 };
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
@@ -567,6 +572,46 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         description: "Fresh, light, and energizing",
         emoji: "🏃",
         dimensionShifts: { warmthFreshness: -0.2, boldnessSubtlety: -0.1 },
+      },
+    ],
+  },
+
+  // ── 11. Budget ──────────────────────────────────────────────────
+  {
+    id: "budget",
+    title: "What's your budget range?",
+    subtitle: "This helps us recommend fragrances you can actually buy",
+    hint: "Fragrance quality isn't purely about price — some of the best-loved scents are surprisingly affordable. We'll factor your budget in without sacrificing match quality.",
+    type: "single",
+    theme: THEMES.budget,
+    options: [
+      {
+        id: "under-100",
+        label: "Under $100",
+        description: "Great scents without breaking the bank",
+        emoji: "💰",
+        dimensionShifts: {},
+      },
+      {
+        id: "100-175",
+        label: "$100 – $175",
+        description: "The sweet spot for quality fragrance",
+        emoji: "💎",
+        dimensionShifts: {},
+      },
+      {
+        id: "175-plus",
+        label: "$175+",
+        description: "Investing in something special",
+        emoji: "✨",
+        dimensionShifts: {},
+      },
+      {
+        id: "flexible",
+        label: "No preference",
+        description: "Show me the best match regardless of price",
+        emoji: "🎯",
+        dimensionShifts: {},
       },
     ],
   },

@@ -17,6 +17,14 @@ const INTENSITY_RANGES: Record<string, { min: number; max: number }> = {
 
 // ── Occasion label mapping (quiz option id → Meilisearch value) ──
 
+// ── Budget ranges (price in cents) ──────────────────────────────
+
+const BUDGET_RANGES: Record<string, { min: number; max: number }> = {
+  "under-100": { min: 0, max: 10000 },
+  "100-175": { min: 10000, max: 17500 },
+  "175-plus": { min: 17500, max: Infinity },
+};
+
 const OCCASION_MAP: Record<string, string> = {
   everyday: "Casual",
   work: "Office",
@@ -146,6 +154,24 @@ function scoreProduct(
     }
   } else {
     score += 5;
+  }
+
+  // 6. Budget match (0-10 pts) — rewards products in the user's price range
+  if (session.budget && session.budget !== "flexible") {
+    const range = BUDGET_RANGES[session.budget];
+    if (range && product.price != null) {
+      if (product.price >= range.min && product.price <= range.max) {
+        score += 10;
+      } else {
+        // Partial credit for being within $50 (5000 cents) of range
+        const distance = product.price < range.min
+          ? range.min - product.price
+          : product.price - range.max;
+        score += Math.max(0, 10 - (distance / 5000) * 10);
+      }
+    }
+  } else {
+    score += 5; // no preference → neutral baseline
   }
 
   return score;
