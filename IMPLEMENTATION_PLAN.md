@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 2.4: Migrate components to shared UI library)
+> Last updated: 2026-04-06 (Phase 4.5: Recently viewed products)
 
 ---
 
@@ -280,6 +280,7 @@
 - [x] Beginner-friendly entry points: "New to Fragrance" mood page (`/moods/new-to-fragrance`) sorts by gentlest sillage first with beginner-oriented editorial copy. Homepage "Explore by Mood" section showcases first 4 moods with "See all moods" link. Moods index page has dedicated beginner callout with "Start Here" CTA.
 - [x] Smart filter defaults: "Shop Your Profile" CTA on quiz results page links to `/search?family=X` for each high-affinity family. `QuizProfileBanner` client component on `/products` page reads quiz session from localStorage, suggests top-affinity family with one-click "Show me" filter link. Dismissible, auto-hides when family filter already active.
 - [x] Extended sort options: "Best for Beginners" (`sillage:asc`) added to SortSelect on both `/products` and `/search` pages
+- [x] Recently viewed products: `RecentlyViewedProvider` context (`lib/recently-viewed/context.tsx`) with localStorage persistence (`scentscape-recently-viewed`, max 20 items, FIFO with dedup). `RecentlyViewedTracker` client component on product detail pages records views on mount. `RecentlyViewed` client component on homepage shows up to 4 most-recently-viewed products in a grid (conditionally renders only when history exists). Follows established wishlist pattern: two-effect hydration guard, `useCallback` mutator, provider in `providers.tsx`.
 
 ### 4.6 — Collection page upgrade ✅ (partial)
 - [x] Editorial feel: collection detail pages have full-width hero section with family-colored background, emoji icon, tagline, editorial narrative paragraph, product count. Collection data model enriched with `tagline`, `editorial`, `icon`, `familyColor` fields.

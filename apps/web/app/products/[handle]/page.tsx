@@ -17,6 +17,7 @@ import { RelatedEducation } from "@/components/product/related-education";
 import { WishlistButton } from "@/components/product/wishlist-button";
 import { AffiliateLinks } from "@/components/product/affiliate-links";
 import { SampleBoxButton } from "@/components/samples/sample-box-button";
+import { RecentlyViewedTracker } from "@/components/product/recently-viewed-tracker";
 import { SITE_URL } from "@/lib/constants";
 
 interface ProductPageProps {
@@ -141,6 +142,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
               { "@type": "ListItem", position: 3, name: product.title },
             ],
           }),
+        }}
+      />
+
+      <RecentlyViewedTracker
+        product={{
+          id: product.id,
+          handle: product.handle ?? "",
+          title: product.title,
+          thumbnail: product.thumbnail ?? null,
+          brand: (product.metadata?.brand as string) ?? null,
+          family: fragranceData?.family ?? null,
+          concentration: fragranceData?.concentration ?? null,
         }}
       />
 

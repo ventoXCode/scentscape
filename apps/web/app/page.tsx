@@ -9,6 +9,7 @@ import { ScrollReveal } from "@/components/home/scroll-reveal";
 import { FragranceOfTheDay } from "@/components/home/fragrance-of-the-day";
 import { SeasonalPicks } from "@/components/home/seasonal-picks";
 import { CollectionHighlights } from "@/components/home/collection-highlights";
+import { RecentlyViewed } from "@/components/home/recently-viewed";
 import { MOODS } from "@/lib/discovery/moods";
 
 export const metadata: Metadata = {
@@ -201,6 +202,9 @@ export default async function HomePage() {
       <Suspense>
         <SeasonalPicks />
       </Suspense>
+
+      {/* Recently Viewed */}
+      <RecentlyViewed />
 
       {/* Explore by Mood */}
       <section className="py-section bg-surface-subtle/50">

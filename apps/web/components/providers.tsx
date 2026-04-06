@@ -9,6 +9,7 @@ import {
 import { useState, createContext, useContext, useRef, useCallback } from "react";
 import { getOrCreateCart } from "@/lib/medusa/actions";
 import { WishlistProvider } from "@/lib/wishlist/context";
+import { RecentlyViewedProvider } from "@/lib/recently-viewed/context";
 import { SampleBoxProvider } from "@/lib/samples/context";
 import { ToastProvider } from "@/components/ui/toast";
 import { ThemeProvider } from "@/lib/theme/context";
@@ -85,9 +86,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <ThemeProvider>
         <CartProvider>
           <WishlistProvider>
-            <SampleBoxProvider>
-              <ToastProvider>{children}</ToastProvider>
-            </SampleBoxProvider>
+            <RecentlyViewedProvider>
+              <SampleBoxProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </SampleBoxProvider>
+            </RecentlyViewedProvider>
           </WishlistProvider>
         </CartProvider>
       </ThemeProvider>
