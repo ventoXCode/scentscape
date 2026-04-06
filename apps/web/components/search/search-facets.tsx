@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { CONCENTRATION_DESCRIPTIONS, FAMILY_DESCRIPTIONS } from "@/lib/fragrance/glossary";
 
 interface FacetDistribution {
   [facetName: string]: {
@@ -96,10 +97,15 @@ export function SearchFacets({
                 .sort((a, b) => b[1] - a[1])
                 .map(([value, count]) => {
                   const isSelected = currentValue === value;
+                  const tooltip = facetKey === "concentration"
+                    ? CONCENTRATION_DESCRIPTIONS[value]
+                    : facetKey === "family"
+                      ? FAMILY_DESCRIPTIONS[value]
+                      : undefined;
                   return (
                     <label
                       key={value}
-                      className="flex items-center gap-2 cursor-pointer group"
+                      className="flex items-center gap-2 cursor-pointer group/filter"
                     >
                       <input
                         type="radio"
@@ -108,9 +114,17 @@ export function SearchFacets({
                         onChange={() => toggleFilter(facetKey, value)}
                         className="w-4 h-4 border-border-default accent-accent-primary cursor-pointer"
                       />
-                      <span className="text-sm text-text-secondary group-hover:text-text-primary flex-1">
+                      <span className="text-sm text-text-secondary group-hover/filter:text-text-primary flex-1">
                         {value}
                       </span>
+                      {tooltip && (
+                        <span className="relative group/tip">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full border border-border-default text-[10px] text-text-muted cursor-help" aria-label={tooltip}>?</span>
+                          <span className="absolute bottom-full right-0 mb-1.5 opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200 bg-text-primary text-text-inverse text-xs rounded-lg px-3 py-2 w-52 text-left z-10 shadow-elevated" role="tooltip">
+                            {tooltip}
+                          </span>
+                        </span>
+                      )}
                       <span className="text-xs text-text-muted">{count}</span>
                     </label>
                   );

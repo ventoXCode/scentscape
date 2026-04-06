@@ -6,6 +6,12 @@ interface ScentPyramidProps {
   base: string[];
 }
 
+const TIER_EXPLANATIONS: Record<string, string> = {
+  top: "The first scent you smell when you spray — bright and attention-grabbing, but they evaporate quickly as the lighter molecules dissipate.",
+  heart: "The core character of the fragrance that emerges as top notes fade. These define what the perfume 'is about' and last for several hours.",
+  base: "The deepest, longest-lasting notes that anchor the fragrance. They develop slowly and can linger on skin and clothing for a full day.",
+};
+
 const TIERS = [
   {
     key: "top" as const,
@@ -72,8 +78,12 @@ export function ScentPyramid({ top, heart, base }: ScentPyramidProps) {
 
   return (
     <div className="flex flex-col items-center gap-1.5">
+      <p className="text-xs text-text-muted text-center mb-2 max-w-sm leading-relaxed">
+        A fragrance unfolds in three layers over time. Hover over any note to learn what it smells like.
+      </p>
       {TIERS.map((tier) => {
         const tierNotes = notes[tier.key];
+        const explanation = TIER_EXPLANATIONS[tier.key];
         return (
           <div key={tier.key} className={`${tier.widthClass} mx-auto`}>
             <div className={`${tier.bgClass} rounded-xl px-5 py-4`}>
@@ -82,11 +92,19 @@ export function ScentPyramid({ top, heart, base }: ScentPyramidProps) {
                   className={`w-1.5 h-1.5 rounded-full ${tier.dotClass} flex-shrink-0`}
                   aria-hidden="true"
                 />
-                <p
-                  className={`text-xs uppercase tracking-wider font-semibold ${tier.labelClass}`}
-                >
-                  {tier.label}
-                </p>
+                <span className="relative group/tier">
+                  <p
+                    className={`text-xs uppercase tracking-wider font-semibold ${tier.labelClass} cursor-help border-b border-dashed border-current`}
+                  >
+                    {tier.label}
+                  </p>
+                  {explanation && (
+                    <span className="absolute bottom-full left-0 mb-2 opacity-0 group-hover/tier:opacity-100 pointer-events-none transition-opacity duration-200 bg-text-primary text-text-inverse text-xs rounded-lg px-3 py-2 w-56 text-left z-10 shadow-elevated" role="tooltip">
+                      {explanation}
+                      <span className="absolute top-full left-4 border-4 border-transparent border-t-text-primary" aria-hidden="true" />
+                    </span>
+                  )}
+                </span>
               </div>
               <p className="text-[11px] text-text-muted mb-3 ml-3.5">
                 {tier.subtitle}

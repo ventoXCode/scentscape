@@ -256,6 +256,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: "season",
     title: "What season speaks to your soul?",
     subtitle: "The one you'd live in year-round if you could",
+    hint: "Many fragrances are designed with a season in mind. Lighter scents shine in heat, while richer ones bloom in cool air.",
     type: "single",
     options: [
       {
@@ -302,6 +303,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: "experience",
     title: "How familiar are you with fragrance?",
     subtitle: "No wrong answer — this helps us calibrate your results",
+    hint: "We'll tailor the next questions and your results to your experience level. Beginners get simpler guidance; enthusiasts get more technical detail.",
     type: "single",
     options: [
       {
@@ -373,6 +375,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: "families",
     title: "Which scent families do you gravitate toward?",
     subtitle: "Pick up to 3 families you love",
+    hint: "Fragrance families are like genres in music — broad categories that share a common character. Most fragrances blend elements from multiple families.",
     type: "multi",
     maxSelections: 3,
     condition: (session: QuizSession) => session.experience === "enthusiast",
@@ -425,6 +428,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: "intensity",
     title: "How strong should your fragrance be?",
     subtitle: "Think about how you want it to project",
+    hint: "Projection is how far your scent radiates from your skin. A 'barely there' fragrance is only noticeable in close conversation, while a 'commanding' one fills an entire room.",
     type: "single",
     options: [
       {

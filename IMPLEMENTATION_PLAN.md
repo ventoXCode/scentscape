@@ -368,12 +368,15 @@
 
 **Current state:** Zero educational content anywhere. Product pages list notes/accords with no explanation. No glossary, guides, tooltips, or contextual help. No blog or editorial section. No content pages exist beyond the core commerce pages. Empty/no-results states are dead-ends with plain text.
 
-### 7.1 — Contextual education (in-product)
-- [ ] Tooltips on fragrance terms everywhere they appear (sillage, projection, EDC vs EDP, etc.)
-- [ ] "What is [note]?" expandable cards on product pages (brief sensory descriptions)
-- [ ] Quiz steps: brief educational context per question ("Fragrance families are like genres in music...")
-- [ ] Scent pyramid annotations: "Top notes are what you smell first — they fade in 15-30 minutes"
-- [ ] Performance ratings: practical explanations of what each metric means in real life
+### 7.1 — Contextual education (in-product) ✅ (partial)
+- [x] Concentration tooltips on product filters (`product-filters.tsx`) and search facets (`search-facets.tsx`): hover `?` icon reveals description (EDC through Extrait) with duration and character
+- [x] Scent family tooltips on product filters and search facets: hover `?` icon reveals what each family (Fresh, Floral, Amber, Woody, Citrus, Aromatic) smells like
+- [x] Fragrance glossary utility (`lib/fragrance/glossary.ts`): centralized definitions for concentration types, scent families, and performance metrics
+- [x] Quiz steps: educational hints on experience, families, intensity, and season questions — rendered as subtle `bg-surface-subtle` cards below the subtitle. `hint` field added to `QuizQuestion` type.
+- [x] Scent pyramid: educational intro paragraph ("A fragrance unfolds in three layers..."), hoverable tier labels (Top/Heart/Base Notes) with detailed explanations of why each tier behaves differently
+- [x] Note hover tooltips on scent pyramid (pre-existing: 117 note descriptions via `note-descriptions.ts`)
+- [x] Performance rating tooltips with verbal scale labels (pre-existing: `performance-ratings.tsx`)
+- [ ] "What is [note]?" expandable cards on product pages (deferred: requires accordion component)
 
 ### 7.2 — Standalone educational content
 - [ ] "Fragrance 101" comprehensive introductory guide

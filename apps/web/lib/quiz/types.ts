@@ -38,6 +38,7 @@ export interface QuizQuestion {
   id: string;
   title: string;
   subtitle: string;
+  hint?: string; // Brief educational context shown below the subtitle
   type: "single" | "multi";
   maxSelections?: number;
   options: QuizOption[];

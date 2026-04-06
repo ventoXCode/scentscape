@@ -94,6 +94,11 @@ export function QuizStep({
             Select up to {question.maxSelections}
           </p>
         )}
+        {question.hint && (
+          <p className="text-xs text-text-muted mt-3 max-w-md mx-auto leading-relaxed bg-surface-subtle rounded-lg px-4 py-2.5">
+            {question.hint}
+          </p>
+        )}
       </div>
 
       {/* Options */}
