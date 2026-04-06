@@ -6,6 +6,7 @@ import { getOrCreateCart } from "@/lib/medusa/actions";
 import { WishlistProvider } from "@/lib/wishlist/context";
 import { SampleBoxProvider } from "@/lib/samples/context";
 import { ToastProvider } from "@/components/ui/toast";
+import { ThemeProvider } from "@/lib/theme/context";
 
 type Cart = Awaited<ReturnType<typeof getOrCreateCart>>;
 
@@ -50,13 +51,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClientRef.current}>
-      <CartContext.Provider value={{ cart, refreshCart, cartOpen, setCartOpen }}>
-        <WishlistProvider>
-          <SampleBoxProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </SampleBoxProvider>
-        </WishlistProvider>
-      </CartContext.Provider>
+      <ThemeProvider>
+        <CartContext.Provider value={{ cart, refreshCart, cartOpen, setCartOpen }}>
+          <WishlistProvider>
+            <SampleBoxProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </SampleBoxProvider>
+          </WishlistProvider>
+        </CartContext.Provider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

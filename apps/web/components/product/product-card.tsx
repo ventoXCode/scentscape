@@ -120,13 +120,13 @@ export function ProductCard({ product, priority }: ProductCardProps) {
         {(family || concentration) && (
           <div className="absolute top-2 left-2 flex items-center gap-1.5">
             {family && familyColor && (
-              <span className="flex items-center gap-1 px-2 py-0.5 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-text-primary shadow-sm">
+              <span className="flex items-center gap-1 px-2 py-0.5 bg-surface-elevated/90 backdrop-blur-sm rounded-full text-xs font-medium text-text-primary shadow-sm">
                 <span className={`w-2 h-2 rounded-full ${familyColor}`} aria-hidden="true" />
                 {family}
               </span>
             )}
             {concentration && (
-              <span className="px-2 py-0.5 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-text-secondary shadow-sm">
+              <span className="px-2 py-0.5 bg-surface-elevated/90 backdrop-blur-sm rounded-full text-xs font-medium text-text-secondary shadow-sm">
                 {concentration}
               </span>
             )}

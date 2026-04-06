@@ -65,7 +65,7 @@ export function WishlistButton({ product, variant = "card" }: WishlistButtonProp
       className={`absolute bottom-2 right-2 z-10 w-8 h-8 flex items-center justify-center rounded-full backdrop-blur-sm shadow-sm transition-all ${
         wishlisted
           ? "bg-accent-secondary/90 text-white"
-          : "bg-white/80 text-text-muted hover:text-accent-secondary hover:bg-white/95"
+          : "bg-surface-elevated/80 text-text-muted hover:text-accent-secondary hover:bg-surface-elevated/95"
       }`}
     >
       <svg

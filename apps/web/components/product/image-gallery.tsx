@@ -240,7 +240,7 @@ export function ImageGallery({ thumbnail, images, title }: ImageGalleryProps) {
             {selectedIndex > 0 && (
               <button
                 onClick={() => goTo(selectedIndex - 1, "right")}
-                className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-sm text-text-primary transition-colors"
+                className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-surface-elevated/80 hover:bg-surface-elevated shadow-sm text-text-primary transition-colors"
                 aria-label="Previous image"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -251,7 +251,7 @@ export function ImageGallery({ thumbnail, images, title }: ImageGalleryProps) {
             {selectedIndex < allImages.length - 1 && (
               <button
                 onClick={() => goTo(selectedIndex + 1, "left")}
-                className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-sm text-text-primary transition-colors"
+                className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-surface-elevated/80 hover:bg-surface-elevated shadow-sm text-text-primary transition-colors"
                 aria-label="Next image"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">

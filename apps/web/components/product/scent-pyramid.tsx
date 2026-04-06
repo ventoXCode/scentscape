@@ -23,7 +23,7 @@ const TIERS = [
     widthClass: "w-[72%]",
     bgClass: "bg-family-citrus-subtle",
     chipBgClass:
-      "bg-white/70 text-family-citrus border border-family-citrus/20",
+      "bg-surface-elevated/80 text-family-citrus border border-family-citrus/20",
     labelClass: "text-family-citrus",
     dotClass: "bg-family-citrus",
   },
@@ -34,7 +34,7 @@ const TIERS = [
     widthClass: "w-[86%]",
     bgClass: "bg-family-floral-subtle",
     chipBgClass:
-      "bg-white/70 text-family-floral border border-family-floral/20",
+      "bg-surface-elevated/80 text-family-floral border border-family-floral/20",
     labelClass: "text-family-floral",
     dotClass: "bg-family-floral",
   },
@@ -44,7 +44,7 @@ const TIERS = [
     subtitle: "The foundation \u00b7 lingers for hours",
     widthClass: "w-full",
     bgClass: "bg-family-woody-subtle",
-    chipBgClass: "bg-white/70 text-family-woody border border-family-woody/20",
+    chipBgClass: "bg-surface-elevated/80 text-family-woody border border-family-woody/20",
     labelClass: "text-family-woody",
     dotClass: "bg-family-woody",
   },

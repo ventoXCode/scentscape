@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Auth hardening: register recovery, password change/reset, metadata gaps)
+> Last updated: 2026-04-06 (Dark mode: full theme implementation with toggle, system preference, FOUC prevention)
 
 ---
 
@@ -146,7 +146,7 @@
 - [x] Replace all hardcoded Tailwind color classes across 25+ component files
 - [x] Consolidate `COLLECTION_COLORS` into fragrance family tokens
 - [x] Consolidate `ACCORD_COLORS` into token system — replaced with `ACCORD_FAMILY_MAP` in `accords-display.tsx` mapping 24 accord names to 6 fragrance family design tokens. `FAMILY_CLASSES` provides Tailwind utility lookups (`bg`, `text`, `dot`, `border`) referencing `family-*` CSS custom properties. Original `ACCORD_COLORS` hex map deleted.
-- [ ] Foundation for dark mode / seasonal theming (deferred: CSS variable swap approach ready, but no alternate theme defined yet)
+- [x] Foundation for dark mode / seasonal theming — full dark theme implemented via `.dark` class on `<html>`. `ThemeProvider` context (`lib/theme/context.tsx`) with localStorage persistence (`scentscape-theme`), system preference detection (`prefers-color-scheme`), and three modes (light/dark/system). Flash-prevention inline `<script>` in layout `<head>` prevents FOUC. Theme toggle (sun/moon icon) in header desktop nav and mobile controls. Dark palette: warm brown surfaces (#181412/#211D19/#2B2520), warm light text (#F0EBE4/#B5ACA2), amber gold focus/accent (#B8860B/#A37D1A), brighter fragrance family colors, deeper shadows with pure black base. All `bg-white/*` overlay patterns migrated to `bg-surface-elevated/*` for dark mode compatibility (scent pyramid chips, image gallery arrows, product card badges, wishlist button). Seasonal theming foundation ready via CSS variable swap pattern.
 
 ### 2.3 — Spacing, shadow, and radius tokens ✅
 - [x] Define spacing scale: `--spacing-section` (5rem) and `--spacing-section-sm` (3rem) supplement Tailwind defaults

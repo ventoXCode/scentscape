@@ -78,6 +78,54 @@
   --animate-slide-in-toast: slide-in-toast 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
+/* ─── Dark Mode ─── */
+.dark {
+  --color-surface-primary: #181412;
+  --color-surface-elevated: #211D19;
+  --color-surface-subtle: #2B2520;
+  --color-surface-overlay: rgba(0, 0, 0, 0.65);
+
+  --color-text-primary: #F0EBE4;
+  --color-text-secondary: #B5ACA2;
+  --color-text-muted: #7D746A;
+  --color-text-inverse: #181412;
+
+  --color-border-default: #3B342D;
+  --color-border-subtle: #2B2520;
+  --color-border-strong: #564D44;
+  --color-border-focus: #B8860B;
+
+  --color-accent-primary: #A37D1A;
+  --color-accent-primary-hover: #BF9520;
+  --color-accent-secondary: #C45B84;
+  --color-accent-secondary-hover: #D47298;
+
+  --color-family-fresh: #38B2B2;
+  --color-family-fresh-subtle: #162A2A;
+  --color-family-floral: #D47298;
+  --color-family-floral-subtle: #2A1620;
+  --color-family-amber: #D4A017;
+  --color-family-amber-subtle: #2A2210;
+  --color-family-woody: #917F71;
+  --color-family-woody-subtle: #262019;
+  --color-family-citrus: #E8B82B;
+  --color-family-citrus-subtle: #2A2410;
+  --color-family-aromatic: #67B07D;
+  --color-family-aromatic-subtle: #16261C;
+
+  --color-success: #40B860;
+  --color-success-subtle: #162A1C;
+  --color-error: #E85050;
+  --color-error-subtle: #2A1616;
+  --color-warning: #E8A825;
+  --color-warning-subtle: #2A2210;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.35);
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
