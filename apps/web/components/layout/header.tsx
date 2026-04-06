@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useCart } from "@/components/providers";
 import { useWishlist } from "@/lib/wishlist/context";
-import { CartDrawer } from "@/components/cart/cart-drawer";
 import { SearchBar } from "@/components/search/search-bar";
 import { useState, useTransition, useEffect } from "react";
 import { logout } from "@/lib/medusa/auth-actions";
 import { useRouter, usePathname } from "next/navigation";
+
+const CartDrawer = dynamic(
+  () => import("@/components/cart/cart-drawer").then((mod) => mod.CartDrawer),
+  { ssr: false }
+);
 
 interface HeaderProps {
   customer?: { first_name?: string | null; email?: string | null } | null;

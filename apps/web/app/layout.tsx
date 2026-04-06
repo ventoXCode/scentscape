@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { WebVitalsReporter } from "@/components/web-vitals-reporter";
 import { getCustomer } from "@/lib/medusa/auth-actions";
 import { SITE_URL } from "@/lib/constants";
 
@@ -27,6 +28,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "ScentScape - Discover Your Signature Fragrance",
   description: "Multi-brand fragrance discovery platform",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "ScentScape",
+  },
 };
 
 export default async function RootLayout({
@@ -59,6 +66,7 @@ export default async function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-body`}>
         <Providers>
+          <WebVitalsReporter />
           <Header customer={customer} />
           <main className="pb-16 md:pb-0">{children}</main>
           <Footer />

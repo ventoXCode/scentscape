@@ -2,8 +2,24 @@ export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import { getOrCreateCart } from "@/lib/medusa/actions";
-import { CheckoutForm } from "@/components/checkout/checkout-form";
+import dynamic_ from "next/dynamic";
 import { OrderSummary } from "@/components/checkout/order-summary";
+
+const CheckoutForm = dynamic_(
+  () =>
+    import("@/components/checkout/checkout-form").then(
+      (mod) => mod.CheckoutForm
+    ),
+  {
+    loading: () => (
+      <div className="space-y-6 animate-pulse">
+        <div className="h-10 bg-surface-subtle rounded-lg" />
+        <div className="h-48 bg-surface-subtle rounded-lg" />
+        <div className="h-12 bg-surface-subtle rounded-lg" />
+      </div>
+    ),
+  }
+);
 
 export default async function CheckoutPage() {
   const cart = await getOrCreateCart();

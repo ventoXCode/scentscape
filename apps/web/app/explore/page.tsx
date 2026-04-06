@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FragranceWheel } from "@/components/discovery/fragrance-wheel";
+import dynamic from "next/dynamic";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
+
+const FragranceWheel = dynamic(
+  () =>
+    import("@/components/discovery/fragrance-wheel").then(
+      (mod) => mod.FragranceWheel
+    ),
+  {
+    loading: () => (
+      <div className="aspect-square max-w-md mx-auto bg-surface-subtle rounded-full animate-pulse" />
+    ),
+  }
+);
 
 export const metadata: Metadata = {
   title: "Explore Fragrance Families | ScentScape",

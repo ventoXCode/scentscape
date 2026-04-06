@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import { createEmptySession } from "@/lib/quiz/types";
 import type { QuizSession } from "@/lib/quiz/types";
 import {
@@ -18,7 +19,18 @@ import {
   clearSession,
 } from "@/lib/quiz/quiz-engine";
 import { QuizStep } from "@/components/quiz/quiz-step";
-import { QuizResults } from "@/components/quiz/quiz-results";
+
+const QuizResults = dynamic(
+  () =>
+    import("@/components/quiz/quiz-results").then((mod) => mod.QuizResults),
+  {
+    loading: () => (
+      <div className="min-h-[60dvh] flex items-center justify-center">
+        <div className="animate-pulse w-8 h-8 rounded-full bg-surface-subtle" />
+      </div>
+    ),
+  }
+);
 
 /** Compact dot-style progress indicator for mobile, thin bar on desktop */
 function QuizProgress({

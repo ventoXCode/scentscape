@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 4.4/4.5: Filter tooltips + visual icons, interactive fragrance wheel)
+> Last updated: 2026-04-06 (Phase 5.5: Performance optimization — dynamic imports, web vitals, PWA manifest)
 
 ---
 
@@ -320,12 +320,15 @@
 - [x] Long-press quick preview on product cards — 500ms long-press triggers a centered modal overlay (`md:hidden`) with product title, brand, family/concentration badges, price, description (3-line clamp), longevity/sillage verbal labels, wishlist toggle, and "View Details" link. Haptic feedback on activation. Dismiss on tap outside. `role="dialog"` + `aria-modal` for accessibility.
 - [x] Pull-to-refresh on catalog/collection pages — `PullToRefresh` client component (`components/ui/pull-to-refresh.tsx`) wraps page content on products, search, collections, and moods pages. Touch-pull-down from top of page (with resistance factor 0.4) shows spinner indicator; release past 80px threshold triggers `router.refresh()` for ISR revalidation. Mobile-only (`md:hidden`), desktop passthrough.
 
-### 5.5 — Performance targets
-- [ ] Lighthouse mobile score > 90
-- [ ] FCP < 1.5s on 4G
-- [ ] Responsive srcset with AVIF/WebP and quality fallbacks (next/image configured with `formats: ["image/avif", "image/webp"]` — verify usage across all images, especially product detail which uses `<img>` not `<Image>`)
-- [ ] Minimize JS bundle for initial load
-- [ ] Service worker for offline quiz access (foundation)
+### 5.5 — Performance targets ✅ (partial)
+- [ ] Lighthouse mobile score > 90 (requires production deployment to measure accurately)
+- [ ] FCP < 1.5s on 4G (requires production deployment to measure accurately)
+- [x] Responsive srcset with AVIF/WebP and quality fallbacks — `next/image` with `formats: ["image/avif", "image/webp"]` verified across all product cards, image gallery, wishlist, quiz results, note products, and homepage components. All use proper `sizes` props for srcset generation.
+- [x] Minimize JS bundle for initial load — `next/dynamic` code splitting for 4 heavy client components: CheckoutForm (Stripe ~80KB deferred from non-checkout pages), FragranceWheel (329-line SVG computation deferred from non-explore pages), QuizResults (390-line results UI deferred until quiz completion), CartDrawer (216-line drawer deferred until opened). Loading fallbacks for all.
+- [x] `next.config.ts` hardened: `poweredByHeader: false`, `Permissions-Policy` header, `Strict-Transport-Security` HSTS header, immutable cache headers for static assets and images
+- [x] Web Vitals instrumentation: `WebVitalsReporter` client component using `useReportWebVitals` from `next/web-vitals`, reports CLS/FCP/LCP/FID/TTFB/INP to Google Analytics (when gtag available) and console in development
+- [x] PWA foundation: `manifest.json` with app name, theme color (#8B6914 gold), standalone display mode. `appleWebApp` metadata in root layout. `viewport-fit: cover` for safe area insets.
+- [ ] Service worker for offline quiz access (deferred: requires Workbox or next-pwa integration)
 
 ---
 
