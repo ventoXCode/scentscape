@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Occasion guides: 5 editorial pages for Date Night, Office, Casual, Special Event, Outdoor)
+> Last updated: 2026-04-06 (Editorial badges: Staff Pick + Trending on product cards)
 
 ---
 
@@ -246,6 +246,7 @@
 - [x] Add key mood/vibe and one standout note — Top note displayed on each product card from Meilisearch data
 - [x] Hover state: expanded quick-preview overlay slides up from bottom showing description snippet and performance verbal labels (longevity/sillage), CSS-only transition with gradient backdrop
 - [x] Visual badges: "Beginner Friendly" (sillage ≤ 2.5) and seasonal "Spring/Summer/Fall/Winter Pick" badges rendered in top-right corner of product card image, using `success-subtle` and `family-amber-subtle` design tokens. Badge data (sillage, longevity, season) passed from all Meilisearch-backed callers (products, search, collections, similar, moods).
+- [x] Editorial badges: "Staff Pick" (curated set of 15 noteworthy handles in `lib/discovery/editorial-badges.ts`) and "Trending" (deterministic weekly rotation via hash — ~14% of products trend at any time, refreshing each week). Staff Pick uses `accent-primary/15` token, Trending uses `family-floral-subtle`. Max 2 contextual badges per card to avoid clutter; priority order: Staff Pick > Trending > Beginner Friendly > Seasonal Pick.
 - [x] Add `priority` prop on above-fold product card images for LCP optimization
 - [x] Price range display for multi-variant products — Shows 'From $X' when multiple variant prices exist
 - [x] Premium feel: refined aspect ratios, image treatments, typography — product card aspect ratio changed from 1:1 to 3:4 for editorial proportion, product title uses `font-display` serif for premium feel, brand name tracking widened, price highlighted with `accent-primary` color, improved vertical rhythm

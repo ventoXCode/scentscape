@@ -3,6 +3,7 @@ import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
 import { WishlistButton } from "@/components/product/wishlist-button";
 import { getFamilyByName } from "@/lib/fragrance/family-config";
+import { isStaffPick, isTrending } from "@/lib/discovery/editorial-badges";
 
 const LONGEVITY_LABELS = ["", "Fleeting", "Short", "Moderate", "Long-lasting", "Legendary"];
 const SILLAGE_LABELS = ["", "Intimate", "Close", "Moderate", "Strong", "Enormous"];
@@ -58,9 +59,21 @@ export function ProductCard({ product, priority }: ProductCardProps) {
   const familyConfig = family ? getFamilyByName(family) : undefined;
   const familyColor = familyConfig ? familyConfig.classes.bg : null;
 
-  // Compute contextual badges
+  // Compute contextual badges (max 2 to avoid visual clutter)
   const badges: { label: string; className: string }[] = [];
-  if (product.sillage != null && product.sillage <= 2.5) {
+  if (product.handle && isStaffPick(product.handle)) {
+    badges.push({
+      label: "\u2B50 Staff Pick",
+      className: "bg-accent-primary/15 text-accent-primary",
+    });
+  }
+  if (badges.length < 2 && isTrending(product.id)) {
+    badges.push({
+      label: "\uD83D\uDD25 Trending",
+      className: "bg-family-floral-subtle text-family-floral",
+    });
+  }
+  if (badges.length < 2 && product.sillage != null && product.sillage <= 2.5) {
     badges.push({
       label: "\uD83C\uDF1F Beginner Friendly",
       className: "bg-success-subtle text-success",
@@ -68,7 +81,7 @@ export function ProductCard({ product, priority }: ProductCardProps) {
   }
   const currentSeason = getCurrentSeason();
   const seasonCfg = SEASON_CONFIG[currentSeason];
-  if (seasonCfg && product.season?.includes(currentSeason)) {
+  if (badges.length < 2 && seasonCfg && product.season?.includes(currentSeason)) {
     badges.push({
       label: `${seasonCfg.icon} ${seasonCfg.label}`,
       className: "bg-family-amber-subtle text-family-amber",
