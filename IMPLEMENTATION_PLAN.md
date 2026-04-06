@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (full re-audit with parallel codebase analysis; Phase 7.2 + 7.3 updated with implemented educational content)
+> Last updated: 2026-04-06 (Phase 7.4 updated: SEO structured data — ArticleJsonLd on all learn pages, FAQPage JSON-LD on glossary, NoteProducts server-rendered for crawler visibility, long-tail keyword targeting and internal linking strategy completed)
 
 ---
 
@@ -400,13 +400,17 @@
 - [ ] Empty states: fill other dead-ends with relevant learning content — deferred
 
 ### 7.4 — SEO and content marketing ✅ (partial)
-- [ ] Target long-tail keywords: "what does [note] smell like," "best fragrances for [occasion]"
-- [ ] Internal linking strategy: educational content ↔ product pages ↔ quiz
+- [x] Target long-tail keywords: note profile pages (`/learn/notes/[slug]`) with "What Does X Smell Like?" title pattern (93 SSG pages), family pages with "X Fragrances — What They Smell Like" pattern (6 pages)
+- [x] Internal linking strategy: `RelatedEducation` on product pages links to family/note/concentration guides; note profile pages server-render product links (previously client-only, invisible to crawlers); family pages link to search and quiz
 - [ ] Build topical authority in fragrance discovery and education
 - [x] Enrich product JSON-LD: `AggregateOffer` for multi-variant products, `category` from fragrance family, fragrance-specific `additionalProperty` fields (family, concentration, gender, top/heart/base notes, accords, seasons, longevity, sillage). `@id` for deduplication.
 - [x] `WebSite` JSON-LD with `SearchAction` on root layout — enables Google sitelinks search box
 - [x] `BreadcrumbList` JSON-LD on product detail pages — structured breadcrumb for rich results
 - [x] Sitemap improvements: added mood detail pages (`/moods/[slug]`), wishlist page; fixed `lastModified` to use stable dates instead of `new Date()` on static pages; typed products properly
+- [x] Article JSON-LD (`ArticleJsonLd` component) on all learn pages: fragrance-101, how-to-apply, families/[slug], notes/[slug] — with BreadcrumbList schema
+- [x] FAQPage JSON-LD (`FaqJsonLd` component) on glossary page — 30+ structured Q&A pairs from concentrations, families, metrics, and general terms
+- [x] Metadata exports added to products listing page and quiz page (via layout.tsx for client component)
+- [x] NoteProducts server-rendered — product links on 93 note profile pages now in initial HTML for crawler visibility
 - [ ] Add `aggregateRating` to product JSON-LD (deferred: requires review/rating system)
 
 ---

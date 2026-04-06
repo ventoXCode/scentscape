@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ALL_NOTES, getNoteBySlug, getNotesByFamily } from "@/lib/learn/notes";
 import { NoteProducts } from "./note-products";
+import { ArticleJsonLd } from "@/components/seo/article-jsonld";
 
 interface NotePageProps {
   params: Promise<{ slug: string }>;
@@ -55,6 +56,18 @@ export default async function NotePage({ params }: NotePageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <ArticleJsonLd
+        title={`What Does ${note.name} Smell Like?`}
+        description={`${note.name}: ${note.description}. Learn about this ${note.family.toLowerCase()} fragrance note and discover perfumes that feature it.`}
+        url={`/learn/notes/${note.slug}`}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+          { name: "Notes", url: "/learn/notes" },
+          { name: note.name, url: `/learn/notes/${note.slug}` },
+        ]}
+      />
+
       <nav aria-label="Breadcrumb" className="mb-6">
         <ol className="flex items-center gap-2 text-sm text-text-muted">
           <li>

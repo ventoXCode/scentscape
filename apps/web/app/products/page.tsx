@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { medusa } from "@/lib/medusa/client";
 import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
@@ -6,6 +7,17 @@ import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import Link from "next/link";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Browse All Fragrances | ScentScape",
+  description:
+    "Explore our curated collection of 100+ fragrances. Filter by scent family, concentration, and price. Find your perfect fragrance match.",
+  openGraph: {
+    title: "Browse All Fragrances | ScentScape",
+    description:
+      "Explore our curated collection of 100+ fragrances. Filter by scent family, concentration, and price.",
+  },
+};
 
 export const revalidate = 300;
 

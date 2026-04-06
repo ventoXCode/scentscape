@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ArticleJsonLd } from "@/components/seo/article-jsonld";
 
 export const metadata: Metadata = {
   title: "How to Apply Fragrance | ScentScape",
@@ -79,6 +80,17 @@ const STORAGE_TIPS = [
 export default function HowToApplyPage() {
   return (
     <div className="container mx-auto px-4 py-12">
+      <ArticleJsonLd
+        title="How to Apply Fragrance"
+        description="Learn where and how to apply fragrance for maximum effect — pulse points, layering, storage tips, and common mistakes to avoid."
+        url="/learn/how-to-apply"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+          { name: "How to Apply", url: "/learn/how-to-apply" },
+        ]}
+      />
+
       {/* Breadcrumb */}
       <nav className="text-sm text-text-muted mb-8" aria-label="Breadcrumb">
         <ol className="flex items-center gap-1.5">

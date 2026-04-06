@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
@@ -11,31 +8,16 @@ interface NoteProductsProps {
   noteName: string;
 }
 
-export function NoteProducts({ noteName }: NoteProductsProps) {
-  const [products, setProducts] = useState<SearchableProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+export async function NoteProducts({ noteName }: NoteProductsProps) {
+  let products: SearchableProduct[] = [];
 
-  useEffect(() => {
-    meilisearch
+  try {
+    const res = await meilisearch
       .index(PRODUCTS_INDEX)
-      .search<SearchableProduct>(noteName, { limit: 8 })
-      .then((res) => setProducts(res.hits))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [noteName]);
-
-  if (loading) {
-    return (
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="animate-pulse">
-            <div className="aspect-square bg-surface-subtle rounded-xl mb-2" />
-            <div className="h-3 bg-surface-subtle rounded w-2/3 mb-1" />
-            <div className="h-3 bg-surface-subtle rounded w-1/2" />
-          </div>
-        ))}
-      </div>
-    );
+      .search<SearchableProduct>(noteName, { limit: 8 });
+    products = res.hits;
+  } catch {
+    // Meilisearch unavailable at build time
   }
 
   if (products.length === 0) {

@@ -6,6 +6,7 @@ import {
   getFamilyBySlug,
   getNotesForFamily,
 } from "@/lib/learn/families";
+import { ArticleJsonLd } from "@/components/seo/article-jsonld";
 
 interface FamilyPageProps {
   params: Promise<{ slug: string }>;
@@ -50,6 +51,18 @@ export default async function FamilyDetailPage({ params }: FamilyPageProps) {
 
   return (
     <div>
+      <ArticleJsonLd
+        title={`${family.name} Fragrances — What They Smell Like`}
+        description={family.description.slice(0, 160)}
+        url={`/learn/families/${family.slug}`}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+          { name: "Families", url: "/learn/families" },
+          { name: family.name, url: `/learn/families/${family.slug}` },
+        ]}
+      />
+
       {/* Hero */}
       <div
         className={`bg-gradient-to-b ${FAMILY_HERO[family.color] || "from-surface-subtle to-surface-primary"} pt-12 pb-8`}

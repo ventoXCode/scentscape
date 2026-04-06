@@ -5,6 +5,7 @@ import {
   FAMILY_DESCRIPTIONS,
   METRIC_DESCRIPTIONS,
 } from "@/lib/fragrance/glossary";
+import { ArticleJsonLd } from "@/components/seo/article-jsonld";
 
 export const metadata: Metadata = {
   title: "Fragrance 101: A Beginner's Guide | ScentScape",
@@ -47,6 +48,17 @@ const PYRAMID_TIERS = [
 export default function Fragrance101Page() {
   return (
     <div className="container mx-auto px-4 py-12">
+      <ArticleJsonLd
+        title="Fragrance 101: A Beginner's Guide"
+        description="Everything you need to know about fragrance — how scents are structured, what the terms mean, and how to find your signature scent."
+        url="/learn/fragrance-101"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+          { name: "Fragrance 101", url: "/learn/fragrance-101" },
+        ]}
+      />
+
       {/* Breadcrumb */}
       <nav className="text-sm text-text-muted mb-8" aria-label="Breadcrumb">
         <ol className="flex items-center gap-1.5">

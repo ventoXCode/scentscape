@@ -5,6 +5,7 @@ import {
   FAMILY_DESCRIPTIONS,
   METRIC_DESCRIPTIONS,
 } from "@/lib/fragrance/glossary";
+import { FaqJsonLd } from "@/components/seo/faq-jsonld";
 
 export const metadata: Metadata = {
   title: "Fragrance Glossary — Every Term Explained | ScentScape",
@@ -111,8 +112,37 @@ const GENERAL_TERMS: { term: string; definition: string }[] = [
 ];
 
 export default function GlossaryPage() {
+  const faqQuestions = [
+    ...Object.entries(CONCENTRATION_DESCRIPTIONS).map(([key, desc]) => ({
+      question: `What does ${key} mean in fragrance?`,
+      answer: desc,
+    })),
+    ...Object.entries(FAMILY_DESCRIPTIONS).map(([name, desc]) => ({
+      question: `What is the ${name} fragrance family?`,
+      answer: desc,
+    })),
+    ...Object.entries(METRIC_DESCRIPTIONS).map(([key, desc]) => ({
+      question: `What is ${key} in fragrance?`,
+      answer: desc,
+    })),
+    ...GENERAL_TERMS.map((entry) => ({
+      question: `What does "${entry.term}" mean in perfumery?`,
+      answer: entry.definition,
+    })),
+  ];
+
   return (
     <div className="container mx-auto px-4 py-12">
+      <FaqJsonLd
+        questions={faqQuestions}
+        url="/learn/glossary"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+          { name: "Glossary", url: "/learn/glossary" },
+        ]}
+      />
+
       {/* Breadcrumb */}
       <nav className="text-sm text-text-muted mb-8" aria-label="Breadcrumb">
         <ol className="flex items-center gap-1.5">
