@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 6.3: Newsletter email capture)
+> Last updated: 2026-04-06 (Phase 5.3: Search suggested queries)
 
 ---
 
@@ -320,6 +320,7 @@
 - [x] Filters: `FilterLayout` component — desktop sidebar, mobile bottom sheet overlay with slide-up animation, "Show Results" button, route-change auto-close. Applied to both `/products` and `/search` pages.
 - [x] Search bar: fluid width on mobile (`w-full sm:w-64`), touch-friendly tap targets (`min-h-[52px]` suggestion rows, larger link targets), `touchstart` outside-click handler for reliable mobile dismiss
 - [x] Search bar: recent searches — localStorage-persisted recent queries (max 5) shown when input focused with no query, individual remove and clear-all, clock icon per entry, auto-saves on search submit and suggestion click
+- [x] Search bar: suggested queries — when focused with no query and no recent search history, shows 6 curated suggestions ("woody", "floral", "date night", "fresh", "under $150", "summer") with search icon, 44px touch targets, auto-saves to recent on click
 - [x] Checkout: mobile-optimized with single-column stacking address fields (`grid-cols-1 sm:grid-cols-2`), 44px touch targets on all inputs (`py-3`), `inputMode="numeric"` on postal code, responsive step indicator, minimum touch width on Back button, order summary shown first on mobile, `lg:sticky` scoped sidebar, `next/image` for thumbnails
 
 ### 5.4 — Mobile product interactions ✅

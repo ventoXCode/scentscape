@@ -137,6 +137,8 @@ export function SearchBar() {
   const showDropdown = isOpen && query.length >= 2 && hasSearched;
   const showRecent =
     isOpen && query.length < 2 && recentSearches.length > 0;
+  const showSuggested =
+    isOpen && query.length < 2 && recentSearches.length === 0;
 
   return (
     <div ref={containerRef} className="relative">
@@ -155,7 +157,7 @@ export function SearchBar() {
           placeholder="Search fragrances..."
           aria-label="Search fragrances"
           role="combobox"
-          aria-expanded={showDropdown || showRecent}
+          aria-expanded={showDropdown || showRecent || showSuggested}
           aria-controls={listboxId}
           aria-autocomplete="list"
           aria-activedescendant={activeIndex >= 0 ? `search-option-${activeIndex}` : undefined}
@@ -231,6 +233,50 @@ export function SearchBar() {
                 </svg>
               </button>
             </div>
+          ))}
+        </div>
+      )}
+
+      {/* Suggested queries — shown when focused with no query and no recent history */}
+      {showSuggested && (
+        <div
+          className="absolute top-full left-0 right-0 mt-1 bg-surface-elevated border border-border-default rounded-lg shadow-elevated z-50"
+          role="listbox"
+          aria-label="Suggested searches"
+        >
+          <div className="px-3 pt-2.5 pb-1.5">
+            <span className="text-xs font-medium text-text-muted uppercase tracking-wide">
+              Try searching for
+            </span>
+          </div>
+          {["woody", "floral", "date night", "fresh", "under $150", "summer"].map((term) => (
+            <Link
+              key={term}
+              href={`/search?q=${encodeURIComponent(term)}`}
+              className="flex items-center gap-2 px-3 min-h-[44px] hover:bg-surface-subtle text-sm text-text-primary"
+              onClick={() => {
+                setIsOpen(false);
+                setQuery(term);
+                handleSaveSearch(term);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-3.5 w-3.5 text-text-muted flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              {term}
+            </Link>
           ))}
         </div>
       )}
