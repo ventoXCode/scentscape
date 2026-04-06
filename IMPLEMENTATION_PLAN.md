@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Seasonal picks editorial section on homepage)
+> Last updated: 2026-04-06 (Auth hardening: register recovery, password change/reset, metadata gaps)
 
 ---
 
@@ -40,7 +40,7 @@
 - [x] Cart drawer empty state: "Start Shopping" CTA link to /products
 - [x] Search bar: "No results found" dropdown with link to full search
 - [x] Products page: error state with helpful message instead of misleading "run seed script"
-- [ ] Register: `register()` makes 3 sequential API calls — if call 2 or 3 fails, user is left in partial state. (Deferred: requires backend changes)
+- [x] Register: `register()` makes 3 sequential API calls — if call 2 or 3 fails, user is left in partial state. Fixed: each call wrapped in own try/catch with differentiated error messages and redirect-to-login recovery when account exists but session fails. Confirm password field added to prevent typo lockouts.
 
 ### 0.6 — Missing footer ✅
 - [x] Created `components/layout/footer.tsx` with Discover, Account, and Legal sections
@@ -454,11 +454,11 @@ These are implemented and functional (unless noted in Phase 0 bugs):
 ## Cross-Cutting Concerns (Apply Throughout)
 
 - **Accessibility:** Ensure all new components meet WCAG 2.1 AA (focus management, ARIA labels, color contrast, keyboard navigation). Existing components have significant gaps documented in Phase 0.4.
-- **Performance budgets:** FCP < 1.5s, Lighthouse > 90 mobile, lazy-load below-fold. Add explicit `revalidate` directives to data-fetching pages (currently only product detail has `revalidate: 60`; homepage and product listing have none).
+- **Performance budgets:** FCP < 1.5s, Lighthouse > 90 mobile, lazy-load below-fold. ~~Add explicit `revalidate` directives to data-fetching pages~~ — all data-fetching pages now have `revalidate = 300` (homepage, products, product detail, search, moods/[slug], quiz results/[id], collections/[slug]).
 - **Image optimization:** Already configured for AVIF/WebP; ensure all new imagery uses `next/image` with responsive srcset. Fix product detail page `<img>` → `<Image>` and search dropdown `<img>` → `<Image>`.
-- **Error handling:** Replace silent `catch {}` blocks with styled error states; add toast notifications for cart/auth actions. Fix register's 3-call sequence partial failure states.
+- **Error handling:** Replace silent `catch {}` blocks with styled error states; add toast notifications for cart/auth actions. ~~Fix register's 3-call sequence partial failure states~~ (fixed: Phase 0.5).
 - **TypeScript:** ~~eliminate `as any` casts~~ — all `as any` casts eliminated. `SavedQuizSession.dimensions` typed as `PersonalityDimensions` (was `Record<string, number>`). Maintain strict typing for all new code.
 - **State management:** Consider migrating cart state to React Query (`useQuery`/`useMutation`) for caching, background refetch, and optimistic updates — TanStack Query is installed but unused. Note: `QueryClient` SSR safety already fixed (uses `useRef` pattern, not module scope).
-- **Auth gaps:** No password change capability, no "forgot password" flow, no email verification. ~~Cart not associated with customer on login~~ (fixed: `transferGuestCart()` in Phase 6.3). JWT logout only clears local cookie (server-side token remains valid until expiry).
+- **Auth gaps:** ~~No password change capability~~ (fixed: change password form on profile page via `changePassword` server action using Medusa `updateProvider`). ~~No "forgot password" flow~~ (fixed: `/forgot-password` page triggers `resetPassword` API, `/reset-password?token=X` page completes reset via `updateProvider`). No email verification. ~~Cart not associated with customer on login~~ (fixed: `transferGuestCart()` in Phase 6.3). JWT logout only clears local cookie (server-side token remains valid until expiry).
 - **Custom 404 page:** ✅ Branded not-found page with quiz CTA, browse link, and discovery navigation (home, explore, moods, collections, learn).
-- **Auth page metadata:** ✅ Login and register pages now have proper `<title>` and `<meta description>` via co-located `layout.tsx` files.
+- **Auth page metadata:** ✅ Login, register, forgot-password, and reset-password pages have proper `<title>` and `<meta description>` via co-located `layout.tsx` files. Account and checkout route groups have `layout.tsx` with metadata and `robots: { index: false }`.

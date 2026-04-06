@@ -11,6 +11,7 @@ export default function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
@@ -20,19 +21,28 @@ export default function RegisterPage() {
     e.preventDefault();
     setError(null);
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     startTransition(async () => {
-      try {
-        await register({
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          password,
-        });
+      const result = await register({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+      });
+
+      if (result.success) {
         toast("Account created! Welcome to ScentScape.", "success");
         router.push("/account");
         router.refresh();
-      } catch {
-        setError("Could not create account. The email may already be in use.");
+      } else if (result.redirect) {
+        toast(result.error, "info");
+        router.push(result.redirect);
+      } else {
+        setError(result.error);
       }
     });
   };
@@ -87,6 +97,18 @@ export default function RegisterPage() {
             className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
           />
           <p className="text-xs text-text-muted mt-1">Minimum 8 characters</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1 text-text-primary">Confirm Password</label>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            minLength={8}
+            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
+          />
         </div>
 
         {error && <p className="text-error text-sm">{error}</p>}

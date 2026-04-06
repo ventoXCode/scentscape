@@ -15,7 +15,7 @@ export default async function ProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-lg">
       <div className="flex items-center gap-4 mb-8">
-        <Link href="/account" className="text-gray-500 hover:text-black">
+        <Link href="/account" className="text-text-secondary hover:text-text-primary transition-colors">
           &larr; Account
         </Link>
         <h1 className="text-2xl font-bold">Profile Settings</h1>

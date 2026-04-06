@@ -13,6 +13,8 @@ import type { Metadata } from "next";
 
 const PAGE_SIZE = 24;
 
+export const revalidate = 300;
+
 const FAMILY_BG: Record<string, string> = {
   fresh: "bg-family-fresh-subtle",
   floral: "bg-family-floral-subtle",
