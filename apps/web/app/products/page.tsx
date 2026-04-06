@@ -7,6 +7,7 @@ import { ProductFilters } from "@/components/filters/product-filters";
 import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
+import { ItemListJsonLd } from "@/components/seo/itemlist-jsonld";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -123,6 +124,19 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <PullToRefresh>
+    {!error && products.length > 0 && (
+      <ItemListJsonLd
+        name="All Fragrances"
+        description="Browse our curated collection of 100+ fragrances."
+        url="/products"
+        items={products.map((p, i) => ({
+          name: p.title,
+          url: `/products/${p.handle}`,
+          image: p.thumbnail ?? undefined,
+          position: (currentPage - 1) * PAGE_SIZE + i + 1,
+        }))}
+      />
+    )}
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-display text-3xl font-bold text-text-primary">All Fragrances</h1>

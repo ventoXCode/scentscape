@@ -1,4 +1,4 @@
-import type { QuizSession, QuizOutcome } from "./types";
+import type { QuizSession, QuizOutcome, PersonalityDimensions } from "./types";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL ||
@@ -10,7 +10,7 @@ interface SavedQuizSession {
   share_id: string;
   customer_id: string | null;
   archetype_id: string;
-  dimensions: Record<string, number>;
+  dimensions: PersonalityDimensions;
   results: Array<{
     productId: string;
     handle: string;

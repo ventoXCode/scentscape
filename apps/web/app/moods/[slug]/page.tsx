@@ -30,6 +30,10 @@ export async function generateMetadata({
   return {
     title: `${mood.title} Fragrances | ScentScape`,
     description: mood.description,
+    openGraph: {
+      title: `${mood.title} Fragrances | ScentScape`,
+      description: mood.description,
+    },
   };
 }
 

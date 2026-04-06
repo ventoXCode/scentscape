@@ -42,6 +42,10 @@ export async function generateMetadata({
   return {
     title: `${collection.title} | ScentScape`,
     description: collection.description,
+    openGraph: {
+      title: `${collection.title} | ScentScape`,
+      description: collection.description,
+    },
   };
 }
 

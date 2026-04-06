@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { meilisearch, PRODUCTS_INDEX, SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
 import { SwipeableProductCard } from "@/components/product/swipeable-product-card";
@@ -6,6 +7,17 @@ import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Search Fragrances | ScentScape",
+  description:
+    "Search and filter 100+ fragrances by family, concentration, accords, season, and more.",
+  openGraph: {
+    title: "Search Fragrances | ScentScape",
+    description:
+      "Search and filter 100+ fragrances by family, concentration, accords, season, and more.",
+  },
+};
 
 export const revalidate = 300;
 

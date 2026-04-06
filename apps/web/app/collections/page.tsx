@@ -1,4 +1,5 @@
 import { COLLECTIONS } from "@/lib/collections";
+import { ItemListJsonLd } from "@/components/seo/itemlist-jsonld";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -6,6 +7,11 @@ export const metadata: Metadata = {
   title: "Collections | ScentScape",
   description:
     "Browse our curated fragrance collections by mood, occasion, and season.",
+  openGraph: {
+    title: "Fragrance Collections | ScentScape",
+    description:
+      "Browse our curated fragrance collections by mood, occasion, and season.",
+  },
 };
 
 const FAMILY_STYLES: Record<string, { card: string; iconBg: string }> = {
@@ -42,6 +48,16 @@ const DEFAULT_STYLE = {
 
 export default function CollectionsPage() {
   return (
+    <>
+    <ItemListJsonLd
+      name="Fragrance Collections"
+      description="Curated fragrance collections by mood, occasion, and season."
+      url="/collections"
+      items={COLLECTIONS.map((c) => ({
+        name: c.title,
+        url: `/collections/${c.slug}`,
+      }))}
+    />
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
         <h1 className="font-display text-3xl font-bold mb-4 text-text-primary">
@@ -86,5 +102,6 @@ export default function CollectionsPage() {
         })}
       </div>
     </div>
+    </>
   );
 }

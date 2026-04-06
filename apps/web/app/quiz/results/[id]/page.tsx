@@ -40,7 +40,7 @@ export default async function SharedResultsPage({ params }: Props) {
   return (
     <SharedQuizResults
       archetype={archetype}
-      dimensions={session.dimensions as any}
+      dimensions={session.dimensions}
       results={session.results}
       createdAt={session.created_at}
     />

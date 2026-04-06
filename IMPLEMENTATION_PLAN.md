@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 6.2: Sample box foundation — try before you buy, quiz integration, partner-fulfilled ordering)
+> Last updated: 2026-04-06 (Phase 6.2: Sample box foundation — try before you buy, quiz integration, partner-fulfilled ordering; Phase 7.4+: OG images, social cards, ItemList JSON-LD, comprehensive OpenGraph metadata)
 
 ---
 
@@ -111,7 +111,7 @@
 - [x] Retake fully resets session and clears localStorage
 - [x] "Explore More Like This" path from each recommendation — "Explore more like this →" link per result card navigates to `/search?family=X&accords=Y` using the recommendation's family and primary accord
 - [ ] Feedback buttons per recommendation (deferred: requires backend persistence)
-- [x] Shareable results: unique URL with share_id, OG metadata per archetype — `/quiz/results/[id]` server-rendered page with CTA for visitors. "Save & Share Results" button on quiz results page. (Downloadable image deferred: requires canvas rendering)
+- [x] Shareable results: unique URL with share_id, OG metadata per archetype — `/quiz/results/[id]` server-rendered page with CTA for visitors. "Save & Share Results" button on quiz results page. (Downloadable image deferred: requires canvas rendering). Dynamic OG image generation (`opengraph-image.tsx`) renders archetype-specific social cards with gradient, name, tagline, and 4-axis personality dimensions via Satori/`ImageResponse`.
 - [x] Save to account: quiz sessions linked to customer_id when authenticated, viewable at `/account/scent-profile` with quiz history and archetype display
 
 ### 1.6 — Quiz data persistence (backend) ✅
@@ -223,6 +223,7 @@
 - [x] Scroll-driven entrance animations via `ScrollReveal` component (IntersectionObserver + fade-in-up + staggered delays)
 - [x] Final CTA section re-inviting quiz participation ("Ready to Find Your Scent?")
 - [x] `revalidate = 300` for ISR and full `Metadata` export with OpenGraph tags
+- [x] Homepage dynamic OG image (`opengraph-image.tsx`): branded social card with ScentScape identity, tagline, and feature pills via edge-rendered `ImageResponse`
 - [ ] Lazy-loaded sections with blur placeholders / skeleton states (deferred: current sections are lightweight enough for immediate render)
 
 ---
@@ -361,7 +362,7 @@
   - [x] Header: wishlist icon with count badge (desktop and mobile)
   - [x] Account: wishlist page with saved products, remove button, empty state
   - [ ] Backend: wishlist data model and API endpoints (deferred: using localStorage for now)
-- [ ] User account scent profile persistence (saved quiz results, history)
+- [x] User account scent profile persistence — covered by Phase 1.6 (quiz sessions linked to customer, `/account/scent-profile` page)
 - [x] Cart-customer association on login (guest cart → customer cart merge)
   - [x] `transferGuestCart()` in `auth-actions.ts` calls `medusa.store.cart.transferCart` after login/register with the customer's auth token
 - [ ] Foundation for gating infrastructure: identify which features could be premium
@@ -411,12 +412,14 @@
 - [x] Internal linking strategy: `RelatedEducation` on product pages links to family/note/concentration guides; note profile pages server-render product links (previously client-only, invisible to crawlers); family pages link to search and quiz
 - [ ] Build topical authority in fragrance discovery and education
 - [x] Enrich product JSON-LD: `AggregateOffer` for multi-variant products, `category` from fragrance family, fragrance-specific `additionalProperty` fields (family, concentration, gender, top/heart/base notes, accords, seasons, longevity, sillage). `@id` for deduplication.
+- [x] `ItemList` JSON-LD on products listing, collections index, and moods index pages — enables rich results for catalog browsing
 - [x] `WebSite` JSON-LD with `SearchAction` on root layout — enables Google sitelinks search box
 - [x] `BreadcrumbList` JSON-LD on product detail pages — structured breadcrumb for rich results
 - [x] Sitemap improvements: added mood detail pages (`/moods/[slug]`), wishlist page; fixed `lastModified` to use stable dates instead of `new Date()` on static pages; typed products properly
 - [x] Article JSON-LD (`ArticleJsonLd` component) on all learn pages: fragrance-101, how-to-apply, families/[slug], notes/[slug] — with BreadcrumbList schema
 - [x] FAQPage JSON-LD (`FaqJsonLd` component) on glossary page — 30+ structured Q&A pairs from concentrations, families, metrics, and general terms
 - [x] Metadata exports added to products listing page and quiz page (via layout.tsx for client component)
+- [x] OpenGraph metadata added to all section pages: moods, moods/[slug], collections, collections/[slug], search — fallback root-level OG with `metadataBase`, `twitter` card
 - [x] NoteProducts server-rendered — product links on 93 note profile pages now in initial HTML for crawler visibility
 - [ ] Add `aggregateRating` to product JSON-LD (deferred: requires review/rating system)
 
@@ -450,6 +453,8 @@ These are implemented and functional (unless noted in Phase 0 bugs):
 - **Performance budgets:** FCP < 1.5s, Lighthouse > 90 mobile, lazy-load below-fold. Add explicit `revalidate` directives to data-fetching pages (currently only product detail has `revalidate: 60`; homepage and product listing have none).
 - **Image optimization:** Already configured for AVIF/WebP; ensure all new imagery uses `next/image` with responsive srcset. Fix product detail page `<img>` → `<Image>` and search dropdown `<img>` → `<Image>`.
 - **Error handling:** Replace silent `catch {}` blocks with styled error states; add toast notifications for cart/auth actions. Fix register's 3-call sequence partial failure states.
-- **TypeScript:** Maintain strict typing for all new code; eliminate `as any` casts in `cart-drawer.tsx`, collection pages, and orders page. Define proper Medusa cart/order types.
-- **State management:** Consider migrating cart state to React Query (`useQuery`/`useMutation`) for caching, background refetch, and optimistic updates — TanStack Query is installed but unused.
-- **Auth gaps:** No password change capability, no "forgot password" flow, no email verification. Cart not associated with customer on login. JWT logout only clears local cookie (server-side token remains valid until expiry).
+- **TypeScript:** ~~eliminate `as any` casts~~ — all `as any` casts eliminated. `SavedQuizSession.dimensions` typed as `PersonalityDimensions` (was `Record<string, number>`). Maintain strict typing for all new code.
+- **State management:** Consider migrating cart state to React Query (`useQuery`/`useMutation`) for caching, background refetch, and optimistic updates — TanStack Query is installed but unused. Note: `QueryClient` SSR safety already fixed (uses `useRef` pattern, not module scope).
+- **Auth gaps:** No password change capability, no "forgot password" flow, no email verification. ~~Cart not associated with customer on login~~ (fixed: `transferGuestCart()` in Phase 6.3). JWT logout only clears local cookie (server-side token remains valid until expiry).
+- **Custom 404 page:** ✅ Branded not-found page with quiz CTA, browse link, and discovery navigation (home, explore, moods, collections, learn).
+- **Auth page metadata:** ✅ Login and register pages now have proper `<title>` and `<meta description>` via co-located `layout.tsx` files.

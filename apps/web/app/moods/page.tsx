@@ -1,16 +1,32 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { MOODS } from "@/lib/discovery/moods";
+import { ItemListJsonLd } from "@/components/seo/itemlist-jsonld";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
 
 export const metadata: Metadata = {
   title: "Explore by Mood | ScentScape",
   description:
     "Browse fragrances by mood and vibe. Find scents for confidence, romance, relaxation, and more.",
+  openGraph: {
+    title: "Explore Fragrances by Mood | ScentScape",
+    description:
+      "Browse fragrances by mood and vibe. Find scents for confidence, romance, relaxation, and more.",
+  },
 };
 
 export default function MoodsPage() {
   return (
+    <>
+    <ItemListJsonLd
+      name="Explore Fragrances by Mood"
+      description="Browse fragrances by mood and vibe — confidence, romance, relaxation, and more."
+      url="/moods"
+      items={MOODS.map((m) => ({
+        name: m.title,
+        url: `/moods/${m.slug}`,
+      }))}
+    />
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-2xl mx-auto text-center mb-12">
         <h1 className="font-display text-4xl font-bold text-text-primary mb-4">
@@ -72,5 +88,6 @@ export default function MoodsPage() {
         </ScrollReveal>
       </div>
     </div>
+    </>
   );
 }

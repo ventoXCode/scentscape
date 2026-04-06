@@ -26,9 +26,25 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "ScentScape - Discover Your Signature Fragrance",
-  description: "Multi-brand fragrance discovery platform",
+  title: "ScentScape — Discover Your Signature Fragrance",
+  description:
+    "Find your perfect fragrance through our personality-based quiz. Explore 100+ scents matched to your unique scent personality.",
   manifest: "/manifest.json",
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    type: "website",
+    siteName: "ScentScape",
+    title: "ScentScape — Discover Your Signature Fragrance",
+    description:
+      "Find your perfect fragrance through our personality-based quiz. Explore 100+ scents matched to your unique scent personality.",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ScentScape — Discover Your Signature Fragrance",
+    description:
+      "Find your perfect fragrance through our personality-based quiz.",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
