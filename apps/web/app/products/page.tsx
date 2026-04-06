@@ -7,6 +7,8 @@ import { SortSelect } from "@/components/filters/sort-select";
 import Link from "next/link";
 import { Suspense } from "react";
 
+export const revalidate = 300;
+
 const PAGE_SIZE = 24;
 
 interface ProductsPageProps {

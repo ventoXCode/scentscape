@@ -5,6 +5,8 @@ import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import { Suspense } from "react";
 
+export const revalidate = 300;
+
 interface SearchPageProps {
   searchParams: Promise<{
     q?: string;

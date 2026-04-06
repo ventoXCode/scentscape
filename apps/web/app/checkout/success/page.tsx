@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { medusa } from "@/lib/medusa/client";
 import { completeCart } from "@/lib/medusa/checkout-actions";
 import { formatPrice } from "@/lib/utils/format";

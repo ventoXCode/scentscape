@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { redirect } from "next/navigation";
 import { getCustomer, getAuthToken } from "@/lib/medusa/auth-actions";
 import { medusa } from "@/lib/medusa/client";
