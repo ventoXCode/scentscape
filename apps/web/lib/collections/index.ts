@@ -6,6 +6,7 @@ export interface Collection {
   editorial: string;
   icon: string;
   searchFilter: string;
+  searchSort?: string[];
   image?: string;
   familyColor: string;
 }
@@ -77,6 +78,53 @@ export const COLLECTIONS: Collection[] = [
     icon: "\ud83c\udf3a",
     searchFilter: 'family = "Floral"',
     familyColor: "floral",
+  },
+  // ── Dynamic / Cross-cutting Collections ──────────────────────────
+  {
+    slug: "best-for-beginners",
+    title: "Best for Beginners",
+    tagline: "Gentle, approachable, crowd-pleasing",
+    description: "Fragrances with gentle projection — perfect for your first signature scent",
+    editorial:
+      "Starting your fragrance journey? These are the ones we'd hand you first. Gentle sillage means they stay close to your skin, never overwhelming — letting you build confidence before going bolder.",
+    icon: "🌱",
+    searchFilter: "sillage <= 2.5",
+    searchSort: ["sillage:asc"],
+    familyColor: "fresh",
+  },
+  {
+    slug: "long-lasting-legends",
+    title: "Long-Lasting Legends",
+    tagline: "One spray, all day",
+    description: "Fragrances with exceptional longevity that last from morning to midnight",
+    editorial:
+      "These aren't just fragrances — they're commitments. Spray once in the morning and they'll still be turning heads at dinner. The secret? Rich base notes and concentrated formulations that refuse to fade.",
+    icon: "⏳",
+    searchFilter: "longevity >= 4",
+    searchSort: ["longevity:desc"],
+    familyColor: "amber",
+  },
+  {
+    slug: "spring-picks",
+    title: "Spring Picks",
+    tagline: "Fresh starts, fresh scents",
+    description: "Light, floral, and green fragrances that capture the spirit of spring",
+    editorial:
+      "As the world wakes up from winter, so should your fragrance. These picks channel blooming gardens, morning dew, and the crisp energy of renewal — the olfactory equivalent of throwing open the windows.",
+    icon: "🌷",
+    searchFilter: 'season = "Spring"',
+    familyColor: "floral",
+  },
+  {
+    slug: "under-150",
+    title: "Under $150",
+    tagline: "Great scents, friendly prices",
+    description: "Quality fragrances that don't break the bank — all under $150",
+    editorial:
+      "Price doesn't determine quality in fragrance. These selections prove you can smell incredible without the luxury markup. Every one has been chosen for character and performance, not just affordability.",
+    icon: "💎",
+    searchFilter: "price <= 15000",
+    familyColor: "citrus",
   },
 ];
 

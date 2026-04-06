@@ -278,7 +278,7 @@
 
 ### 4.6 — Collection page upgrade ✅ (partial)
 - [x] Editorial feel: collection detail pages have full-width hero section with family-colored background, emoji icon, tagline, editorial narrative paragraph, product count. Collection data model enriched with `tagline`, `editorial`, `icon`, `familyColor` fields.
-- [ ] Dynamic collections alongside curated: trending, seasonal, new arrivals (currently: 6 hardcoded entries)
+- [x] Dynamic collections alongside curated: trending, seasonal, new arrivals — added 4 new collections: "Best for Beginners" (sillage ≤ 2.5, sorted asc), "Long-Lasting Legends" (longevity ≥ 4, sorted desc), "Spring Picks" (season = Spring), "Under $150" (price ≤ 15000). Added `searchSort` field to Collection interface, wired to Meilisearch sort param. 10 total collections, all SSG'd and in sitemap.
 - [x] Distinct visual identity per collection: each card uses `FAMILY_STYLES` mapped from collection's `familyColor` field (icon background + card colors using fragrance family tokens)
 - [ ] Support collection images (field exists in `Collection` interface as `image?: string` but unused — no image assets available)
 - [x] Product counts shown on collection detail page hero

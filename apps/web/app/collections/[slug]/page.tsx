@@ -63,6 +63,7 @@ export default async function CollectionPage({
       .index(PRODUCTS_INDEX)
       .search<SearchableProduct>("", {
         filter: collection.searchFilter,
+        sort: collection.searchSort,
         limit: PAGE_SIZE,
         offset,
       });
