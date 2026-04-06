@@ -7,6 +7,7 @@ import { ProductFilters } from "@/components/filters/product-filters";
 import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
+import { QuizProfileBanner } from "@/components/product/quiz-profile-banner";
 import { ItemListJsonLd } from "@/components/seo/itemlist-jsonld";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -151,6 +152,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </FilterLayout>
 
         <main className="flex-1">
+          <Suspense>
+            <QuizProfileBanner />
+          </Suspense>
           {error ? (
             <div className="text-center py-16">
               <p className="text-text-secondary mb-4">
