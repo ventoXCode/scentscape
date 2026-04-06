@@ -181,6 +181,44 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
           )}
         </div>
 
+        {/* Educational links based on results */}
+        <div className="mt-10 p-5 bg-surface-subtle rounded-xl">
+          <h4 className="font-semibold text-text-primary mb-2">
+            Explore your scent profile
+          </h4>
+          <p className="text-sm text-text-muted mb-3">
+            As a {archetype.name}, you gravitate toward certain fragrance families and notes.
+            Learn more about what makes your favorites tick.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(archetype.familyAffinities)
+              .filter(([, score]) => score >= 0.6)
+              .sort(([, a], [, b]) => b - a)
+              .slice(0, 3)
+              .map(([family]) => (
+                <Link
+                  key={family}
+                  href={`/learn/families/${family.toLowerCase()}`}
+                  className="px-3 py-1.5 bg-surface-elevated border border-border-default rounded-full text-sm text-text-secondary hover:border-border-strong hover:text-text-primary transition-colors"
+                >
+                  {family} family
+                </Link>
+              ))}
+            <Link
+              href="/learn/notes"
+              className="px-3 py-1.5 bg-surface-elevated border border-border-default rounded-full text-sm text-text-secondary hover:border-border-strong hover:text-text-primary transition-colors"
+            >
+              Fragrance notes guide
+            </Link>
+            <Link
+              href="/learn/fragrance-101"
+              className="px-3 py-1.5 bg-surface-elevated border border-border-default rounded-full text-sm text-text-secondary hover:border-border-strong hover:text-text-primary transition-colors"
+            >
+              Fragrance 101
+            </Link>
+          </div>
+        </div>
+
         {/* Desktop-only inline actions */}
         <div className="hidden md:block mt-10 space-y-3">
           <button

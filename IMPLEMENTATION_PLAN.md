@@ -395,8 +395,8 @@
 - [x] Header: "Learn" link added to desktop nav and mobile menu
 - [x] Footer: new "Learn" column with links to Fragrance 101, How to Apply, Fragrance Families, and Glossary
 - [x] Sitemap: all learn pages and family pages added with monthly changeFrequency
-- [ ] Product pages: related educational content based on product characteristics — deferred
-- [ ] Quiz results: educational context about the user's scent profile — deferred
+- [x] Product pages: `RelatedEducation` component shows contextual links to family page, note profile pages (up to 3 key notes), and concentration guide based on the product's fragrance data
+- [x] Quiz results: educational section shows links to the user's top-affinity family pages, fragrance notes guide, and Fragrance 101 based on their archetype
 - [ ] Empty states: fill other dead-ends with relevant learning content — deferred
 
 ### 7.4 — SEO and content marketing ✅ (partial)

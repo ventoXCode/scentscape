@@ -12,6 +12,7 @@ import { PerfectFor } from "@/components/product/perfect-for";
 import { ScentJourney } from "@/components/product/scent-journey";
 import { HowToWear } from "@/components/product/how-to-wear";
 import { SimilarFragrances } from "@/components/product/similar-fragrances";
+import { RelatedEducation } from "@/components/product/related-education";
 import { WishlistButton } from "@/components/product/wishlist-button";
 import { SITE_URL } from "@/lib/constants";
 
@@ -219,6 +220,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 concentration={fragranceData.concentration}
                 projection={fragranceData.projection}
                 seasons={fragranceData.season ?? []}
+              />
+
+              <RelatedEducation
+                family={fragranceData.family}
+                concentration={fragranceData.concentration}
+                topNotes={fragranceData.top_notes}
+                heartNotes={fragranceData.heart_notes}
+                baseNotes={fragranceData.base_notes}
               />
             </>
           )}
