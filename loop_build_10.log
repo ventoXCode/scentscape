@@ -1,0 +1,25 @@
+Done. Here's what was implemented:
+
+## Phase 7.2 + 7.3: Educational Content Layer
+
+**6 new pages created:**
+
+| Route | Description |
+|---|---|
+| `/learn` | Educational hub with guide cards, family quick-nav, quiz CTA |
+| `/learn/fragrance-101` | Beginner guide: scent pyramid, concentrations, families, metrics, signature scent tips |
+| `/learn/how-to-apply` | Practical guide: pulse points, amounts, timing, layering, mistakes, storage |
+| `/learn/families` | Overview of all 6 families with signature notes |
+| `/learn/families/[slug]` | 6 SSG deep-dive pages with history, subfamilies, notes, personality profiles |
+| `/learn/glossary` | Comprehensive glossary: 4 sections, 18 general terms, anchor navigation |
+
+**Data layer:** `lib/learn/families.ts` (6 families with extended metadata) and `lib/learn/guides.ts`
+
+**Cross-surface integration:**
+- Homepage: "Learn the Basics" teaser section with 3 guide cards
+- Search: no-results state now shows quiz, mood, and educational links instead of bare text
+- Header: "Learn" added to desktop nav + mobile menu
+- Footer: new "Learn" column with 4 links
+- Sitemap: all learn + family pages included
+
+**Build:** Clean pass, 151 static pages generated. Tagged `v0.7.2`.

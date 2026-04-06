@@ -1,0 +1,16 @@
+**Phase 5.2: Touch-first quiz** — committed and tagged `phase-5.2-touch-first-quiz`. Build and typecheck pass.
+
+### What was implemented:
+
+| Feature | Detail |
+|---|---|
+| **Swipe navigation** | Custom `useSwipe` hook using native touch events (zero new deps). Swipe-right = back, swipe-left = advance on multi-select. `touch-pan-y` preserves vertical scroll. |
+| **Full-screen immersive** | All quiz containers use `100dvh` instead of `100vh`, eliminating layout jumps from mobile browser chrome. |
+| **Haptic + tap feedback** | `navigator.vibrate(10)` on option taps and navigation. `active:scale-[0.97]` press effect on all interactive elements. |
+| **Compact progress** | Mobile: dot indicator with elongated pill for active step. Desktop: thin bar unchanged. Both fixed-top with backdrop blur. |
+| **Sticky CTA** | Results page: fixed bottom bar on mobile with Refresh/Retake buttons + safe-area padding. Content padded to avoid overlap. |
+| **Bonus** | Result thumbnails migrated `<img>` → `next/image`. Navigation buttons now sticky at bottom with gradient fade for thumb reach. Directional slide animation (left vs right). |
+
+### Files changed:
+- **New**: `apps/web/hooks/use-swipe.ts`
+- **Modified**: `app/quiz/page.tsx`, `components/quiz/quiz-step.tsx`, `components/quiz/quiz-results.tsx`, `IMPLEMENTATION_PLAN.md`

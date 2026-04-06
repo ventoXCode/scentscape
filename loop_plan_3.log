@@ -1,0 +1,17 @@
+`IMPLEMENTATION_PLAN.md` has been fully rewritten based on comprehensive analysis of all 7 specs, 50+ source files, and the backend API. Key changes from the previous plan:
+
+**New Phase 0 added** — 6 critical bugs that must be fixed before building new features:
+- Product listing filters silently broken (params read but never applied)
+- Checkout success page param mismatch (Stripe redirects always fail)
+- Collection page brand display broken (type shape mismatch)
+- Accessibility blockers across cart drawer, performance bars, variant selector, search bar
+- Silent error states (add-to-cart, empty cart, empty search)
+- Missing footer component
+
+**Phase 1-7 significantly enriched** with precise file paths, line-level current-state descriptions, specific code patterns to replace, and newly discovered gaps:
+- Quiz scoring is 100% binary (no partial credit), with redundant dimensions and boundary-value bugs
+- No URL routing or localStorage persistence in quiz (back button breaks, refresh resets)
+- Product detail uses `<img>` not `<Image>`, no image gallery despite `images` array existing
+- `QueryClient` installed but never actually used for data fetching
+- Wishlist is a complete stub — no backend, no data model, no UI integration
+- JSON-LD hardcodes `InStock` regardless of actual stock

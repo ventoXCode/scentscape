@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Recent searches in search bar; pinch-to-zoom on mobile image gallery; "How to Find Your Signature Scent" educational guide)
+> Last updated: 2026-04-06 (Seasonal picks editorial section on homepage)
 
 ---
 
@@ -214,7 +214,7 @@
 ### 3.4 — Editorial and discovery content
 - [x] Featured fragrances with editorial "Editor's Picks" framing and "View All" link
 - [x] Fragrance 101 educational teaser section (implemented in Phase 7.3 — "Learn the Basics" section on homepage)
-- [ ] Trending / seasonal picks with editorial framing (deferred: requires seasonal logic)
+- [x] Trending / seasonal picks with editorial framing — `SeasonalPicks` async server component (`components/home/seasonal-picks.tsx`) auto-detects current season, queries Meilisearch for matching products, renders 4-product grid with editorial copy and "See all" link to the relevant collection page. Season configs for Spring/Summer/Fall/Winter with icon, tagline, and editorial text. Placed between Fragrance of the Day and Explore by Mood on homepage.
 - [ ] Collection highlights with visual storytelling (deferred: requires collection hero images — Phase 4.6)
 
 ### 3.5 — Below-the-fold experience ✅

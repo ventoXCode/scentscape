@@ -1,0 +1,21 @@
+Implementation plan updated. Here's a summary of the re-audit:
+
+**Key findings from the full codebase-vs-specs comparison:**
+
+**Critical bug discovered:** Product filters on `/products` are completely broken — `searchParams` are read but never applied to the Medusa query. All 50 products always display regardless of filter selection. (The `/search` page works correctly via Meilisearch.)
+
+**7 phases, priority-ordered:**
+
+1. **Quiz Personality Engine** — Near-total rewrite. Current: 5 linear steps, deterministic scoring (30+25+20+15+10=100), same inputs = same outputs. Spec: 8-12 branching questions, personality archetypes, non-deterministic recommendations, AI readiness, shareable results.
+
+2. **Design System Foundation** — Starting from zero. `globals.css` is literally one line (`@import "tailwindcss"`). No tokens, no serif font, no motion, no component abstractions. Everything is ad-hoc inline Tailwind.
+
+3. **Homepage Transformation** — Currently ~40 lines: plain text hero, single CTA, 4 product cards, nothing below the fold. Spec: immersive full-viewport hero, value prop section, social proof, editorial content, scroll animations.
+
+4. **Product Discovery UX** — Broken filters, minimal product cards (no family indicator, no badges), basic scent pyramid (colored boxes), progress-bar performance ratings, 6 hardcoded collections with no editorial feel, zero cross-sell/similar-products.
+
+5. **Mobile-First Experience** — Basic Tailwind responsive only. No bottom nav, no swipe gestures, no mobile menu visible in header, sidebar filters unusable on mobile, fixed-width search bar.
+
+6. **Monetization Architecture** — Direct B2C only. No affiliate links, no sample boxes, wishlist is a stub page. Full checkout flow exists and works.
+
+7. **Educational Content Layer** — Zero educational content anywhere. No tooltips, no guides, no glossary, no blog.

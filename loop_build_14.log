@@ -1,0 +1,12 @@
+Done. Here's what was implemented:
+
+**Phase 7.4: SEO Structured Data** — committed as `5c5b457`, tagged `v7.4-seo-structured-data`
+
+### Changes made:
+1. **`ArticleJsonLd` component** — reusable Article schema + BreadcrumbList, applied to 5 learn page types (~100 pages total)
+2. **`FaqJsonLd` component** — FAQPage schema applied to glossary with 30+ structured Q&A pairs (concentrations, families, metrics, general terms)
+3. **Metadata on products page** — title/description/OG tags for `/products`
+4. **Metadata on quiz page** — via `app/quiz/layout.tsx` (quiz itself is a client component)
+5. **NoteProducts server-rendered** — converted from client-side Meilisearch fetch to async server component, so product links on 93 note profile pages are in the initial HTML for crawlers
+
+Build passes cleanly: 240 static pages, no type errors.

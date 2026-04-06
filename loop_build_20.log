@@ -1,0 +1,9 @@
+**Phase 5.5 complete.** Committed as `6f45abd` and tagged `v0.5.5-performance`. Build and typecheck pass cleanly.
+
+**What was done:**
+- **Dynamic imports** for 4 heavy client components via `next/dynamic` — CheckoutForm (Stripe), FragranceWheel (SVG), QuizResults, CartDrawer — each with loading fallbacks
+- **next.config.ts hardened** — `poweredByHeader: false`, HSTS, Permissions-Policy headers, immutable cache headers for static assets
+- **Web Vitals** — `WebVitalsReporter` component reporting CLS/FCP/LCP/FID/TTFB/INP to GA and dev console
+- **PWA foundation** — `manifest.json` with theme color and `appleWebApp` metadata
+
+**Build output highlights:** Shared JS is 114 kB. Quiz page dropped to 8.8 kB first load (results module deferred). Checkout is 8.74 kB (Stripe deferred to client-side load). 245 static pages generated successfully.

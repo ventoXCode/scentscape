@@ -1,0 +1,18 @@
+**Phase 6.2: Sample Box Foundation — complete.** Build and typecheck pass, committed as `36042b6`, tagged `v0.6.2`.
+
+Here's what was built:
+
+**New files (6):**
+- `lib/samples/config.ts` — 2 pricing tiers (Starter $25/3, Discovery $35/5), partner URL builder
+- `lib/samples/context.tsx` — `SampleBoxProvider` with localStorage persistence (max 5 items)
+- `components/samples/sample-box-button.tsx` — inline (product pages) and compact (quiz cards) variants
+- `components/samples/sample-box-cta.tsx` — bulk "Get Top N as Samples" CTA for quiz results
+- `components/samples/sample-box-summary.tsx` — box manager with progress bar, item list, tier pricing, partner checkout
+- `app/samples/page.tsx` — landing page with hero, how-it-works, pricing tiers, FAQ, sticky summary sidebar
+
+**Integrations (6 files modified):**
+- **Quiz results** — bulk CTA after results list + per-result "Try Sample" button alongside affiliate links
+- **Product detail pages** — "Try Before You Buy" button below purchase section
+- **Providers** — `SampleBoxProvider` added to provider tree
+- **Footer** — Sample Box link in Discover section
+- **Sitemap** — `/samples` added

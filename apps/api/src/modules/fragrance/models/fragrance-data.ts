@@ -5,12 +5,12 @@ export const FragranceData = model.define("fragrance_data", {
   product_id: model.text().unique(),
 
   // Three-tier scent pyramid
-  top_notes: model.json().$default(() => []),    // string[]
-  heart_notes: model.json().$default(() => []),  // string[]
-  base_notes: model.json().$default(() => []),   // string[]
+  top_notes: model.json().default([]),    // string[]
+  heart_notes: model.json().default([]),  // string[]
+  base_notes: model.json().default([]),   // string[]
 
   // Classification
-  accords: model.json().$default(() => []),      // string[]
+  accords: model.json().default([]),      // string[]
   family: model.enum(["Fresh", "Floral", "Amber", "Woody"]),
   sub_family: model.text().nullable(),
   concentration: model.enum(["EDC", "EDT", "EDP", "Parfum", "Extrait"]),
@@ -22,9 +22,7 @@ export const FragranceData = model.define("fragrance_data", {
 
   // Additional metadata
   gender: model.enum(["Masculine", "Feminine", "Unisex"]).default("Unisex"),
-  season: model.json().$default(() => []),       // string[] e.g., ["Spring", "Summer"]
-  occasion: model.json().$default(() => []),     // string[] e.g., ["Office", "Date Night"]
+  season: model.json().default([]),       // string[] e.g., ["Spring", "Summer"]
+  occasion: model.json().default([]),     // string[] e.g., ["Office", "Date Night"]
 
-  created_at: model.dateTime(),
-  updated_at: model.dateTime(),
 });

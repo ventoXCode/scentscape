@@ -1,0 +1,28 @@
+Here's a summary of everything implemented in this session:
+
+**6 commits, all building and typechecking cleanly:**
+
+1. **Phase 2.4 — Toast notification system** (`components/ui/toast.tsx`)
+   - `ToastProvider` + `useToast` hook with stacked notifications (max 3)
+   - Auto-dismiss (success 3s, error 5s, info 4s), slide-in animation, `aria-live`
+   - Wired into: add-to-cart, cart drawer, wishlist toggle, login/register
+
+2. **Phase 1.5 — "Explore more like this"** on quiz result cards
+   - Each recommendation links to `/search?family=X&accords=Y`
+
+3. **Phase 1.4 — Per-question visual themes** for quiz
+   - Each question gets distinct background gradient + accent colors using fragrance family design tokens
+
+4. **Phase 4.6 — 4 new dynamic collections** (10 total)
+   - Best for Beginners, Long-Lasting Legends, Spring Picks, Under $150
+   - Added `searchSort` field to Collection interface
+
+5. **Phase 4.2 — Premium product card refinements**
+   - 3:4 aspect ratio, serif display font, accent-colored prices
+
+6. **Phase 6.1 — Affiliate commerce infrastructure**
+   - `AffiliateLinks` component with 3 retailers (Sephora, Nordstrom, FragranceNet)
+   - Integrated on product detail pages and quiz result cards
+   - Click tracking + affiliate disclosure
+
+Tagged as `v0.9.0`.

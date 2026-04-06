@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/product/product-card";
 import { HeroSection } from "@/components/home/hero-section";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
 import { FragranceOfTheDay } from "@/components/home/fragrance-of-the-day";
+import { SeasonalPicks } from "@/components/home/seasonal-picks";
 import { MOODS } from "@/lib/discovery/moods";
 
 export const metadata: Metadata = {
@@ -192,6 +193,11 @@ export default async function HomePage() {
       {/* Fragrance of the Day */}
       <Suspense>
         <FragranceOfTheDay />
+      </Suspense>
+
+      {/* Seasonal Picks */}
+      <Suspense>
+        <SeasonalPicks />
       </Suspense>
 
       {/* Explore by Mood */}

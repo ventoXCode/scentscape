@@ -1,0 +1,15 @@
+**Phase 1.6 complete.** Here's what was implemented:
+
+**Backend (Medusa module):**
+- `quiz-session` module with `QuizSession` model — stores answers, 4D personality dimensions, family/accord affinities, archetype ID, and full recommendation results
+- `share_id` field (8-char URL-safe base64) for shareable links
+- `customer_id` linked when authenticated
+- 3 API routes: `POST /store/quiz-sessions` (save), `GET /store/quiz-sessions/:id` (by share ID), `GET /store/quiz-sessions/me` (authenticated user's sessions)
+
+**Frontend:**
+- "Save & Share Results" button on quiz results page — saves session to backend, shows copy-link UI
+- `/quiz/results/[id]` — server-rendered shareable results page with OG metadata per archetype and "Take the Quiz" CTA
+- `/account/scent-profile` — shows user's latest archetype with gradient card, quiz history with links to saved results, empty state with quiz CTA
+- Account dashboard now includes "Scent Profile" card
+
+**Build:** Typecheck and build pass clean. Tagged `v0.1.6`.

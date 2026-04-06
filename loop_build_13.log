@@ -1,0 +1,35 @@
+Here's a summary of everything implemented in this session:
+
+## Completed
+
+1. **Phase 6.3: Wishlist** — Full client-side wishlist with localStorage persistence
+   - WishlistContext with toggle/remove/isWishlisted API
+   - Heart button on every product card (overlay) and product detail page (labeled)
+   - Header heart icon with count badge (desktop + mobile)
+   - Functional wishlist page replacing "coming soon" stub
+
+2. **Phase 7.4: SEO enrichment**
+   - Product JSON-LD: AggregateOffer, category, fragrance-specific additionalProperty fields
+   - WebSite JSON-LD with SearchAction on root layout
+   - BreadcrumbList JSON-LD on product pages
+   - Sitemap: added mood pages, note pages, fixed lastModified dates
+
+3. **Phase 7.2: Note profile pages** — 93 SSG pages
+   - `/learn/notes` index with 117 notes grouped by 11 families
+   - `/learn/notes/[slug]` detail pages with Meilisearch product discovery
+   - Added to sitemap, footer, and learn hub
+
+4. **Phase 7.3: Educational content integration**
+   - Product pages: "Learn more" links to family/note/guide pages
+   - Quiz results: educational links based on archetype affinities
+
+5. **Cross-cutting: TypeScript cleanup**
+   - QueryClient moved to useRef for SSR safety
+   - All `as any` casts eliminated
+
+6. **Phase 4.6: Collection page pagination**
+   - PAGE_SIZE=24, URL-driven pagination, Previous/Next navigation
+
+7. **Cross-cutting: ISR/caching directives**
+   - `revalidate=300` on products and search pages
+   - `force-dynamic` on checkout, account, and orders pages

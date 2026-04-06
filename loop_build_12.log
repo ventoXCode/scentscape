@@ -1,0 +1,24 @@
+Done. Here's what was implemented in **Phase 5.3 — Mobile-optimized layouts**:
+
+**Swipeable Image Gallery** (`image-gallery.tsx`)
+- Swipe left/right navigation using the existing `useSwipe` hook
+- Slide-in animations (left/right) via new CSS keyframes
+- Mobile: dot indicator with active pill state + image counter badge
+- Desktop: prev/next arrow buttons + thumbnail strip preserved
+
+**Checkout Mobile Optimization**
+- Address fields stack to single column on mobile (`grid-cols-1 sm:grid-cols-2`)
+- All inputs enlarged to 44px touch targets (`py-3`)
+- `inputMode="numeric"` on postal code for mobile keyboard
+- Step indicator responsive spacing, Back button minimum width
+- Order summary shown first on mobile (above the form)
+- Sidebar sticky scoped to desktop only (`lg:sticky`)
+- Item thumbnails migrated from `<img>` to `next/image`
+
+**Search Bar Mobile UX**
+- Fluid width on mobile (`w-full sm:w-64`)
+- Touch-friendly suggestion rows (`min-h-[52px]`)
+- `touchstart` event listener for reliable mobile dismiss
+- Larger "See all results" and "Try full search" link targets
+
+Build and typecheck pass cleanly. Tagged as `v0.5.3`.

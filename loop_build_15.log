@@ -1,0 +1,20 @@
+All done. Here's a summary of what was implemented across 3 commits (tagged `v0.8.0`):
+
+**Phase 6.3** — Cart-customer association on login/register
+- `transferGuestCart()` in `auth-actions.ts` calls `medusa.store.cart.transferCart` after login/register, so guest carts persist across authentication
+
+**Phase 2.5** — View Transitions API
+- Enabled `experimental.viewTransition` in Next.js config
+- Added `::view-transition-old/new(root)` CSS rules for smooth cross-fade page navigation
+
+**Phase 4.5** — Smart quiz-to-catalog connection
+- "Shop Your Profile" CTA on quiz results links to `/search?family=X` for each high-affinity family
+
+**Phase 7.1** — "What is [note]?" expandable cards
+- Native `<details>`/`<summary>` accordion in `RelatedEducation` showing note descriptions inline with tier labels and learn-more links
+
+**Phase 2.6** — Scent pyramid scroll animation
+- IntersectionObserver triggers staggered `animate-fade-in-up` per tier (150ms between top/heart/base)
+
+**Phase 4.2** — Product card hover quick-preview
+- CSS-only overlay slides up from image bottom showing description snippet and verbal longevity/sillage labels

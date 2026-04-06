@@ -1,0 +1,23 @@
+All done. Here's what was implemented:
+
+**1. Recent searches in search bar** (`search-bar.tsx`)
+- localStorage-persisted search history (max 5 entries)
+- Shows when input is focused with no/short query
+- Clock icon per entry, individual remove (x button on hover), "Clear all"
+- Auto-saves on form submit, Enter key, and suggestion click
+
+**2. Pinch-to-zoom on mobile image gallery** (`image-gallery.tsx`)
+- Two-finger pinch gesture tracking with scale 1-3x
+- Single-finger panning when zoomed in
+- Double-tap to reset zoom
+- Auto-reset when switching images
+- Swipe navigation guarded against multi-touch and zoomed state
+- Non-passive `touchmove` listener for `preventDefault()` during pinch
+
+**3. "How to Find Your Signature Scent" guide** (`/learn/signature-scent`)
+- 7-step discovery roadmap with tips and internal links
+- 5 common traps section
+- ArticleJsonLd structured data
+- Added to sitemap, footer, and guide registry
+
+Build and typecheck pass clean. Tagged as `v0.9.1`.

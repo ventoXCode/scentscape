@@ -1,0 +1,17 @@
+Done. Committed `00e3414` and tagged `v0.4.0`. Here's what was implemented:
+
+**Phase 4.1 — Product detail image handling**
+- `ImageGallery` client component (`components/product/image-gallery.tsx`) — uses `next/image` with `priority`, thumbnail strip for multi-image products, falls back to single thumbnail
+- Breadcrumb navigation (Home / Fragrances / Product Title)
+- Replaced unoptimized `<img>` tag
+
+**Phase 4.4 — Sort controls**
+- `SortSelect` component (`components/filters/sort-select.tsx`) — price asc/desc, longevity, sillage
+- Wired into both `/products` and `/search` pages via Meilisearch `sortableAttributes`
+- Products page now uses Meilisearch when sorting is active (previously only when filters active)
+
+**Phase 4.2 — Enhanced product cards**
+- Family color dot + name badge overlaid on card image (Fresh, Floral, Amber, Woody, Citrus, Aromatic)
+- Concentration badge (EDC/EDT/EDP/Parfum/Extrait)
+
+Build and typecheck pass cleanly.

@@ -1,0 +1,15 @@
+Done. The `IMPLEMENTATION_PLAN.md` has been written with 7 phases, ~80 line items, sorted by priority.
+
+**Summary of the gap analysis:**
+
+| Phase | Gap Severity | Key Finding |
+|---|---|---|
+| **1. Design System** | Massive | Zero design tokens, no custom fonts, no motion library, no component abstractions — everything is raw Tailwind utilities |
+| **2. Quiz Engine** | Near-total rewrite | Current quiz is a 5-step deterministic product filter. Spec requires personality archetypes, branching questions, non-deterministic recommendations, AI readiness, shareable results |
+| **3. Homepage** | Massive | Static hero + 4 product cards. Spec requires immersive hero, value prop, social proof, editorial content, scroll animations, and progressive disclosure |
+| **4. Product Discovery** | Significant + critical bug | **Filters don't actually work** (URL params are wired but never applied to queries). Beyond the bug: no sorting UI, no recommendations, no mood browsing, no educational context on product pages |
+| **5. Mobile** | Significant | Basic responsive only. No touch gestures, bottom nav, swipe navigation, sticky CTAs, or thumb-zone awareness |
+| **6. Monetization** | Complete gap | Direct sales only. No affiliate links, sample boxes, or premium tier infrastructure |
+| **7. Education** | Complete gap | Zero educational content anywhere on the platform |
+
+**What's already solid and doesn't need rework:** The Medusa backend data model, Meilisearch sync/indexing, cart+checkout+Stripe flow, auth system, SEO basics, and the 100-fragrance seed dataset.

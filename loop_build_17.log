@@ -1,0 +1,15 @@
+**Phase 5.4 complete.** Here's what was implemented:
+
+**SwipeableProductCard** (`components/product/swipeable-product-card.tsx`):
+- Swipe left on any product card reveals a wishlist toggle action panel (72px) with heart icon and haptic feedback
+- Long-press (500ms) shows a centered quick preview modal with title, brand, family/concentration badges, price, description, longevity/sillage labels, wishlist toggle, and "View Details" link
+- Click prevention during swipe avoids accidental navigation
+- Desktop: invisible wrapper via `md:contents` — cards render as direct grid children unchanged
+
+**PullToRefresh** (`components/ui/pull-to-refresh.tsx`):
+- Touch pull-down from top of page with resistance factor, spinner indicator, 80px threshold triggers `router.refresh()` for ISR revalidation
+- Mobile-only (`md:hidden`)
+
+**Integration**: Both components integrated on all 4 catalog pages — `/products`, `/search`, `/collections/[slug]`, `/moods/[slug]`.
+
+Build and typecheck pass. Committed as `96a1ed7` and tagged `v5.4-mobile-product-interactions`.

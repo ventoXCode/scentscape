@@ -1,0 +1,22 @@
+Phase 4.5 — Discovery Mechanisms is complete. Here's a summary of what was implemented:
+
+**New pages:**
+- `/moods` — Browse-by-mood index with 8 vibe categories in a card grid
+- `/moods/[slug]` — Individual mood pages with hero, editorial copy, and filtered product grid (SSG via `generateStaticParams`)
+
+**New components:**
+- `FragranceOfTheDay` — Server component on homepage; deterministic daily product spotlight from Meilisearch
+- "Explore by Mood" — Homepage section showcasing first 4 moods with "See all moods" link
+
+**Enhanced ProductCard:**
+- "Beginner Friendly" badge (green, for sillage ≤ 2.5)
+- Seasonal badges ("Spring Pick", "Summer Pick", etc.) matching current season
+- Badge data passed from all 5 Meilisearch-backed callers
+
+**Sort & Navigation:**
+- "Best for Beginners" sort option (`sillage:asc`) in SortSelect
+- "Moods" link added to desktop and mobile nav
+
+**8 mood categories:** Main Character Energy, Quiet Luxury, Sunday Morning, After Dark, Fresh Start, Free Spirit, Sweet Escape, New to Fragrance
+
+Build passes clean, typecheck passes, tagged as `v0.4.5`.

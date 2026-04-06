@@ -9,14 +9,16 @@
     "seed": "medusa exec ./src/scripts/seed-fragrances.ts"
   },
   "dependencies": {
+    "@medusajs/admin-sdk": "^2.0.0",
     "@medusajs/framework": "^2.0.0",
     "@medusajs/medusa": "^2.0.0",
-    "@medusajs/admin-sdk": "^2.0.0",
-    "pg": "^8.0.0",
-    "meilisearch": "^0.44.0"
+    "meilisearch": "^0.44.0",
+    "pg": "^8.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "@swc/core": "^1.15.24",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
   }
 }

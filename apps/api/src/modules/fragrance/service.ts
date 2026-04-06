@@ -5,15 +5,15 @@ export class FragranceModuleService extends MedusaService({
   FragranceData,
 }) {
   async getByProductId(productId: string) {
-    const [data] = await this.listFragranceDatas({
-      filters: { product_id: productId },
+    const data = await (this as any).listFragranceData({
+      product_id: productId,
     });
-    return data;
+    return data[0];
   }
 
   async getByProductIds(productIds: string[]) {
-    const data = await this.listFragranceDatas({
-      filters: { product_id: productIds },
+    const data = await (this as any).listFragranceData({
+      product_id: productIds,
     });
     return data;
   }
@@ -22,13 +22,13 @@ export class FragranceModuleService extends MedusaService({
     const existing = await this.getByProductId(productId);
 
     if (existing) {
-      return this.updateFragranceDatas([{
+      return (this as any).updateFragranceData([{
         id: existing.id,
         ...fragranceData,
       }]);
     }
 
-    return this.createFragranceDatas([{
+    return (this as any).createFragranceData([{
       product_id: productId,
       ...fragranceData,
     }]);

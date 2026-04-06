@@ -1,0 +1,17 @@
+Done. Here's what was implemented:
+
+**Phase 5.1 — Mobile Bottom Navigation** (`5c0e23f`)
+- Persistent bottom nav bar with 5 items: Home, Shop, Quiz (elevated hero button), Cart (with badge), Account
+- Route-aware active states, `aria-current="page"` accessibility
+- Cart drawer state lifted to `CartContext` so both Header and BottomNav can open it
+- Product page sticky add-to-cart repositioned above bottom nav
+- Safe area inset support for notched devices (`viewport-fit: cover`)
+
+**Phase 7.1 — Contextual Fragrance Education** (`52244c6`)
+- Concentration tooltips (EDC→Extrait) on product filters and search facets
+- Scent family tooltips (Fresh, Floral, Amber, etc.) on filters and search facets
+- Centralized glossary utility at `lib/fragrance/glossary.ts`
+- Educational hints on 4 quiz questions (experience, families, intensity, season)
+- Scent pyramid enriched with tier explanations and educational intro
+
+Tagged as `v0.6.0`. Zero build/typecheck errors.

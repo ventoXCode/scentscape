@@ -1,0 +1,14 @@
+Done. Here's what was implemented:
+
+**Phase 4.4 — Filter tooltips + visual icons** (now complete):
+- Extended `glossary.ts` with `GENDER_DESCRIPTIONS` (3), `SEASON_DESCRIPTIONS` (4), and `ACCORD_DESCRIPTIONS` (19 common accords)
+- `search-facets.tsx`: all 5 facet types now have hover tooltips via unified `TOOLTIP_MAPS`, plus visual indicators — family color dots (`bg-family-*`), season emojis (🌸☀️🍂❄️), gender symbols (♂♀⚤)
+- `product-filters.tsx`: added family color dots and expanded family options to include all 6 families (was missing Citrus and Aromatic)
+
+**Phase 4.5 — Interactive fragrance wheel** (new):
+- SVG-based `FragranceWheel` client component (`components/discovery/fragrance-wheel.tsx`) with 6 polar-coordinate segments
+- Hover/click to explore — shows expandable subfamily ring, detail panel with description, signature note pills, subfamilies, and browse/learn links
+- `/explore` page with hero, wheel, mobile grid fallback, and discovery CTAs
+- Added "Explore" to header nav (desktop + mobile), footer, and sitemap
+
+Build and typecheck pass cleanly. Committed as `3dd6b6c`, tagged `v0.4.5.1`.
