@@ -247,7 +247,7 @@
 - [x] Visual badges: "Beginner Friendly" (sillage ≤ 2.5) and seasonal "Spring/Summer/Fall/Winter Pick" badges rendered in top-right corner of product card image, using `success-subtle` and `family-amber-subtle` design tokens. Badge data (sillage, longevity, season) passed from all Meilisearch-backed callers (products, search, collections, similar, moods).
 - [x] Add `priority` prop on above-fold product card images for LCP optimization
 - [x] Price range display for multi-variant products — Shows 'From $X' when multiple variant prices exist
-- [ ] Premium feel: refined aspect ratios, image treatments, typography
+- [x] Premium feel: refined aspect ratios, image treatments, typography — product card aspect ratio changed from 1:1 to 3:4 for editorial proportion, product title uses `font-display` serif for premium feel, brand name tracking widened, price highlighted with `accent-primary` color, improved vertical rhythm
 
 ### 4.3 — Product detail page enrichment ✅ (partial)
 - [x] "Scent Journey" narrative: timeline-based component (`scent-journey.tsx`) describing opening → heart → drydown with auto-generated prose from note data, visual timeline with family-colored dots/lines

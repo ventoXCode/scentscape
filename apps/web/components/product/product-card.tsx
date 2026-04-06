@@ -87,7 +87,7 @@ export function ProductCard({ product, priority }: ProductCardProps) {
       href={`/products/${product.handle}`}
       className="group block border border-border-default rounded-xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
     >
-      <div className="aspect-square bg-surface-subtle relative overflow-hidden">
+      <div className="aspect-[3/4] bg-surface-subtle relative overflow-hidden">
         {product.thumbnail ? (
           <Image
             src={product.thumbnail}
@@ -183,20 +183,20 @@ export function ProductCard({ product, priority }: ProductCardProps) {
       </div>
       <div className="p-4">
         {brand && (
-          <p className="text-xs text-text-muted uppercase tracking-wider mb-1">
+          <p className="text-[11px] text-text-muted uppercase tracking-widest mb-1">
             {brand}
           </p>
         )}
-        <h3 className="font-medium text-text-primary mb-1 line-clamp-2">
+        <h3 className="font-display font-semibold text-text-primary mb-1 line-clamp-2 leading-snug">
           {product.title}
         </h3>
         {topNote && (
-          <p className="text-xs text-text-muted mb-1.5 truncate">
+          <p className="text-xs text-text-muted mb-2 truncate">
             Top note: {topNote}
           </p>
         )}
         {minPrice !== null && (
-          <p className="text-sm font-semibold text-text-primary">
+          <p className="text-sm font-semibold text-accent-primary">
             {hasRange ? `From ${formatPrice(minPrice)}` : formatPrice(minPrice)}
           </p>
         )}
