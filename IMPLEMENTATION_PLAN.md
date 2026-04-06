@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 5.3: Search suggested queries)
+> Last updated: 2026-04-06 (Phase 2.5: Grain overlay + hero parallax)
 
 ---
 
@@ -169,6 +169,8 @@
 - [x] `ScrollReveal` client component (`components/home/scroll-reveal.tsx`): IntersectionObserver-driven entrance animations with configurable delay
 - [x] Define transition tokens: `--transition-timing-function-smooth` cubic-bezier easing, `slide-in-right`/`slide-out-right` animation keyframes in `globals.css`
 - [x] Card hover states: `shadow-card` → `shadow-card-hover` + `border-border-strong` + image `scale-105` — already implemented in `product-card.tsx`
+- [x] Film grain texture overlay: `.grain-overlay` CSS utility in `globals.css` using SVG `feTurbulence` noise filter as `::after` pseudo-element, `mix-blend-mode: multiply` at 3.5% opacity (6% in dark mode with `soft-light`). Applied to product card image containers for consistent photography feel across diverse Unsplash sources.
+- [x] Scroll-driven parallax on hero floating orbs: `useEffect` scroll listener with `requestAnimationFrame` throttling, per-orb parallax factors (-0.05 to -0.15) creating depth effect. `prefers-reduced-motion` check disables parallax entirely.
 - [x] Cart drawer: slide-in/slide-out animation with CSS `translate-x` transition (300ms ease-smooth), overlay fade, deferred first render via `hasBeenOpened` state, `pointer-events-none` + `aria-hidden` when closed
 - [x] Page transition patterns — Next.js View Transitions API enabled via `experimental.viewTransition`, CSS cross-fade rules for `::view-transition-old/new(root)`
 - [x] `prefers-reduced-motion` support: global `@media (prefers-reduced-motion: reduce)` rule in `globals.css` disables all animations and transitions site-wide (sets `animation-duration: 0.01ms`, `transition-duration: 0.01ms`, `scroll-behavior: auto`). View Transitions also disabled. `ScrollReveal` component detects reduced-motion preference via `matchMedia` and shows content immediately without waiting for IntersectionObserver.

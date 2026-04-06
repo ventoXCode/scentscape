@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ROTATING_WORDS = ["Signature", "Perfect", "Dream", "Ideal", "Unique"];
 
 export function HeroSection() {
   const [wordIndex, setWordIndex] = useState(0);
   const [visible, setVisible] = useState(true);
+  const [scrollY, setScrollY] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -20,14 +22,33 @@ export function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
+  // Parallax scroll for floating orbs
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-surface-primary via-surface-subtle/50 to-surface-primary">
-      {/* Decorative floating orbs */}
+    <section ref={sectionRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-surface-primary via-surface-subtle/50 to-surface-primary">
+      {/* Decorative floating orbs with scroll parallax */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-[15%] left-[10%] w-64 h-64 rounded-full bg-family-floral/10 blur-3xl animate-float" />
-        <div className="absolute top-[60%] right-[8%] w-80 h-80 rounded-full bg-family-amber/10 blur-3xl animate-float-delayed" />
-        <div className="absolute bottom-[10%] left-[30%] w-48 h-48 rounded-full bg-family-fresh/10 blur-3xl animate-float-slow" />
-        <div className="absolute top-[30%] right-[25%] w-36 h-36 rounded-full bg-family-citrus/8 blur-2xl animate-float-slow" />
+        <div className="absolute top-[15%] left-[10%] w-64 h-64 rounded-full bg-family-floral/10 blur-3xl animate-float" style={{ transform: `translateY(${scrollY * -0.12}px)` }} />
+        <div className="absolute top-[60%] right-[8%] w-80 h-80 rounded-full bg-family-amber/10 blur-3xl animate-float-delayed" style={{ transform: `translateY(${scrollY * -0.08}px)` }} />
+        <div className="absolute bottom-[10%] left-[30%] w-48 h-48 rounded-full bg-family-fresh/10 blur-3xl animate-float-slow" style={{ transform: `translateY(${scrollY * -0.15}px)` }} />
+        <div className="absolute top-[30%] right-[25%] w-36 h-36 rounded-full bg-family-citrus/8 blur-2xl animate-float-slow" style={{ transform: `translateY(${scrollY * -0.05}px)` }} />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center max-w-3xl animate-fade-in-up">

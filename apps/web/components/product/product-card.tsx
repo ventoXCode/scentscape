@@ -93,7 +93,7 @@ export function ProductCard({ product, priority }: ProductCardProps) {
       href={`/products/${product.handle}`}
       className="group block border border-border-default rounded-xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
     >
-      <div className="aspect-[3/4] bg-surface-subtle relative overflow-hidden">
+      <div className="aspect-[3/4] bg-surface-subtle relative overflow-hidden grain-overlay">
         {product.thumbnail ? (
           <Image
             src={product.thumbnail}
