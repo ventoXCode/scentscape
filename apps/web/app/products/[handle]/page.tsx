@@ -18,6 +18,9 @@ import { WishlistButton } from "@/components/product/wishlist-button";
 import { AffiliateLinks } from "@/components/product/affiliate-links";
 import { SampleBoxButton } from "@/components/samples/sample-box-button";
 import { RecentlyViewedTracker } from "@/components/product/recently-viewed-tracker";
+import { ProductReviews } from "@/components/product/reviews/product-reviews";
+import { getProductReviews } from "@/lib/reviews/actions";
+import { getAuthToken } from "@/lib/medusa/auth-actions";
 import { SITE_URL } from "@/lib/constants";
 
 interface ProductPageProps {
@@ -106,7 +109,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = products[0];
   if (!product) notFound();
 
-  const fragranceData = await getFragranceData(product.id);
+  const [fragranceData, reviewsData, authToken] = await Promise.all([
+    getFragranceData(product.id),
+    getProductReviews(product.id),
+    getAuthToken(),
+  ]);
 
   const productImages = (product.images || []).map((img: { id: string; url: string }) => ({
     id: img.id,
@@ -129,6 +136,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           metadata: product.metadata ?? null,
         }}
         fragranceData={fragranceData ?? undefined}
+        reviewData={reviewsData && reviewsData.reviewCount > 0 ? {
+          averageRating: reviewsData.averageRating,
+          reviewCount: reviewsData.reviewCount,
+        } : undefined}
       />
       <script
         type="application/ld+json"
@@ -296,6 +307,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
           accords={fragranceData.accords}
         />
       )}
+
+      <ProductReviews
+        productId={product.id}
+        initialReviews={reviewsData?.reviews ?? []}
+        initialAverageRating={reviewsData?.averageRating ?? 0}
+        initialReviewCount={reviewsData?.reviewCount ?? 0}
+        initialDistribution={reviewsData?.distribution ?? { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }}
+        isAuthenticated={!!authToken}
+      />
     </div>
   );
 }

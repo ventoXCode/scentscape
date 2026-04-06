@@ -25,6 +25,10 @@ export default defineConfig({
       options: {},
     },
     {
+      resolve: "./src/modules/review",
+      options: {},
+    },
+    {
       resolve: "@medusajs/medusa/payment",
       options: {
         providers: [

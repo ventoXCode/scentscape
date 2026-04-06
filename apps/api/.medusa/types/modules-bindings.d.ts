@@ -25,6 +25,7 @@ import type { ILockingModule } from '@medusajs/framework/types'
 import type { IFileModuleService } from '@medusajs/framework/types'
 import type FragranceModuleService from '../../src/modules/fragrance'
 import type QuizSessionModuleService from '../../src/modules/quiz-session'
+import type ReviewModuleService from '../../src/modules/review'
 
 declare module '@medusajs/framework/types' {
   interface ModuleImplementations {
@@ -54,6 +55,7 @@ declare module '@medusajs/framework/types' {
     'locking': ILockingModule,
     'file': IFileModuleService,
     'fragranceModuleService': InstanceType<(typeof FragranceModuleService)['service']>,
-    'quizSessionModuleService': InstanceType<(typeof QuizSessionModuleService)['service']>
+    'quizSessionModuleService': InstanceType<(typeof QuizSessionModuleService)['service']>,
+    'reviewModuleService': InstanceType<(typeof ReviewModuleService)['service']>
   }
 }

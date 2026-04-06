@@ -25,9 +25,13 @@ interface ProductJsonLdProps {
     longevity: number | null;
     sillage: number | null;
   } | null;
+  reviewData?: {
+    averageRating: number;
+    reviewCount: number;
+  };
 }
 
-export function ProductJsonLd({ product, fragranceData }: ProductJsonLdProps) {
+export function ProductJsonLd({ product, fragranceData, reviewData }: ProductJsonLdProps) {
   const baseUrl = SITE_URL;
   const productUrl = `${baseUrl}/products/${product.handle}`;
 
@@ -122,6 +126,15 @@ export function ProductJsonLd({ product, fragranceData }: ProductJsonLdProps) {
     offers,
     ...(additionalProperties.length > 0 && {
       additionalProperty: additionalProperties,
+    }),
+    ...(reviewData && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: reviewData.averageRating.toFixed(1),
+        reviewCount: reviewData.reviewCount,
+        bestRating: "5",
+        worstRating: "1",
+      },
     }),
   };
 

@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 6.1: Server-side affiliate click tracking)
+> Last updated: 2026-04-06 (Phase 8: Product review and rating system)
 
 ---
 
@@ -433,7 +433,35 @@
 - [x] Metadata exports added to products listing page and quiz page (via layout.tsx for client component)
 - [x] OpenGraph metadata added to all section pages: moods, moods/[slug], collections, collections/[slug], search — fallback root-level OG with `metadataBase`, `twitter` card
 - [x] NoteProducts server-rendered — product links on 93 note profile pages now in initial HTML for crawler visibility
-- [ ] Add `aggregateRating` to product JSON-LD (deferred: requires review/rating system)
+- [x] Add `aggregateRating` to product JSON-LD — `ProductJsonLd` now accepts optional `reviewData` prop with `averageRating` and `reviewCount`, rendering `AggregateRating` schema with `bestRating`/`worstRating` for rich search result snippets. Enabled by Phase 8 review system.
+
+---
+
+## Phase 8: Product Review & Rating System
+
+**Why:** Reviews provide social proof, drive user engagement, and enable `aggregateRating` JSON-LD for rich search result snippets. This is the most impactful missing feature for a commerce platform — every spec references community engagement, and reviews are the foundation.
+
+**Current state (post-implementation):** Full review system with Medusa backend module, API endpoints, and frontend integration on product detail pages.
+
+### 8.1 — Review backend module ✅
+- [x] `Review` data model (`apps/api/src/modules/review/models/review.ts`): id, product_id, customer_id, rating (1-5), title (nullable), body (nullable), status (default "approved" for future moderation)
+- [x] `ReviewModuleService` (`apps/api/src/modules/review/service.ts`): extends `MedusaService` with `listByProductId` (approved only, newest first), `getAggregateByProductId` (average rating, count, 1-5 star distribution), `getByCustomerAndProduct` (duplicate prevention)
+- [x] Module registered in `medusa-config.ts`
+
+### 8.2 — Review API endpoints ✅
+- [x] `GET /store/products/:id/reviews` — public endpoint returning reviews array + aggregate stats (averageRating, reviewCount, distribution)
+- [x] `POST /store/reviews` — authenticated endpoint with validation: requires `product_id` and `rating` (integer 1-5), one review per customer per product (409 on duplicate), title truncated to 200 chars, body to 2000 chars
+
+### 8.3 — Review frontend components ✅
+- [x] `StarRating` display component (`components/product/reviews/star-rating.tsx`): supports partial fills for fractional ratings, sm/md/lg sizes, optional numeric value display, accessible `aria-label`
+- [x] `ProductReviews` client component (`components/product/reviews/product-reviews.tsx`): full review section with aggregate summary (large rating number + stars + count), 5-star distribution bar chart, "Write a Review" CTA (auth-gated with sign-in link for guests), expandable review form with interactive star input (`role="radiogroup"`), review list with date formatting, "Show All" pagination for 5+ reviews, optimistic UI updates on submission
+- [x] `submitReview` server action (`lib/reviews/actions.ts`): authenticates via auth cookie, forwards to Medusa backend, handles errors. `getProductReviews` server function for SSR data fetching with 60s revalidation.
+- [x] Toast notifications for review submission success/error via existing toast system
+
+### 8.4 — Review integration ✅
+- [x] Product detail page fetches review data server-side in parallel with fragrance data and auth status
+- [x] `ProductReviews` rendered below `SimilarFragrances` as full-width section
+- [x] `ProductJsonLd` updated with `aggregateRating` schema (Phase 7.4 item now complete) — conditionally rendered when `reviewCount > 0`
 
 ---
 
