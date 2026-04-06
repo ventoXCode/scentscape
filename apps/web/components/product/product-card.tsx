@@ -2,18 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
 import { WishlistButton } from "@/components/product/wishlist-button";
+import { getFamilyByName } from "@/lib/fragrance/family-config";
 
 const LONGEVITY_LABELS = ["", "Fleeting", "Short", "Moderate", "Long-lasting", "Legendary"];
 const SILLAGE_LABELS = ["", "Intimate", "Close", "Moderate", "Strong", "Enormous"];
-
-const FAMILY_COLORS: Record<string, string> = {
-  Fresh: "bg-family-fresh",
-  Floral: "bg-family-floral",
-  Amber: "bg-family-amber",
-  Woody: "bg-family-woody",
-  Citrus: "bg-family-citrus",
-  Aromatic: "bg-family-aromatic",
-};
 
 const SEASON_CONFIG: Record<string, { label: string; icon: string }> = {
   Spring: { label: "Spring Pick", icon: "\uD83C\uDF38" },
@@ -63,7 +55,8 @@ export function ProductCard({ product, priority }: ProductCardProps) {
   const family = product.family || (product.metadata?.family as string | undefined);
   const concentration = product.concentration || (product.metadata?.concentration as string | undefined);
   const topNote = product.topNote || null;
-  const familyColor = family ? FAMILY_COLORS[family] || "bg-text-muted" : null;
+  const familyConfig = family ? getFamilyByName(family) : undefined;
+  const familyColor = familyConfig ? familyConfig.classes.bg : null;
 
   // Compute contextual badges
   const badges: { label: string; className: string }[] = [];

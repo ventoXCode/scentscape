@@ -4,15 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FRAGRANCE_FAMILIES, type FragranceFamily } from "@/lib/learn/families";
 
-// HSL colors that map to our design token families, used inline for SVG fills
-const FAMILY_WHEEL_COLORS: Record<string, { main: string; subtle: string; text: string }> = {
-  fresh: { main: "#2D8F8F", subtle: "#E6F5F5", text: "#1A5C5C" },
-  floral: { main: "#C45B84", subtle: "#F9E8F0", text: "#8A3D5C" },
-  amber: { main: "#B8860B", subtle: "#FDF3D7", text: "#7A5A07" },
-  woody: { main: "#6B5B4F", subtle: "#F0EBE6", text: "#4A3F37" },
-  citrus: { main: "#D4A017", subtle: "#FFF8E1", text: "#8B6A10" },
-  aromatic: { main: "#4A7C59", subtle: "#E8F3EC", text: "#2F5139" },
-};
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 const SEGMENT_ANGLE = 360 / 6;
 const OUTER_RADIUS = 200;
@@ -138,7 +130,7 @@ export function FragranceWheel() {
             const startAngle = i * SEGMENT_ANGLE;
             const endAngle = startAngle + SEGMENT_ANGLE;
             const midAngle = startAngle + SEGMENT_ANGLE / 2;
-            const colors = FAMILY_WHEEL_COLORS[family.color];
+            const colors = FAMILIES[family.color as FamilySlug]?.hex ?? FAMILIES.fresh.hex;
             const isActive = activeFamily === family.slug;
 
             // Label position at 60% between inner and outer radius
@@ -283,8 +275,8 @@ export function FragranceWheel() {
                   key={note}
                   className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
                   style={{
-                    backgroundColor: FAMILY_WHEEL_COLORS[activeData.color].subtle,
-                    color: FAMILY_WHEEL_COLORS[activeData.color].text,
+                    backgroundColor: FAMILIES[activeData.color as FamilySlug]?.hex.subtle ?? FAMILIES.fresh.hex.subtle,
+                    color: FAMILIES[activeData.color as FamilySlug]?.hex.text ?? FAMILIES.fresh.hex.text,
                   }}
                 >
                   {note}

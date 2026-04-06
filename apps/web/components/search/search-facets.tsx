@@ -44,14 +44,7 @@ const TOOLTIP_MAPS: Record<string, Record<string, string>> = {
   accords: ACCORD_DESCRIPTIONS,
 };
 
-const FAMILY_ICON_COLORS: Record<string, string> = {
-  Fresh: "bg-family-fresh",
-  Floral: "bg-family-floral",
-  Amber: "bg-family-amber",
-  Woody: "bg-family-woody",
-  Citrus: "bg-family-citrus",
-  Aromatic: "bg-family-aromatic",
-};
+import { getFamilyByName } from "@/lib/fragrance/family-config";
 
 const SEASON_ICONS: Record<string, string> = {
   Spring: "🌸",
@@ -134,7 +127,7 @@ export function SearchFacets({
                 .map(([value, count]) => {
                   const isSelected = currentValue === value;
                   const tooltip = TOOLTIP_MAPS[facetKey]?.[value];
-                  const familyColor = facetKey === "family" ? FAMILY_ICON_COLORS[value] : undefined;
+                  const familyColor = facetKey === "family" ? getFamilyByName(value)?.classes.bg : undefined;
                   const seasonIcon = facetKey === "season" ? SEASON_ICONS[value] : undefined;
                   const genderIcon = facetKey === "gender" ? GENDER_ICONS[value] : undefined;
                   return (

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ALL_NOTES, getNoteBySlug, getNotesByFamily } from "@/lib/learn/notes";
 import { NoteProducts } from "./note-products";
 import { ArticleJsonLd } from "@/components/seo/article-jsonld";
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 interface NotePageProps {
   params: Promise<{ slug: string }>;
@@ -27,14 +28,6 @@ export function generateStaticParams() {
   return ALL_NOTES.map((note) => ({ slug: note.slug }));
 }
 
-const FAMILY_BG: Record<string, string> = {
-  fresh: "from-family-fresh/10 to-transparent",
-  floral: "from-family-floral/10 to-transparent",
-  amber: "from-family-amber/10 to-transparent",
-  woody: "from-family-woody/10 to-transparent",
-  citrus: "from-family-citrus/10 to-transparent",
-  aromatic: "from-family-aromatic/10 to-transparent",
-};
 
 export default async function NotePage({ params }: NotePageProps) {
   const { slug } = await params;
@@ -52,7 +45,8 @@ export default async function NotePage({ params }: NotePageProps) {
   const prev = idx > 0 ? ALL_NOTES[idx - 1] : null;
   const next = idx < ALL_NOTES.length - 1 ? ALL_NOTES[idx + 1] : null;
 
-  const gradientClass = FAMILY_BG[note.familySlug] ?? "from-surface-subtle to-transparent";
+  const familyVis = FAMILIES[note.familySlug as FamilySlug];
+  const gradientClass = familyVis?.noteGradient ?? "from-surface-subtle to-transparent";
 
   return (
     <div className="container mx-auto px-4 py-8">

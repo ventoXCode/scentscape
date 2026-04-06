@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Seasonal fragrance guides: 4 SSG learn pages with editorial content, product recommendations, and SEO structured data)
+> Last updated: 2026-04-06 (Distinct visual identities per fragrance family: centralized family-config.ts, 6 CSS pattern textures, 13 consumer files migrated)
 
 ---
 
@@ -184,7 +184,7 @@
   - [x] Add verbal scale labels alongside numbers (e.g., "Moderate", "Long-lasting")
   - [x] Add contextual tooltips explaining what sillage/projection mean
   - [x] Use Intersection Observer to animate rings on scroll-entry
-- [ ] Define distinct visual identities per fragrance family (color, pattern, illustration style)
+- [x] Define distinct visual identities per fragrance family (color, pattern, illustration style) — centralized `lib/fragrance/family-config.ts` as single source of truth for all 6 families' visual identity (colors, badges, cards, gradients, hex values, CSS patterns). 6 unique CSS pattern classes in `globals.css` (diagonal ripples for Fresh, radial petal dots for Floral, warm diagonal stripes for Amber, horizontal grain lines for Woody, cross-hatch for Citrus, scattered herb dots for Aromatic) using `color-mix()` at low opacity. 13 consumer files migrated from 9+ scattered mapping objects to central config imports. Patterns applied to collection cards, collection detail heroes, family cards, family detail heroes, learn page family nav, and collection highlights homepage section.
 
 ---
 

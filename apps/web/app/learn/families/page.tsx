@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 export const metadata: Metadata = {
   title: "Fragrance Families Explained | ScentScape",
@@ -12,15 +13,6 @@ export const metadata: Metadata = {
     description:
       "Understand the six major fragrance families — Fresh, Floral, Amber, Woody, Citrus, and Aromatic.",
   },
-};
-
-const FAMILY_STYLES: Record<string, string> = {
-  fresh: "bg-family-fresh-subtle border-family-fresh/30",
-  floral: "bg-family-floral-subtle border-family-floral/30",
-  amber: "bg-family-amber-subtle border-family-amber/30",
-  woody: "bg-family-woody-subtle border-family-woody/30",
-  citrus: "bg-family-citrus-subtle border-family-citrus/30",
-  aromatic: "bg-family-aromatic-subtle border-family-aromatic/30",
 };
 
 export default function FamiliesPage() {
@@ -66,7 +58,7 @@ export default function FamiliesPage() {
           <ScrollReveal key={family.slug} delay={i * 80}>
             <Link
               href={`/learn/families/${family.slug}`}
-              className={`group block rounded-xl border-2 p-6 sm:p-8 shadow-card hover:shadow-card-hover transition-all duration-200 ${FAMILY_STYLES[family.color] || "bg-surface-subtle border-border-default"}`}
+              className={`group block rounded-xl border-2 p-6 sm:p-8 shadow-card hover:shadow-card-hover transition-all duration-200 ${FAMILIES[family.color as FamilySlug]?.cardBorder ?? "bg-surface-subtle border-border-default"} ${FAMILIES[family.color as FamilySlug]?.pattern ?? ""}`}
             >
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                 <span

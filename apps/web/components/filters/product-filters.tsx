@@ -23,14 +23,7 @@ const FAMILY_OPTIONS: FilterOption[] = [
   { label: "Aromatic", value: "Aromatic" },
 ];
 
-const FAMILY_ICON_COLORS: Record<string, string> = {
-  Fresh: "bg-family-fresh",
-  Floral: "bg-family-floral",
-  Amber: "bg-family-amber",
-  Woody: "bg-family-woody",
-  Citrus: "bg-family-citrus",
-  Aromatic: "bg-family-aromatic",
-};
+import { getFamilyByName } from "@/lib/fragrance/family-config";
 
 const CONCENTRATION_OPTIONS: FilterOption[] = [
   { label: "EDC", value: "EDC" },
@@ -192,8 +185,8 @@ export function ProductFilters({ currentFilters, facets }: ProductFiltersProps) 
                   onChange={() => updateFilter("family", option.value)}
                   className="rounded border-border-default text-text-primary focus:ring-border-focus"
                 />
-                {FAMILY_ICON_COLORS[option.value] && (
-                  <span className={`w-3 h-3 rounded-full ${FAMILY_ICON_COLORS[option.value]} shrink-0`} aria-hidden="true" />
+                {getFamilyByName(option.value) && (
+                  <span className={`w-3 h-3 rounded-full ${getFamilyByName(option.value)!.classes.bg} shrink-0`} aria-hidden="true" />
                 )}
                 <span className="text-sm text-text-secondary group-hover/filter:text-text-primary flex-1">
                   {option.label}

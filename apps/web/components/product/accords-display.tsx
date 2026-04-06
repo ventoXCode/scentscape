@@ -1,79 +1,15 @@
 import Link from "next/link";
-
-// Map accord names to fragrance family design tokens
-const ACCORD_FAMILY_MAP: Record<string, string> = {
-  Woody: "woody",
-  Earthy: "woody",
-  Oud: "woody",
-  Sandalwood: "woody",
-  Vetiver: "woody",
-  Leathery: "woody",
-  Smoky: "woody",
-  Fresh: "fresh",
-  Aquatic: "fresh",
-  Green: "fresh",
-  Floral: "floral",
-  "Fresh Floral": "floral",
-  Powdery: "floral",
-  Musky: "floral",
-  Amber: "amber",
-  "Warm Spicy": "amber",
-  "Fresh Spicy": "amber",
-  Sweet: "amber",
-  Vanilla: "amber",
-  Incense: "amber",
-  Citrus: "citrus",
-  Fruity: "citrus",
-  Coffee: "aromatic",
-  Aromatic: "aromatic",
-};
-
-// Tailwind classes must be statically analyzable
-const FAMILY_CLASSES: Record<
-  string,
-  { bg: string; text: string; dot: string; border: string }
-> = {
-  fresh: {
-    bg: "bg-family-fresh-subtle",
-    text: "text-family-fresh",
-    dot: "bg-family-fresh",
-    border: "border-family-fresh/20",
-  },
-  floral: {
-    bg: "bg-family-floral-subtle",
-    text: "text-family-floral",
-    dot: "bg-family-floral",
-    border: "border-family-floral/20",
-  },
-  amber: {
-    bg: "bg-family-amber-subtle",
-    text: "text-family-amber",
-    dot: "bg-family-amber",
-    border: "border-family-amber/20",
-  },
-  woody: {
-    bg: "bg-family-woody-subtle",
-    text: "text-family-woody",
-    dot: "bg-family-woody",
-    border: "border-family-woody/20",
-  },
-  citrus: {
-    bg: "bg-family-citrus-subtle",
-    text: "text-family-citrus",
-    dot: "bg-family-citrus",
-    border: "border-family-citrus/20",
-  },
-  aromatic: {
-    bg: "bg-family-aromatic-subtle",
-    text: "text-family-aromatic",
-    dot: "bg-family-aromatic",
-    border: "border-family-aromatic/20",
-  },
-};
+import { ACCORD_FAMILY_MAP, FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 function getAccordClasses(accord: string) {
-  const family = ACCORD_FAMILY_MAP[accord] ?? "woody";
-  return FAMILY_CLASSES[family] ?? FAMILY_CLASSES.woody;
+  const slug = (ACCORD_FAMILY_MAP[accord] ?? "woody") as FamilySlug;
+  const family = FAMILIES[slug] ?? FAMILIES.woody;
+  return {
+    bg: family.classes.bgSubtle,
+    text: family.classes.text,
+    dot: family.classes.dot,
+    border: `${family.classes.border}/20`,
+  };
 }
 
 interface AccordsDisplayProps {

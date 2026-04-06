@@ -7,6 +7,7 @@ import {
   getNotesForFamily,
 } from "@/lib/learn/families";
 import { ArticleJsonLd } from "@/components/seo/article-jsonld";
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 interface FamilyPageProps {
   params: Promise<{ slug: string }>;
@@ -29,15 +30,6 @@ export async function generateMetadata({ params }: FamilyPageProps): Promise<Met
     },
   };
 }
-
-const FAMILY_HERO: Record<string, string> = {
-  fresh: "from-family-fresh-subtle to-surface-primary",
-  floral: "from-family-floral-subtle to-surface-primary",
-  amber: "from-family-amber-subtle to-surface-primary",
-  woody: "from-family-woody-subtle to-surface-primary",
-  citrus: "from-family-citrus-subtle to-surface-primary",
-  aromatic: "from-family-aromatic-subtle to-surface-primary",
-};
 
 export default async function FamilyDetailPage({ params }: FamilyPageProps) {
   const { slug } = await params;
@@ -65,7 +57,7 @@ export default async function FamilyDetailPage({ params }: FamilyPageProps) {
 
       {/* Hero */}
       <div
-        className={`bg-gradient-to-b ${FAMILY_HERO[family.color] || "from-surface-subtle to-surface-primary"} pt-12 pb-8`}
+        className={`bg-gradient-to-b ${FAMILIES[family.color as FamilySlug]?.heroGradient ?? "from-surface-subtle to-surface-primary"} ${FAMILIES[family.color as FamilySlug]?.pattern ?? ""} pt-12 pb-8`}
       >
         <div className="container mx-auto px-4">
           {/* Breadcrumb */}

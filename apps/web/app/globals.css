@@ -195,3 +195,94 @@
     transform: translateY(0);
   }
 }
+
+/* ─── Fragrance Family Patterns ───
+   Subtle decorative textures giving each family a distinct visual identity.
+   Compose with bg-family-{name}-subtle for layered effect. */
+
+.family-pattern-fresh {
+  background-image: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 10px,
+    color-mix(in srgb, var(--color-family-fresh) 6%, transparent) 10px,
+    color-mix(in srgb, var(--color-family-fresh) 6%, transparent) 11px
+  );
+}
+
+.family-pattern-floral {
+  background-image: radial-gradient(
+    circle at 20px 20px,
+    color-mix(in srgb, var(--color-family-floral) 8%, transparent) 2px,
+    transparent 2px
+  ),
+  radial-gradient(
+    circle at 8px 8px,
+    color-mix(in srgb, var(--color-family-floral) 5%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 28px 28px, 18px 18px;
+}
+
+.family-pattern-amber {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 6px,
+    color-mix(in srgb, var(--color-family-amber) 5%, transparent) 6px,
+    color-mix(in srgb, var(--color-family-amber) 5%, transparent) 12px
+  );
+}
+
+.family-pattern-woody {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 4px,
+    color-mix(in srgb, var(--color-family-woody) 5%, transparent) 4px,
+    color-mix(in srgb, var(--color-family-woody) 5%, transparent) 5px
+  ),
+  repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 11px,
+    color-mix(in srgb, var(--color-family-woody) 3%, transparent) 11px,
+    color-mix(in srgb, var(--color-family-woody) 3%, transparent) 13px
+  );
+}
+
+.family-pattern-citrus {
+  background-image: repeating-linear-gradient(
+    30deg,
+    transparent,
+    transparent 8px,
+    color-mix(in srgb, var(--color-family-citrus) 5%, transparent) 8px,
+    color-mix(in srgb, var(--color-family-citrus) 5%, transparent) 9px
+  ),
+  repeating-linear-gradient(
+    -30deg,
+    transparent,
+    transparent 8px,
+    color-mix(in srgb, var(--color-family-citrus) 4%, transparent) 8px,
+    color-mix(in srgb, var(--color-family-citrus) 4%, transparent) 9px
+  );
+}
+
+.family-pattern-aromatic {
+  background-image: radial-gradient(
+    circle at 5px 5px,
+    color-mix(in srgb, var(--color-family-aromatic) 7%, transparent) 1px,
+    transparent 1px
+  ),
+  radial-gradient(
+    circle at 16px 12px,
+    color-mix(in srgb, var(--color-family-aromatic) 5%, transparent) 1.5px,
+    transparent 1.5px
+  ),
+  radial-gradient(
+    circle at 10px 22px,
+    color-mix(in srgb, var(--color-family-aromatic) 4%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 24px 28px;
+}

@@ -15,14 +15,7 @@ const PAGE_SIZE = 24;
 
 export const revalidate = 300;
 
-const FAMILY_BG: Record<string, string> = {
-  fresh: "bg-family-fresh-subtle",
-  floral: "bg-family-floral-subtle",
-  amber: "bg-family-amber-subtle",
-  woody: "bg-family-woody-subtle",
-  citrus: "bg-family-citrus-subtle",
-  aromatic: "bg-family-aromatic-subtle",
-};
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;
@@ -82,7 +75,9 @@ export default async function CollectionPage({
   }
 
   const totalPages = Math.ceil(totalHits / PAGE_SIZE);
-  const heroBg = FAMILY_BG[collection.familyColor] ?? "bg-surface-subtle";
+  const family = FAMILIES[collection.familyColor as FamilySlug];
+  const heroBg = family ? family.classes.bgSubtle : "bg-surface-subtle";
+  const heroPattern = family ? family.pattern : "";
 
   function pageUrl(page: number) {
     return page === 1
@@ -94,7 +89,7 @@ export default async function CollectionPage({
     <PullToRefresh>
     <div>
       {/* Hero section */}
-      <div className={`${heroBg} py-16`}>
+      <div className={`${heroBg} ${heroPattern} py-16`}>
         <div className="container mx-auto px-4">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-8">

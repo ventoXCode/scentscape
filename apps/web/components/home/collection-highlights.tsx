@@ -1,14 +1,6 @@
 import Link from "next/link";
 import { COLLECTIONS, type Collection } from "@/lib/collections";
-
-const FAMILY_GRADIENTS: Record<string, string> = {
-  fresh: "from-family-fresh/20 to-family-fresh/5",
-  floral: "from-family-floral/20 to-family-floral/5",
-  amber: "from-family-amber/20 to-family-amber/5",
-  woody: "from-family-woody/20 to-family-woody/5",
-  citrus: "from-family-citrus/20 to-family-citrus/5",
-  aromatic: "from-family-aromatic/20 to-family-aromatic/5",
-};
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 // Curated selection: show editorially interesting collections, not all of them
 const HIGHLIGHT_SLUGS = [
@@ -45,9 +37,9 @@ export function CollectionHighlights() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {collections.map((collection) => {
-            const gradient =
-              FAMILY_GRADIENTS[collection.familyColor] ||
-              FAMILY_GRADIENTS.fresh;
+            const family = FAMILIES[collection.familyColor as FamilySlug];
+            const gradient = family?.collectionGradient ?? FAMILIES.fresh.collectionGradient;
+            const pattern = family?.pattern ?? "";
 
             return (
               <Link
@@ -56,7 +48,7 @@ export function CollectionHighlights() {
                 className="group block rounded-xl border border-border-default overflow-hidden shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
               >
                 <div
-                  className={`bg-gradient-to-br ${gradient} p-6 sm:p-8`}
+                  className={`bg-gradient-to-br ${gradient} ${pattern} p-6 sm:p-8`}
                 >
                   <span
                     className="text-4xl block mb-3 group-hover:scale-110 transition-transform duration-200"

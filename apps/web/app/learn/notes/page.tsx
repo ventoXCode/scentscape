@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getNotesByFamily } from "@/lib/learn/notes";
-
-const FAMILY_COLORS: Record<string, string> = {
-  fresh: "bg-family-fresh-subtle text-family-fresh",
-  floral: "bg-family-floral-subtle text-family-floral",
-  amber: "bg-family-amber-subtle text-family-amber",
-  woody: "bg-family-woody-subtle text-family-woody",
-  citrus: "bg-family-citrus-subtle text-family-citrus",
-  aromatic: "bg-family-aromatic-subtle text-family-aromatic",
-};
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 export const metadata: Metadata = {
   title: "Fragrance Notes Guide — What Does Each Note Smell Like? | ScentScape",
@@ -60,7 +52,7 @@ export default function NotesIndexPage() {
                 key={family}
                 href={`#${family.toLowerCase().replace(/\s+/g, "-")}`}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors hover:opacity-80 ${
-                  FAMILY_COLORS[firstNote.familySlug] ?? "bg-surface-subtle text-text-secondary"
+                  FAMILIES[firstNote.familySlug as FamilySlug]?.badge ?? "bg-surface-subtle text-text-secondary"
                 }`}
               >
                 {family}

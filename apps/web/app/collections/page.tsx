@@ -2,6 +2,7 @@ import { COLLECTIONS } from "@/lib/collections";
 import { ItemListJsonLd } from "@/components/seo/itemlist-jsonld";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 export const metadata: Metadata = {
   title: "Collections | ScentScape",
@@ -14,36 +15,10 @@ export const metadata: Metadata = {
   },
 };
 
-const FAMILY_STYLES: Record<string, { card: string; iconBg: string }> = {
-  fresh: {
-    card: "bg-family-fresh-subtle border-family-fresh/20 hover:border-family-fresh/40",
-    iconBg: "bg-family-fresh/10",
-  },
-  floral: {
-    card: "bg-family-floral-subtle border-family-floral/20 hover:border-family-floral/40",
-    iconBg: "bg-family-floral/10",
-  },
-  amber: {
-    card: "bg-family-amber-subtle border-family-amber/20 hover:border-family-amber/40",
-    iconBg: "bg-family-amber/10",
-  },
-  woody: {
-    card: "bg-family-woody-subtle border-family-woody/20 hover:border-family-woody/40",
-    iconBg: "bg-family-woody/10",
-  },
-  citrus: {
-    card: "bg-family-citrus-subtle border-family-citrus/20 hover:border-family-citrus/40",
-    iconBg: "bg-family-citrus/10",
-  },
-  aromatic: {
-    card: "bg-family-aromatic-subtle border-family-aromatic/20 hover:border-family-aromatic/40",
-    iconBg: "bg-family-aromatic/10",
-  },
-};
-
 const DEFAULT_STYLE = {
   card: "bg-surface-subtle border-border-default hover:border-border-strong",
   iconBg: "bg-surface-subtle",
+  pattern: "",
 };
 
 export default function CollectionsPage() {
@@ -71,13 +46,15 @@ export default function CollectionsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {COLLECTIONS.map((collection) => {
-          const style =
-            FAMILY_STYLES[collection.familyColor] ?? DEFAULT_STYLE;
+          const family = FAMILIES[collection.familyColor as FamilySlug];
+          const style = family
+            ? { card: family.card, iconBg: family.cardIconBg, pattern: family.pattern }
+            : DEFAULT_STYLE;
           return (
             <Link
               key={collection.slug}
               href={`/collections/${collection.slug}`}
-              className={`group block rounded-xl border-2 p-8 shadow-card hover:shadow-card-hover transition-all duration-200 ${style.card}`}
+              className={`group block rounded-xl border-2 p-8 shadow-card hover:shadow-card-hover transition-all duration-200 ${style.card} ${style.pattern}`}
             >
               <div
                 className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4 ${style.iconBg}`}

@@ -4,6 +4,7 @@ import { GUIDES } from "@/lib/learn/guides";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
 import { SEASONAL_GUIDES } from "@/lib/learn/seasonal-guides";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
+import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
 export const metadata: Metadata = {
   title: "Learn About Fragrance | ScentScape",
@@ -14,15 +15,6 @@ export const metadata: Metadata = {
     description:
       "Your guide to the world of fragrance. Learn about scent families, how to apply perfume, fragrance terminology, and more.",
   },
-};
-
-const FAMILY_STYLES: Record<string, string> = {
-  fresh: "bg-family-fresh-subtle border-family-fresh/20 hover:border-family-fresh/40",
-  floral: "bg-family-floral-subtle border-family-floral/20 hover:border-family-floral/40",
-  amber: "bg-family-amber-subtle border-family-amber/20 hover:border-family-amber/40",
-  woody: "bg-family-woody-subtle border-family-woody/20 hover:border-family-woody/40",
-  citrus: "bg-family-citrus-subtle border-family-citrus/20 hover:border-family-citrus/40",
-  aromatic: "bg-family-aromatic-subtle border-family-aromatic/20 hover:border-family-aromatic/40",
 };
 
 export default function LearnPage() {
@@ -128,7 +120,7 @@ export default function LearnPage() {
             <ScrollReveal key={family.slug} delay={i * 60}>
               <Link
                 href={`/learn/families/${family.slug}`}
-                className={`group block rounded-xl border p-5 text-center transition-all duration-200 shadow-card hover:shadow-card-hover ${FAMILY_STYLES[family.color] || "bg-surface-subtle border-border-default hover:border-border-strong"}`}
+                className={`group block rounded-xl border p-5 text-center transition-all duration-200 shadow-card hover:shadow-card-hover ${FAMILIES[family.color as FamilySlug]?.card ?? "bg-surface-subtle border-border-default hover:border-border-strong"} ${FAMILIES[family.color as FamilySlug]?.pattern ?? ""}`}
               >
                 <span
                   className="text-3xl block mb-2 group-hover:scale-110 transition-transform duration-200"
