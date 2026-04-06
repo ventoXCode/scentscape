@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-jsonld";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
 import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
@@ -18,6 +19,13 @@ export const metadata: Metadata = {
 export default function FamiliesPage() {
   return (
     <div className="container mx-auto px-4 py-12">
+      <BreadcrumbJsonLd
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+          { name: "Fragrance Families", url: "/learn/families" },
+        ]}
+      />
       {/* Breadcrumb */}
       <nav className="text-sm text-text-muted mb-8" aria-label="Breadcrumb">
         <ol className="flex items-center gap-1.5">

@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { medusa } from "@/lib/medusa/client";
+import type { StoreProductWithPrices } from "@/lib/medusa/types";
 
 export const runtime = "edge";
 export const alt = "Product image";
@@ -9,7 +10,7 @@ export const contentType = "image/png";
 export default async function OgImage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
 
-  let product: any = null;
+  let product: StoreProductWithPrices | null = null;
   try {
     const { products } = await medusa.store.product.list({
       handle,
@@ -64,11 +65,11 @@ export default async function OgImage({ params }: { params: Promise<{ handle: st
             style={{ objectFit: "contain", marginBottom: 24 }}
           />
         )}
-        {product.metadata?.brand && (
+        {product.metadata?.brand ? (
           <span style={{ fontSize: 24, color: "#666" }}>
-            {product.metadata.brand as string}
+            {String(product.metadata.brand)}
           </span>
-        )}
+        ) : null}
         <span
           style={{ fontSize: 48, fontWeight: "bold", textAlign: "center", color: "#111" }}
         >

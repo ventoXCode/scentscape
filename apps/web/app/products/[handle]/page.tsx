@@ -1,6 +1,7 @@
 import { medusa } from "@/lib/medusa/client";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import type { StoreProductWithPrices } from "@/lib/medusa/types";
 import Link from "next/link";
 import { ScentPyramid } from "@/components/product/scent-pyramid";
 import { AccordsDisplay } from "@/components/product/accords-display";
@@ -49,8 +50,8 @@ export async function generateStaticParams() {
   try {
     const { products } = await medusa.store.product.list({ limit: 200 });
     return (products ?? [])
-      .filter((p: any) => p.handle)
-      .map((p: any) => ({ handle: p.handle }));
+      .filter((p) => p.handle)
+      .map((p) => ({ handle: p.handle! }));
   } catch {
     return [];
   }
@@ -93,10 +94,10 @@ async function getFragranceData(productId: string): Promise<FragranceData | null
 export default async function ProductPage({ params }: ProductPageProps) {
   const { handle } = await params;
 
-  let products: any[] = [];
+  let products: StoreProductWithPrices[] = [];
   try {
     const result = await medusa.store.product.list({ handle, limit: 1 });
-    products = result.products || [];
+    products = (result.products || []) as StoreProductWithPrices[];
   } catch {
     // Backend unavailable
   }
@@ -113,7 +114,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <ProductJsonLd product={product} fragranceData={fragranceData} />
+      <ProductJsonLd
+        product={{
+          title: product.title,
+          description: product.description ?? null,
+          handle: product.handle ?? "",
+          thumbnail: product.thumbnail ?? null,
+          variants: (product.variants ?? []).map((v) => ({
+            id: v.id,
+            title: v.title,
+            prices: v.prices ?? [],
+          })),
+          metadata: product.metadata ?? null,
+        }}
+        fragranceData={fragranceData ?? undefined}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -150,11 +165,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         {/* Product Info */}
         <div>
-          {product.metadata?.brand && (
+          {product.metadata?.brand ? (
             <p className="text-sm text-text-muted uppercase tracking-wider mb-2">
-              {product.metadata.brand as string}
+              {String(product.metadata.brand)}
             </p>
-          )}
+          ) : null}
           <div className="flex items-start justify-between gap-4 mb-2">
             <h1 className="text-3xl font-bold font-display">{product.title}</h1>
             <WishlistButton
@@ -234,7 +249,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </>
           )}
 
-          <ProductPurchaseSection variants={product.variants || []} />
+          <ProductPurchaseSection
+            variants={(product.variants ?? []).map((v) => ({
+              id: v.id,
+              title: v.title ?? "",
+              prices: v.prices,
+            }))}
+          />
 
           <div className="mt-4">
             <SampleBoxButton

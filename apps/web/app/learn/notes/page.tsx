@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-jsonld";
 import { getNotesByFamily } from "@/lib/learn/notes";
 import { FAMILIES, type FamilySlug } from "@/lib/fragrance/family-config";
 
@@ -19,6 +20,13 @@ export default function NotesIndexPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <BreadcrumbJsonLd
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+          { name: "Fragrance Notes", url: "/learn/notes" },
+        ]}
+      />
       <nav aria-label="Breadcrumb" className="mb-6">
         <ol className="flex items-center gap-2 text-sm text-text-muted">
           <li>

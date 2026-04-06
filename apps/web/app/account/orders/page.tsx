@@ -3,10 +3,11 @@ export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { getCustomer, getAuthToken } from "@/lib/medusa/auth-actions";
 import { medusa } from "@/lib/medusa/client";
+import type { HttpTypes } from "@medusajs/types";
 import { formatPrice } from "@/lib/utils/format";
 import Link from "next/link";
 
-function formatDate(dateString: string) {
+function formatDate(dateString: string | Date) {
   return new Date(dateString).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -23,7 +24,7 @@ export default async function OrdersPage() {
 
   const token = await getAuthToken();
 
-  let orders: any[] = [];
+  let orders: HttpTypes.StoreOrder[] = [];
   try {
     const result = await medusa.store.order.list(
       {},
@@ -68,7 +69,7 @@ export default async function OrdersPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {orders.map((order: any) => (
+          {orders.map((order) => (
             <div key={order.id} className="border border-border-default rounded-lg p-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -86,7 +87,7 @@ export default async function OrdersPage() {
               </div>
 
               <div className="space-y-2">
-                {order.items?.map((item: any) => (
+                {order.items?.map((item) => (
                   <div
                     key={item.id}
                     className="flex justify-between text-sm text-text-secondary"

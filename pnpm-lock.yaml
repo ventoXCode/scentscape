@@ -70,6 +70,9 @@ importers:
         specifier: ^19.0.0
         version: 19.2.4(react@19.2.4)
     devDependencies:
+      '@medusajs/types':
+        specifier: ^2.13.5
+        version: 2.13.5(ioredis@5.10.1)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0))
       '@tailwindcss/postcss':
         specifier: ^4.0.0
         version: 4.2.2

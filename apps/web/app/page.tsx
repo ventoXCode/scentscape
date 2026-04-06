@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import type { StoreProductWithPrices } from "@/lib/medusa/types";
 import { Suspense } from "react";
 import { medusa } from "@/lib/medusa/client";
 import { ProductCard } from "@/components/product/product-card";
@@ -101,11 +102,11 @@ const HOW_IT_WORKS = [
 ];
 
 export default async function HomePage() {
-  let products: any[] = [];
+  let products: StoreProductWithPrices[] = [];
 
   try {
     const result = await medusa.store.product.list({ limit: 4 });
-    products = result.products || [];
+    products = (result.products || []) as StoreProductWithPrices[];
   } catch {
     // Backend may not be running; render without featured products
   }
@@ -174,7 +175,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {products.map((product, i) => (
                 <ScrollReveal key={product.id} delay={i * 100}>
-                  <ProductCard product={product} />
+                  <ProductCard product={{ ...product, handle: product.handle ?? null, variants: product.variants ?? undefined }} />
                 </ScrollReveal>
               ))}
             </div>

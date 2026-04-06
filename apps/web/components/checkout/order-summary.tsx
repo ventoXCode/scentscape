@@ -1,9 +1,9 @@
 import Image from "next/image";
+import type { HttpTypes } from "@medusajs/types";
 import { formatPrice } from "@/lib/utils/format";
 
 interface OrderSummaryProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cart: any;
+  cart: HttpTypes.StoreCart;
 }
 
 export function OrderSummary({ cart }: OrderSummaryProps) {
@@ -17,7 +17,7 @@ export function OrderSummary({ cart }: OrderSummaryProps) {
       <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
       <div className="space-y-4 mb-6">
-        {items.map((item: any) => (
+        {items.map((item) => (
           <div key={item.id} className="flex gap-3">
             {item.thumbnail ? (
               <Image

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-jsonld";
 import { GUIDES } from "@/lib/learn/guides";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
 import { SEASONAL_GUIDES } from "@/lib/learn/seasonal-guides";
@@ -20,6 +21,12 @@ export const metadata: Metadata = {
 export default function LearnPage() {
   return (
     <div className="container mx-auto px-4 py-12">
+      <BreadcrumbJsonLd
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Learn", url: "/learn" },
+        ]}
+      />
       {/* Hero */}
       <div className="max-w-3xl mx-auto text-center mb-16">
         <p className="text-accent-primary font-medium text-sm uppercase tracking-wide mb-2">

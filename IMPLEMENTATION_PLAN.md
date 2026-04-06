@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Distinct visual identities per fragrance family: centralized family-config.ts, 6 CSS pattern textures, 13 consumer files migrated)
+> Last updated: 2026-04-06 (Type safety: all `any` eliminated; SEO: HowTo + BreadcrumbList schemas on learn pages)
 
 ---
 
@@ -414,7 +414,7 @@
 ### 7.4 — SEO and content marketing ✅ (partial)
 - [x] Target long-tail keywords: note profile pages (`/learn/notes/[slug]`) with "What Does X Smell Like?" title pattern (93 SSG pages), family pages with "X Fragrances — What They Smell Like" pattern (6 pages)
 - [x] Internal linking strategy: `RelatedEducation` on product pages links to family/note/concentration guides; note profile pages server-render product links (previously client-only, invisible to crawlers); family pages link to search and quiz
-- [ ] Build topical authority in fragrance discovery and education
+- [x] Build topical authority in fragrance discovery and education — `HowToJsonLd` component (`components/seo/howto-jsonld.tsx`) with `HowTo` schema on how-to-apply page (5 structured steps). `BreadcrumbJsonLd` standalone component (`components/seo/breadcrumb-jsonld.tsx`) for pages without Article schema. `BreadcrumbList` JSON-LD added to `/learn`, `/learn/notes`, `/learn/families` index pages. All learn pages now have structured data for search engine rich results.
 - [x] Enrich product JSON-LD: `AggregateOffer` for multi-variant products, `category` from fragrance family, fragrance-specific `additionalProperty` fields (family, concentration, gender, top/heart/base notes, accords, seasons, longevity, sillage). `@id` for deduplication.
 - [x] `ItemList` JSON-LD on products listing, collections index, and moods index pages — enables rich results for catalog browsing
 - [x] `WebSite` JSON-LD with `SearchAction` on root layout — enables Google sitelinks search box
@@ -457,7 +457,7 @@ These are implemented and functional (unless noted in Phase 0 bugs):
 - **Performance budgets:** FCP < 1.5s, Lighthouse > 90 mobile, lazy-load below-fold. ~~Add explicit `revalidate` directives to data-fetching pages~~ — all data-fetching pages now have `revalidate = 300` (homepage, products, product detail, search, moods/[slug], quiz results/[id], collections/[slug]).
 - **Image optimization:** Already configured for AVIF/WebP; ensure all new imagery uses `next/image` with responsive srcset. Fix product detail page `<img>` → `<Image>` and search dropdown `<img>` → `<Image>`.
 - **Error handling:** Replace silent `catch {}` blocks with styled error states; add toast notifications for cart/auth actions. ~~Fix register's 3-call sequence partial failure states~~ (fixed: Phase 0.5).
-- **TypeScript:** ~~eliminate `as any` casts~~ — all `as any` casts eliminated. `SavedQuizSession.dimensions` typed as `PersonalityDimensions` (was `Record<string, number>`). Maintain strict typing for all new code.
+- **TypeScript:** ~~eliminate `as any` casts~~ — all `as any` casts eliminated. All remaining `any` type annotations (14 occurrences across 8 files) replaced with proper Medusa `HttpTypes` via `@medusajs/types`. `StoreProductWithPrices` type extension (`lib/medusa/types.ts`) bridges SDK type gap where Medusa v2 API returns `prices` on variants but SDK types only declare `calculated_price`. Cart typed as `HttpTypes.StoreCart`, orders as `HttpTypes.StoreOrder`. `SavedQuizSession.dimensions` typed as `PersonalityDimensions` (was `Record<string, number>`). Maintain strict typing for all new code.
 - **State management:** ~~Consider migrating cart state to React Query~~ — **Done.** Cart state now uses `useQuery` with `getOrCreateCart` as `queryFn`, `staleTime: 30s`, `refetchOnWindowFocus: true`, `refetchOnReconnect: true`. Mutations (`addToCart`, `removeFromCart`, `updateCartItem`) pass returned cart directly to `queryClient.setQueryData` — eliminates the previous double-fetch pattern (mutation triggered re-fetch, then `refreshCart` triggered another). `CartProvider` extracted as dedicated component consuming `useQueryClient`. `useCart` now exposes `isLoading` boolean. `refreshCart(updatedCart?)` accepts optional cart to set directly or invalidates query when called with no args.
 - **Auth gaps:** ~~No password change capability~~ (fixed: change password form on profile page via `changePassword` server action using Medusa `updateProvider`). ~~No "forgot password" flow~~ (fixed: `/forgot-password` page triggers `resetPassword` API, `/reset-password?token=X` page completes reset via `updateProvider`). No email verification. ~~Cart not associated with customer on login~~ (fixed: `transferGuestCart()` in Phase 6.3). JWT logout only clears local cookie (server-side token remains valid until expiry).
 - **Custom 404 page:** ✅ Branded not-found page with quiz CTA, browse link, and discovery navigation (home, explore, moods, collections, learn).

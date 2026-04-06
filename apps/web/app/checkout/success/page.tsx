@@ -77,7 +77,7 @@ export default async function CheckoutSuccessPage({ searchParams }: SuccessPageP
 
       <div className="bg-surface-subtle rounded-lg p-6 text-left">
         <h3 className="font-semibold mb-4">Order Summary</h3>
-        {order.items?.map((item: any) => (
+        {order.items?.map((item) => (
           <div key={item.id} className="flex justify-between py-2 border-b border-border-default last:border-b-0">
             <span>
               {item.title} &times; {item.quantity}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArticleJsonLd } from "@/components/seo/article-jsonld";
+import { HowToJsonLd } from "@/components/seo/howto-jsonld";
 
 export const metadata: Metadata = {
   title: "How to Apply Fragrance | ScentScape",
@@ -80,10 +80,17 @@ const STORAGE_TIPS = [
 export default function HowToApplyPage() {
   return (
     <div className="container mx-auto px-4 py-12">
-      <ArticleJsonLd
-        title="How to Apply Fragrance"
+      <HowToJsonLd
+        name="How to Apply Fragrance"
         description="Learn where and how to apply fragrance for maximum effect — pulse points, layering, storage tips, and common mistakes to avoid."
         url="/learn/how-to-apply"
+        steps={[
+          { name: "Choose how much to apply", text: "EDC/EDT: 3-5 sprays. EDP/Parfum: 2-3 sprays. Higher concentration means each spray goes further." },
+          { name: "Apply to pulse points", text: "Spray on inner wrists, neck, behind ears, inner elbows, chest, or behind knees — areas where blood vessels are close to the skin." },
+          { name: "Time it right", text: "Apply after a shower on slightly damp skin. Moisturize first — hydrated skin holds fragrance longer." },
+          { name: "Layer for complexity", text: "Apply a heavier base fragrance first (woody, amber), then a lighter accent (citrus, fresh) on different pulse points." },
+          { name: "Store properly", text: "Keep bottles away from sunlight and heat. Store in a cool, dark place like a drawer or closet shelf." },
+        ]}
         breadcrumbs={[
           { name: "Home", url: "/" },
           { name: "Learn", url: "/learn" },

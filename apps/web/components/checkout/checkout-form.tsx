@@ -9,6 +9,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { AddressForm, type AddressData } from "./address-form";
+import type { HttpTypes } from "@medusajs/types";
 import {
   setShippingAddress,
   createPaymentSession,
@@ -18,7 +19,7 @@ import {
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
 
 interface CheckoutFormProps {
-  cart: any;
+  cart: HttpTypes.StoreCart;
 }
 
 type Step = "shipping" | "payment" | "review";

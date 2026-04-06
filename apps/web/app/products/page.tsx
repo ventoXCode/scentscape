@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { medusa } from "@/lib/medusa/client";
+import type { StoreProductWithPrices } from "@/lib/medusa/types";
 import { meilisearch, PRODUCTS_INDEX, type SearchableProduct } from "@/lib/search/meilisearch";
 import { ProductCard } from "@/components/product/product-card";
 import { SwipeableProductCard } from "@/components/product/swipeable-product-card";
@@ -70,7 +71,23 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const hasFilters = params.family || params.concentration || params.gender || params.accords || params.season || params.price;
 
-  let products: any[] = [];
+  let products: Array<{
+    id: string;
+    handle: string | null;
+    title: string;
+    thumbnail: string | null;
+    brand?: string | null;
+    family?: string | null;
+    concentration?: string | null;
+    description?: string | null;
+    topNote?: string | null;
+    sillage?: number | null;
+    longevity?: number | null;
+    season?: string[] | null;
+    price?: number | null;
+    metadata?: Record<string, unknown> | null;
+    variants?: Array<{ prices?: Array<{ amount: number; currency_code: string }> }>;
+  }> = [];
   let totalProducts = 0;
   let facetDistribution: Record<string, Record<string, number>> | undefined;
   let error = false;
@@ -112,7 +129,17 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         limit: PAGE_SIZE,
         offset: (currentPage - 1) * PAGE_SIZE,
       });
-      products = result.products || [];
+      const medusaProducts = (result.products || []) as StoreProductWithPrices[];
+      products = medusaProducts.map((p) => ({
+        id: p.id,
+        handle: p.handle ?? null,
+        title: p.title,
+        thumbnail: p.thumbnail ?? null,
+        metadata: p.metadata ?? null,
+        variants: p.variants?.map((v) => ({
+          prices: v.prices ?? [],
+        })) ?? [],
+      }));
       totalProducts = result.count ?? products.length;
     } catch {
       error = true;
