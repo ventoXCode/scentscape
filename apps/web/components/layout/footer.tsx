@@ -85,6 +85,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/learn/seasonal/summer" className="hover:text-text-primary transition-colors">
+                  Seasonal Guides
+                </Link>
+              </li>
+              <li>
                 <Link href="/learn/glossary" className="hover:text-text-primary transition-colors">
                   Glossary
                 </Link>

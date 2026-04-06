@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Cart state migrated to React Query; personality card dark mode fixes)
+> Last updated: 2026-04-06 (Seasonal fragrance guides: 4 SSG learn pages with editorial content, product recommendations, and SEO structured data)
 
 ---
 
@@ -399,7 +399,7 @@
 - [x] Data layer: `lib/learn/families.ts` (6 families with extended data, `getNotesForFamily` helper pulling from `note-descriptions.ts`) and `lib/learn/guides.ts` (guide metadata)
 - [x] Note profiles: `/learn/notes` index (117 notes grouped by family with jump-nav) + `/learn/notes/[slug]` detail pages with description, family context, Meilisearch-powered product discovery, related notes, prev/next navigation. `generateStaticParams` for SSG (93 pages). Added to sitemap, footer, and learn hub.
 - [x] "How to Find Your Signature Scent" standalone guide (`/learn/signature-scent`) — 7-step practical roadmap (start with what you love, learn the language, narrow by family, sample widely, trust the drydown, match lifestyle, trust instincts), 5 common traps section, internal links to Fragrance 101/families/how-to-apply, ArticleJsonLd, added to sitemap/footer/guides registry
-- [ ] Seasonal guides: "Best Fragrances for Summer," "Holiday Gift Guide" — deferred
+- [x] Seasonal guides: 4 seasonal fragrance guides at `/learn/seasonal/[slug]` (Spring, Summer, Fall, Winter) — each with editorial intro, science of seasonal wearing, best families with links to family pages, key notes with links to note profiles, numbered wearing tips, occasion suggestions, Meilisearch-powered product grid (8 products filtered by season), collection CTA, and prev/next season navigation. Data layer in `lib/learn/seasonal-guides.ts`. `ArticleJsonLd` structured data. `generateStaticParams` for SSG. Added to learn hub (seasonal section with 4-card grid), sitemap (monthly changeFrequency, priority 0.7), and footer (Seasonal Guides link).
 
 ### 7.3 — Content integration across surfaces ✅ (partial)
 - [x] Homepage: "Learn the Basics" educational teaser section with 3 guide cards (Fragrance 101, How to Apply, Scent Families) and "See all guides" link — positioned between Mood browsing and Social Proof sections

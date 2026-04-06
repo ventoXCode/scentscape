@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { GUIDES } from "@/lib/learn/guides";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
+import { SEASONAL_GUIDES } from "@/lib/learn/seasonal-guides";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
 
 export const metadata: Metadata = {
@@ -139,6 +140,41 @@ export default function LearnPage() {
                   {family.name}
                 </h3>
                 <p className="text-xs text-text-muted">{family.tagline}</p>
+              </Link>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Seasonal Guides */}
+      <section className="max-w-4xl mx-auto mb-20">
+        <ScrollReveal>
+          <h2 className="font-display text-2xl font-bold text-text-primary mb-3">
+            Seasonal Fragrance Guides
+          </h2>
+          <p className="text-text-secondary mb-8">
+            What you wear should change with the weather. These guides help
+            you pick the right fragrance for every time of year.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {SEASONAL_GUIDES.map((guide, i) => (
+            <ScrollReveal key={guide.slug} delay={i * 60}>
+              <Link
+                href={`/learn/seasonal/${guide.slug}`}
+                className="group block rounded-xl border border-border-default bg-surface-elevated p-5 text-center shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
+              >
+                <span
+                  className="text-3xl block mb-2 group-hover:scale-110 transition-transform duration-200"
+                  aria-hidden="true"
+                >
+                  {guide.emoji}
+                </span>
+                <h3 className="font-display font-semibold text-text-primary mb-0.5">
+                  {guide.season}
+                </h3>
+                <p className="text-xs text-text-muted">{guide.tagline}</p>
               </Link>
             </ScrollReveal>
           ))}

@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { medusa } from "@/lib/medusa/client";
 import { COLLECTIONS } from "@/lib/collections";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
+import { SEASONAL_GUIDES } from "@/lib/learn/seasonal-guides";
 import { MOODS } from "@/lib/discovery/moods";
 import { ALL_NOTES } from "@/lib/learn/notes";
 import { SITE_URL } from "@/lib/constants";
@@ -38,6 +39,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: staticDate,
     changeFrequency: "monthly" as const,
     priority: 0.6,
+  }));
+
+  // Learn: seasonal guide pages
+  const seasonalPages: MetadataRoute.Sitemap = SEASONAL_GUIDES.map((guide) => ({
+    url: `${baseUrl}/learn/seasonal/${guide.slug}`,
+    lastModified: staticDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
   }));
 
   // Collection pages
@@ -80,5 +89,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticPages, ...familyPages, ...collectionPages, ...moodPages, ...notePages, ...productPages];
+  return [...staticPages, ...familyPages, ...seasonalPages, ...collectionPages, ...moodPages, ...notePages, ...productPages];
 }
