@@ -407,7 +407,7 @@
 - [x] Sitemap: all learn pages and family pages added with monthly changeFrequency
 - [x] Product pages: `RelatedEducation` component shows contextual links to family page, note profile pages (up to 3 key notes), and concentration guide based on the product's fragrance data
 - [x] Quiz results: educational section shows links to the user's top-affinity family pages, fragrance notes guide, and Fragrance 101 based on their archetype
-- [ ] Empty states: fill other dead-ends with relevant learning content — deferred
+- [x] Empty states: fill dead-ends with discovery content — enriched 7 empty states across the app: products page (removed developer message, added quiz/mood CTAs), checkout success order-not-found (added order history link), collection page (added other collections/quiz/mood links), mood page (added other moods/quiz/browse links), orders page (added quiz/samples/browse CTAs), cart drawer (added "Find Your Scent" quiz CTA), quiz results (added mood/browse/learn links). All empty states now have emoji visual treatment, helpful copy, and multiple discovery paths.
 
 ### 7.4 — SEO and content marketing ✅ (partial)
 - [x] Target long-tail keywords: note profile pages (`/learn/notes/[slug]`) with "What Does X Smell Like?" title pattern (93 SSG pages), family pages with "X Fragrances — What They Smell Like" pattern (6 pages)

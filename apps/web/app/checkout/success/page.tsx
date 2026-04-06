@@ -28,13 +28,19 @@ export default async function CheckoutSuccessPage({ searchParams }: SuccessPageP
   if (!resolvedOrderId) {
     return (
       <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
-        <p className="text-text-secondary mb-2">We couldn&apos;t find your order.</p>
+        <p className="text-3xl mb-3" aria-hidden="true">📦</p>
+        <h1 className="text-xl font-display font-bold text-text-primary mb-2">We couldn&apos;t find your order</h1>
         <p className="text-sm text-text-muted mb-6">
-          If you just completed a payment, your order may still be processing. Check your email for confirmation.
+          If you just completed a payment, your order may still be processing. Check your email for a confirmation from Stripe.
         </p>
-        <Link href="/" className="inline-block mt-4 px-8 py-3 bg-text-primary text-text-inverse rounded-lg hover:bg-text-secondary transition-colors">
-          Return Home
-        </Link>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link href="/account/orders" className="px-6 py-3 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary transition-colors">
+            View Order History
+          </Link>
+          <Link href="/" className="text-sm text-text-secondary hover:text-text-primary transition-colors underline">
+            Return Home
+          </Link>
+        </div>
       </div>
     );
   }

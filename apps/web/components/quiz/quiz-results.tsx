@@ -175,16 +175,31 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
           </p>
 
           {results.length === 0 ? (
-            <div className="text-center py-12 bg-surface-subtle rounded-xl">
-              <p className="text-text-secondary mb-4">
+            <div className="text-center py-12 bg-surface-subtle rounded-xl px-6">
+              <p className="text-3xl mb-3" aria-hidden="true">🔮</p>
+              <p className="text-text-secondary font-medium mb-2">
                 No fragrances found matching your profile yet.
               </p>
-              <Link
-                href="/products"
-                className="inline-block px-6 py-3 bg-text-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-text-secondary transition-colors"
-              >
-                Browse All Fragrances
-              </Link>
+              <p className="text-text-muted text-sm mb-6">
+                Our catalog is growing — in the meantime, explore by mood or browse our collections.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href="/moods"
+                  className="px-5 py-2.5 bg-accent-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-accent-primary-hover transition-colors"
+                >
+                  Browse by Mood
+                </Link>
+                <Link
+                  href="/products"
+                  className="px-5 py-2.5 bg-text-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-text-secondary transition-colors"
+                >
+                  Browse All Fragrances
+                </Link>
+                <Link href="/learn/fragrance-101" className="text-sm text-text-secondary hover:text-text-primary transition-colors underline">
+                  Learn About Fragrance
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">

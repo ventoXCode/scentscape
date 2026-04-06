@@ -44,14 +44,27 @@ export default async function OrdersPage() {
       </div>
 
       {orders.length === 0 ? (
-        <div className="text-center py-16 text-text-muted">
-          <p className="mb-4">You haven&apos;t placed any orders yet.</p>
-          <Link
-            href="/products"
-            className="inline-block px-8 py-3 bg-text-primary text-text-inverse rounded-lg"
-          >
-            Start Shopping
-          </Link>
+        <div className="text-center py-16">
+          <p className="text-3xl mb-3" aria-hidden="true">🛍️</p>
+          <p className="text-text-secondary mb-2 font-medium">You haven&apos;t placed any orders yet.</p>
+          <p className="text-text-muted text-sm mb-6">Not sure where to start? Take the quiz or explore our sample kits.</p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/quiz"
+              className="px-5 py-2.5 bg-accent-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-accent-primary-hover transition-colors"
+            >
+              Take the Quiz
+            </Link>
+            <Link
+              href="/samples"
+              className="px-5 py-2.5 bg-text-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-text-secondary transition-colors"
+            >
+              Try Sample Kits
+            </Link>
+            <Link href="/products" className="text-sm text-text-secondary hover:text-text-primary transition-colors underline">
+              Browse Fragrances
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="space-y-4">

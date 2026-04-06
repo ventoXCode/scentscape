@@ -132,14 +132,24 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
         {!cart?.items?.length ? (
           <div className="text-center py-8">
+            <p className="text-3xl mb-2" aria-hidden="true">🧴</p>
             <p className="text-text-muted mb-4">Your cart is empty</p>
-            <Link
-              href="/products"
-              onClick={handleClose}
-              className="inline-block px-6 py-2.5 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary transition-colors"
-            >
-              Start Shopping
-            </Link>
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/quiz"
+                onClick={handleClose}
+                className="inline-block px-6 py-2.5 bg-accent-primary text-text-inverse rounded-lg font-medium hover:bg-accent-primary-hover transition-colors"
+              >
+                Find Your Scent
+              </Link>
+              <Link
+                href="/products"
+                onClick={handleClose}
+                className="inline-block px-6 py-2.5 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary transition-colors"
+              >
+                Browse Fragrances
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">

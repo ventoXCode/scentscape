@@ -162,16 +162,30 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-text-muted mb-4">
+              <p className="text-3xl mb-3" aria-hidden="true">🔍</p>
+              <p className="text-text-secondary mb-2 font-medium">
                 {hasFilters
                   ? "No fragrances match your filters."
-                  : "No fragrances found. Run the seed script to populate the catalog."}
+                  : "No fragrances available right now."}
               </p>
-              {hasFilters && (
-                <Link href="/products" className="text-text-primary underline">
-                  Clear filters
+              <p className="text-text-muted text-sm mb-6">
+                {hasFilters
+                  ? "Try adjusting your filters or explore another way."
+                  : "Check back soon — or discover your perfect scent another way."}
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {hasFilters && (
+                  <Link href="/products" className="px-5 py-2.5 bg-text-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-text-secondary transition-colors">
+                    Clear filters
+                  </Link>
+                )}
+                <Link href="/quiz" className="px-5 py-2.5 bg-accent-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-accent-primary-hover transition-colors">
+                  Take the Quiz
                 </Link>
-              )}
+                <Link href="/moods" className="text-sm text-text-secondary hover:text-text-primary transition-colors underline">
+                  Browse by Mood
+                </Link>
+              </div>
             </div>
           ) : (
             <>
