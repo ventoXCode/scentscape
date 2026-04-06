@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui";
 
 interface FilterLayoutProps {
   children: ReactNode;
@@ -93,12 +94,9 @@ export function FilterLayout({ children }: FilterLayoutProps) {
             </div>
             <div className="overflow-y-auto px-5 py-4 flex-1">{children}</div>
             <div className="px-5 py-4 border-t border-border-default flex-shrink-0">
-              <button
-                onClick={handleClose}
-                className="w-full py-2.5 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary transition-colors"
-              >
+              <Button onClick={handleClose} fullWidth>
                 Show Results
-              </button>
+              </Button>
             </div>
           </div>
         </div>

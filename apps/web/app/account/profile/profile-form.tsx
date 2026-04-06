@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updateProfile, changePassword } from "@/lib/medusa/auth-actions";
-import { Button } from "@/components/ui/button";
+import { Button, Input } from "@/components/ui";
 
 interface ProfileFormProps {
   initialFirstName: string;
@@ -74,38 +74,29 @@ export function ProfileForm({
       <form onSubmit={handleSubmit} className="space-y-4">
         <h2 className="font-display text-lg font-semibold text-text-primary">Personal Information</h2>
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1 text-text-primary">First Name</label>
-            <input
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-text-primary">Last Name</label>
-            <input
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+          <Input
+            label="First Name"
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             required
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
+          />
+          <Input
+            label="Last Name"
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
           />
         </div>
+
+        <Input
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
         {error && <p className="text-error text-sm">{error}</p>}
         {success && <p className="text-success text-sm">Profile updated successfully.</p>}
@@ -128,41 +119,34 @@ export function ProfileForm({
       <form onSubmit={handlePasswordChange} className="space-y-4">
         <h2 className="font-display text-lg font-semibold text-text-primary">Change Password</h2>
 
-        <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">Current Password</label>
-          <input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            required
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-          />
-        </div>
+        <Input
+          label="Current Password"
+          type="password"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          required
+        />
 
         <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">New Password</label>
-          <input
+          <Input
+            label="New Password"
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
           />
           <p className="text-xs text-text-muted mt-1">Minimum 8 characters</p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">Confirm New Password</label>
-          <input
-            type="password"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            required
-            minLength={8}
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-          />
-        </div>
+        <Input
+          label="Confirm New Password"
+          type="password"
+          value={confirmNewPassword}
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
+          required
+          minLength={8}
+        />
 
         {passwordError && <p className="text-error text-sm">{passwordError}</p>}
         {passwordSuccess && <p className="text-success text-sm">Password changed successfully.</p>}

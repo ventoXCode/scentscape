@@ -1,6 +1,7 @@
 "use client";
 
 import type { Archetype, PersonalityDimensions, QuizResult } from "@/lib/quiz/types";
+import { Badge } from "@/components/ui";
 import { PersonalityCard } from "./personality-card";
 import Link from "next/link";
 import Image from "next/image";
@@ -121,16 +122,9 @@ export function SharedQuizResults({
                           {result.feedback === "love" ? "Loved" : "Passed"}
                         </span>
                       )}
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary">
-                        {result.family}
-                      </span>
+                      <Badge size="sm">{result.family}</Badge>
                       {result.topAccords.slice(0, 2).map((accord) => (
-                        <span
-                          key={accord}
-                          className="text-xs px-2 py-0.5 rounded-full bg-surface-subtle text-text-muted"
-                        >
-                          {accord}
-                        </span>
+                        <Badge key={accord} size="sm">{accord}</Badge>
                       ))}
                       {result.price > 0 && (
                         <span className="text-xs text-text-muted ml-auto">

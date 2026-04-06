@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { requestPasswordReset } from "@/lib/medusa/auth-actions";
-import { Button } from "@/components/ui/button";
+import { Button, Input } from "@/components/ui";
 import Link from "next/link";
 
 export default function ForgotPasswordPage() {
@@ -43,17 +43,14 @@ export default function ForgotPasswordPage() {
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoFocus
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-          />
-        </div>
+        <Input
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoFocus
+        />
 
         <Button
           type="submit"

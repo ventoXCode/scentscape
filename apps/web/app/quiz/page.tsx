@@ -19,6 +19,7 @@ import {
   clearSession,
 } from "@/lib/quiz/quiz-engine";
 import { QuizStep } from "@/components/quiz/quiz-step";
+import { Skeleton } from "@/components/ui";
 
 const QuizResults = dynamic(
   () =>
@@ -26,7 +27,7 @@ const QuizResults = dynamic(
   {
     loading: () => (
       <div className="min-h-[60dvh] flex items-center justify-center">
-        <div className="animate-pulse w-8 h-8 rounded-full bg-surface-subtle" />
+        <Skeleton className="w-8 h-8 rounded-full" />
       </div>
     ),
   }

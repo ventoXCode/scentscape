@@ -3,8 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/medusa/auth-actions";
-import { useToast } from "@/components/ui/toast";
-import { Button } from "@/components/ui/button";
+import { Button, Input, useToast } from "@/components/ui";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -36,27 +35,21 @@ export default function LoginPage() {
       <h1 className="font-display text-2xl font-bold mb-8 text-text-primary">Sign In</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-          />
-        </div>
+        <Input
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-        <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-          />
-        </div>
+        <Input
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
         <div className="text-right">
           <Link href="/forgot-password" className="text-sm text-text-secondary hover:text-text-primary transition-colors">

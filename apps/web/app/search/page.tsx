@@ -6,6 +6,7 @@ import { SearchFacets } from "@/components/search/search-facets";
 import { FilterLayout } from "@/components/filters/filter-layout";
 import { SortSelect } from "@/components/filters/sort-select";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
+import { Skeleton } from "@/components/ui";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -158,7 +159,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         </Suspense>
       </div>
 
-      <Suspense fallback={<div className="animate-pulse h-4 w-32 bg-surface-subtle rounded mb-8" />}>
+      <Suspense fallback={<Skeleton className="h-4 w-32 mb-8" />}>
         <SearchResults searchParams={params} />
       </Suspense>
     </div>

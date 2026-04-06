@@ -9,6 +9,7 @@ import { QuizLoading } from "./quiz-loading";
 import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
+import { Button, Badge } from "@/components/ui";
 import { AffiliateLinks } from "@/components/product/affiliate-links";
 import { SampleBoxCta } from "@/components/samples/sample-box-cta";
 import { SampleBoxButton } from "@/components/samples/sample-box-button";
@@ -130,12 +131,9 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
         <p className="text-sm text-text-muted mb-6">
           Your answers are saved — try again without losing progress.
         </p>
-        <button
-          onClick={fetchResults}
-          className="px-6 py-3 bg-text-primary text-text-inverse rounded-lg text-sm font-medium hover:bg-text-secondary transition-colors"
-        >
+        <Button onClick={fetchResults}>
           Try Again
-        </button>
+        </Button>
       </div>
     );
   }
@@ -153,25 +151,19 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
         {/* Save & share */}
         <div className="mt-6 flex items-center gap-3">
           {!shareId ? (
-            <button
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={handleSaveAndShare}
-              disabled={saving}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border-default text-sm font-medium text-text-secondary hover:border-border-strong hover:bg-surface-subtle active:scale-[0.97] transition-all disabled:opacity-50"
+              loading={saving}
+              loadingText="Saving…"
+              className="active:scale-[0.97]"
             >
-              {saving ? (
-                <>
-                  <span className="w-4 h-4 border-2 border-text-muted border-t-transparent rounded-full animate-spin" />
-                  Saving…
-                </>
-              ) : (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                    <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.474l6.733-3.367A2.52 2.52 0 0113 4.5z" />
-                  </svg>
-                  Save &amp; Share Results
-                </>
-              )}
-            </button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 mr-2">
+                <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.474l6.733-3.367A2.52 2.52 0 0113 4.5z" />
+              </svg>
+              Save &amp; Share Results
+            </Button>
           ) : (
             <div className="flex items-center gap-2 flex-wrap">
               <button
@@ -293,16 +285,9 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
 
                     {/* Meta row */}
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary">
-                        {result.family}
-                      </span>
+                      <Badge size="sm">{result.family}</Badge>
                       {result.topAccords.slice(0, 2).map((accord) => (
-                        <span
-                          key={accord}
-                          className="text-xs px-2 py-0.5 rounded-full bg-surface-subtle text-text-muted"
-                        >
-                          {accord}
-                        </span>
+                        <Badge key={accord} size="sm">{accord}</Badge>
                       ))}
                       {result.price > 0 && (
                         <span className="text-xs text-text-muted ml-auto">
@@ -461,36 +446,34 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
 
         {/* Desktop-only inline actions */}
         <div className="hidden md:block mt-10 space-y-3">
-          <button
-            onClick={fetchResults}
-            className="w-full py-3 rounded-lg border border-border-default text-sm font-medium text-text-secondary hover:bg-surface-subtle transition-colors"
-          >
+          <Button variant="secondary" fullWidth onClick={fetchResults}>
             Refresh Recommendations
-          </button>
-          <button
-            onClick={onRetake}
-            className="w-full py-3 rounded-lg text-sm text-text-muted hover:text-text-secondary transition-colors"
-          >
+          </Button>
+          <Button variant="ghost" fullWidth onClick={onRetake}>
             Retake Quiz
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Mobile: sticky bottom CTA bar */}
       <div className="fixed bottom-0 inset-x-0 md:hidden bg-surface-elevated/95 backdrop-blur-sm border-t border-border-default pb-[env(safe-area-inset-bottom)] px-4 pt-3 pb-3 z-40">
         <div className="flex gap-3 max-w-2xl mx-auto">
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={fetchResults}
-            className="flex-1 min-h-[2.75rem] py-2.5 rounded-lg border border-border-default text-sm font-medium text-text-secondary active:scale-[0.97] transition-all"
+            className="flex-1 min-h-[2.75rem] active:scale-[0.97]"
           >
             Refresh
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={onRetake}
-            className="min-h-[2.75rem] px-5 py-2.5 rounded-lg text-sm text-text-muted active:scale-[0.97] transition-all"
+            className="min-h-[2.75rem] active:scale-[0.97]"
           >
             Retake
-          </button>
+          </Button>
         </div>
       </div>
     </>

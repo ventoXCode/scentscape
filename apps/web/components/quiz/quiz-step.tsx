@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useSwipe } from "@/hooks/use-swipe";
+import { Button } from "@/components/ui";
 import type { QuizQuestion } from "@/lib/quiz/types";
 
 interface QuizStepProps {
@@ -220,24 +221,25 @@ export function QuizStep({
       <div className="sticky bottom-0 px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-3 bg-gradient-to-t from-surface-elevated from-80% to-transparent max-w-2xl mx-auto w-full">
         <div className="flex gap-3">
           {canGoBack && (
-            <button
+            <Button
+              variant="secondary"
               onClick={animateAndGoBack}
-              className="min-h-[2.75rem] px-5 py-3 rounded-lg border border-border-default text-sm font-medium text-text-secondary hover:bg-surface-subtle active:scale-[0.97] transition-all"
+              className="min-h-[2.75rem] active:scale-[0.97]"
             >
               Back
-            </button>
+            </Button>
           )}
           {isMulti && (
-            <button
+            <Button
               onClick={() => {
                 hapticTap();
                 animateAndAdvance();
               }}
               disabled={selectedMulti.length === 0}
-              className="flex-1 min-h-[2.75rem] py-3 rounded-lg bg-text-primary text-text-inverse text-sm font-medium disabled:opacity-40 hover:bg-text-secondary active:scale-[0.97] transition-all"
+              className="flex-1 min-h-[2.75rem] active:scale-[0.97]"
             >
               Continue
-            </button>
+            </Button>
           )}
         </div>
       </div>

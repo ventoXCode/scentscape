@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui";
 import { FRAGRANCE_FAMILIES } from "@/lib/learn/families";
 
 const FragranceWheel = dynamic(
@@ -10,7 +11,7 @@ const FragranceWheel = dynamic(
     ),
   {
     loading: () => (
-      <div className="aspect-square max-w-md mx-auto bg-surface-subtle rounded-full animate-pulse" />
+      <Skeleton className="aspect-square max-w-md mx-auto rounded-full" />
     ),
   }
 );

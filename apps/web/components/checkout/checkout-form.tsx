@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Button } from "@/components/ui";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -145,20 +146,23 @@ function PaymentForm({
       <PaymentElement />
       {error && <p className="text-error mt-2 text-sm">{error}</p>}
       <div className="flex gap-4 mt-6">
-        <button
+        <Button
           type="button"
+          variant="secondary"
           onClick={onBack}
-          className="min-w-[96px] px-6 py-3 border border-border-default rounded-lg hover:bg-surface-subtle transition-colors"
+          className="min-w-[96px]"
         >
           Back
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
-          disabled={!stripe || processing}
-          className="flex-1 px-6 py-3 bg-text-primary text-text-inverse rounded-lg disabled:opacity-50 hover:bg-text-secondary transition-colors"
+          disabled={!stripe}
+          loading={processing}
+          loadingText="Processing..."
+          className="flex-1"
         >
-          {processing ? "Processing..." : "Pay Now"}
-        </button>
+          Pay Now
+        </Button>
       </div>
     </form>
   );
@@ -205,13 +209,14 @@ function ReviewStep({
         Your payment has been authorized. Click below to place your order.
       </p>
 
-      <button
+      <Button
         onClick={handleComplete}
-        disabled={isPending}
-        className="w-full px-6 py-3 bg-text-primary text-text-inverse rounded-lg disabled:opacity-50 hover:bg-text-secondary transition-colors"
+        fullWidth
+        loading={isPending}
+        loadingText="Completing order..."
       >
-        {isPending ? "Completing order..." : "Complete Order"}
-      </button>
+        Complete Order
+      </Button>
     </div>
   );
 }

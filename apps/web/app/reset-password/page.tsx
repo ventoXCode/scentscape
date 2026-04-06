@@ -3,9 +3,7 @@
 import { useState, useTransition, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { resetPassword } from "@/lib/medusa/auth-actions";
-import { useToast } from "@/components/ui/toast";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button, Input, Skeleton, useToast } from "@/components/ui";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -63,29 +61,25 @@ function ResetPasswordForm() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">New Password</label>
-          <input
+          <Input
+            label="New Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
           />
           <p className="text-xs text-text-muted mt-1">Minimum 8 characters</p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1 text-text-primary">Confirm New Password</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            minLength={8}
-            className="w-full px-4 py-2.5 border border-border-default rounded-lg bg-surface-elevated text-text-primary focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus transition-colors"
-          />
-        </div>
+        <Input
+          label="Confirm New Password"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+          minLength={8}
+        />
 
         {error && <p className="text-error text-sm">{error}</p>}
 

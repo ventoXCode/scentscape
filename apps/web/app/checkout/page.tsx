@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { getOrCreateCart } from "@/lib/medusa/actions";
 import dynamic_ from "next/dynamic";
+import { Skeleton } from "@/components/ui";
 import { OrderSummary } from "@/components/checkout/order-summary";
 
 const CheckoutForm = dynamic_(
@@ -12,10 +13,10 @@ const CheckoutForm = dynamic_(
     ),
   {
     loading: () => (
-      <div className="space-y-6 animate-pulse">
-        <div className="h-10 bg-surface-subtle rounded-lg" />
-        <div className="h-48 bg-surface-subtle rounded-lg" />
-        <div className="h-12 bg-surface-subtle rounded-lg" />
+      <div className="space-y-6">
+        <Skeleton className="h-10" />
+        <Skeleton className="h-48" />
+        <Skeleton className="h-12" />
       </div>
     ),
   }

@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Accessibility: prefers-reduced-motion, skeleton shimmer, Button loading prop)
+> Last updated: 2026-04-06 (Phase 2.4: Migrate components to shared UI library)
 
 ---
 
@@ -162,7 +162,7 @@
 - [x] Barrel export: `components/ui/index.ts`
 - [ ] Empty states: illustrated/styled placeholders (deferred: requires illustrations or icons)
 - [x] Error states: toast notification system for async action feedback — `components/ui/toast.tsx` with `ToastProvider` context, `useToast` hook, stacked toasts (max 3) with auto-dismiss (success 3s, error 5s, info 4s), slide-in animation, `aria-live` region, mobile-aware positioning (bottom-center above bottom nav, desktop bottom-right). Wired into: add-to-cart (success + error), cart-drawer remove/update (error), wishlist toggle (success/info), login/register (success). Inline form validation errors retained on auth pages.
-- [ ] Migrate existing components to import from `components/ui/` instead of inline styles (progressive adoption — tokens applied directly, shared components available for new code)
+- [x] Migrate existing components to import from `components/ui/` instead of inline styles — auth pages (login, register, forgot-password, reset-password, profile-form) migrated to `Input`; checkout forms (address-form, checkout-form) migrated to `Input` + `Button`; quiz components (quiz-step, quiz-results, shared-quiz-results) migrated to `Button` + `Badge`; filter-layout migrated to `Button`; inline skeletons replaced with `Skeleton` on checkout, explore, quiz, and search pages. All imports consolidated to barrel `@/components/ui`.
 
 ### 2.5 — Motion and micro-interaction layer ✅ (partial)
 - [x] CSS-only entrance animations: `fade-in-up`, `fade-in`, `float` keyframes in `globals.css` via `@theme` animation tokens

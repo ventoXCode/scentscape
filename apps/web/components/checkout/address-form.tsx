@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button, Input } from "@/components/ui";
 
 export interface AddressData {
   first_name: string;
@@ -45,97 +46,73 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
       <h2 className="text-lg font-semibold">Shipping Address</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="first_name" className="block text-sm font-medium mb-1">
-            First Name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
-          />
-        </div>
-        <div>
-          <label htmlFor="last_name" className="block text-sm font-medium mb-1">
-            Last Name
-          </label>
-          <input
-            type="text"
-            id="last_name"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="address_1" className="block text-sm font-medium mb-1">
-          Address
-        </label>
-        <input
+        <Input
+          label="First Name"
           type="text"
-          id="address_1"
-          name="address_1"
-          value={formData.address_1}
+          id="first_name"
+          name="first_name"
+          value={formData.first_name}
           onChange={handleChange}
           required
-          placeholder="Street address"
-          className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
+          className="py-3"
+        />
+        <Input
+          label="Last Name"
+          type="text"
+          id="last_name"
+          name="last_name"
+          value={formData.last_name}
+          onChange={handleChange}
+          required
+          className="py-3"
         />
       </div>
 
-      <div>
-        <label htmlFor="city" className="block text-sm font-medium mb-1">
-          City
-        </label>
-        <input
-          type="text"
-          id="city"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
-        />
-      </div>
+      <Input
+        label="Address"
+        type="text"
+        id="address_1"
+        name="address_1"
+        value={formData.address_1}
+        onChange={handleChange}
+        required
+        placeholder="Street address"
+        className="py-3"
+      />
+
+      <Input
+        label="City"
+        type="text"
+        id="city"
+        name="city"
+        value={formData.city}
+        onChange={handleChange}
+        required
+        className="py-3"
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="province" className="block text-sm font-medium mb-1">
-            State / Province
-          </label>
-          <input
-            type="text"
-            id="province"
-            name="province"
-            value={formData.province}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
-          />
-        </div>
-        <div>
-          <label htmlFor="postal_code" className="block text-sm font-medium mb-1">
-            Postal Code
-          </label>
-          <input
-            type="text"
-            id="postal_code"
-            name="postal_code"
-            inputMode="numeric"
-            value={formData.postal_code}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
-          />
-        </div>
+        <Input
+          label="State / Province"
+          type="text"
+          id="province"
+          name="province"
+          value={formData.province}
+          onChange={handleChange}
+          required
+          className="py-3"
+        />
+        <Input
+          label="Postal Code"
+          type="text"
+          id="postal_code"
+          name="postal_code"
+          inputMode="numeric"
+          value={formData.postal_code}
+          onChange={handleChange}
+          required
+          className="py-3"
+        />
       </div>
 
       <div>
@@ -160,27 +137,24 @@ export function AddressForm({ onSubmit, isPending }: AddressFormProps) {
         </select>
       </div>
 
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium mb-1">
-          Phone <span className="text-text-muted font-normal">(optional)</span>
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full px-4 py-3 border border-border-default rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus"
-        />
-      </div>
+      <Input
+        label="Phone (optional)"
+        type="tel"
+        id="phone"
+        name="phone"
+        value={formData.phone}
+        onChange={handleChange}
+        className="py-3"
+      />
 
-      <button
+      <Button
         type="submit"
-        disabled={isPending}
-        className="w-full px-6 py-3 bg-text-primary text-text-inverse rounded-lg disabled:opacity-50 hover:bg-text-secondary transition-colors"
+        fullWidth
+        loading={isPending}
+        loadingText="Saving..."
       >
-        {isPending ? "Saving..." : "Continue to Payment"}
-      </button>
+        Continue to Payment
+      </Button>
     </form>
   );
 }
