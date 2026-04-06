@@ -2,7 +2,11 @@
 
 import { medusa } from "./client";
 import { cookies } from "next/headers";
-import { AUTH_COOKIE_NAME, AUTH_COOKIE_OPTIONS } from "@/lib/constants";
+import {
+  AUTH_COOKIE_NAME,
+  AUTH_COOKIE_OPTIONS,
+  CART_COOKIE_NAME,
+} from "@/lib/constants";
 
 const AUTH_ACTOR = "customer";
 const AUTH_PROVIDER = "emailpass";
@@ -15,6 +19,23 @@ export async function getAuthToken(): Promise<string | null> {
 async function setAuthCookie(token: string) {
   const cookieStore = await cookies();
   cookieStore.set(AUTH_COOKIE_NAME, token, AUTH_COOKIE_OPTIONS);
+}
+
+// Associate an existing guest cart with the newly authenticated customer
+async function transferGuestCart(token: string) {
+  const cookieStore = await cookies();
+  const cartId = cookieStore.get(CART_COOKIE_NAME)?.value;
+  if (!cartId) return;
+
+  try {
+    await medusa.store.cart.transferCart(
+      cartId,
+      {},
+      { Authorization: `Bearer ${token}` }
+    );
+  } catch {
+    // Cart may already belong to this customer or be invalid — safe to ignore
+  }
 }
 
 export async function register(data: {
@@ -48,6 +69,7 @@ export async function register(data: {
   }
 
   await setAuthCookie(sessionToken);
+  await transferGuestCart(sessionToken);
   return { success: true };
 }
 
@@ -62,6 +84,7 @@ export async function login(email: string, password: string) {
   }
 
   await setAuthCookie(result);
+  await transferGuestCart(result);
   return { success: true };
 }
 

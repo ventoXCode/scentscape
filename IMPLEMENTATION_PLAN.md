@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 7.4 updated: SEO structured data — ArticleJsonLd on all learn pages, FAQPage JSON-LD on glossary, NoteProducts server-rendered for crawler visibility, long-tail keyword targeting and internal linking strategy completed)
+> Last updated: 2026-04-06 (Phase 6.3: cart-customer association on login via transferCart; Phase 2.5: View Transitions API enabled for smooth page navigation cross-fades)
 
 ---
 
@@ -170,7 +170,7 @@
 - [x] Define transition tokens: `--transition-timing-function-smooth` cubic-bezier easing, `slide-in-right`/`slide-out-right` animation keyframes in `globals.css`
 - [x] Card hover states: `shadow-card` → `shadow-card-hover` + `border-border-strong` + image `scale-105` — already implemented in `product-card.tsx`
 - [x] Cart drawer: slide-in/slide-out animation with CSS `translate-x` transition (300ms ease-smooth), overlay fade, deferred first render via `hasBeenOpened` state, `pointer-events-none` + `aria-hidden` when closed
-- [ ] Page transition patterns
+- [x] Page transition patterns — Next.js View Transitions API enabled via `experimental.viewTransition`, CSS cross-fade rules for `::view-transition-old/new(root)`
 
 ### 2.6 — Fragrance-specific visual metaphors ✅ (partial)
 - [x] Redesign scent pyramid: visual pyramid layout with progressive widths (72% → 86% → 100%), fragrance family color tokens per tier (citrus/floral/woody), educational annotations per tier ("First impression · fades in 15–30 minutes"), hoverable note chips with sensory description tooltips via `lib/fragrance/note-descriptions.ts` (100+ notes)
@@ -356,7 +356,8 @@
   - [x] Account: wishlist page with saved products, remove button, empty state
   - [ ] Backend: wishlist data model and API endpoints (deferred: using localStorage for now)
 - [ ] User account scent profile persistence (saved quiz results, history)
-- [ ] Cart-customer association on login (guest cart → customer cart merge)
+- [x] Cart-customer association on login (guest cart → customer cart merge)
+  - [x] `transferGuestCart()` in `auth-actions.ts` calls `medusa.store.cart.transferCart` after login/register with the customer's auth token
 - [ ] Foundation for gating infrastructure: identify which features could be premium
 - [ ] Premium feature candidates: AI advisor, saved profiles, community features, monthly scent briefing
 
