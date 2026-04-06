@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { CompareBar } from "@/components/comparison/compare-bar";
 import { WebVitalsReporter } from "@/components/web-vitals-reporter";
 import { getCustomer } from "@/lib/medusa/auth-actions";
 import { SITE_URL } from "@/lib/constants";
@@ -91,6 +92,7 @@ export default async function RootLayout({
           <Header customer={customer} />
           <main className="pb-16 md:pb-0">{children}</main>
           <Footer />
+          <CompareBar />
           <BottomNav />
         </Providers>
       </body>

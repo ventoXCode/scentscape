@@ -50,6 +50,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/compare" className="hover:text-text-primary transition-colors">
+                  Compare
+                </Link>
+              </li>
+              <li>
                 <Link href="/search" className="hover:text-text-primary transition-colors">
                   Search
                 </Link>

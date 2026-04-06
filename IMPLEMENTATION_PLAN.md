@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 8: Product review and rating system)
+> Last updated: 2026-04-06 (Phase 9: Fragrance comparison tool)
 
 ---
 
@@ -462,6 +462,38 @@
 - [x] Product detail page fetches review data server-side in parallel with fragrance data and auth status
 - [x] `ProductReviews` rendered below `SimilarFragrances` as full-width section
 - [x] `ProductJsonLd` updated with `aggregateRating` schema (Phase 7.4 item now complete) — conditionally rendered when `reviewCount > 0`
+
+---
+
+## Phase 9: Fragrance Comparison Tool
+
+**Why:** Users exploring multiple fragrances need a way to compare them side by side to make informed purchase decisions. Comparison is the missing step between discovery and conversion — the product detail page shows one fragrance in isolation, but fragrance selection is inherently relative ("How does this compare to that?").
+
+**Current state (post-implementation):** Full comparison tool with side-by-side view of up to 4 fragrances. Compares performance ratings, scent pyramids, accords (highlighting shared accords), details (gender, season, occasion), and price. Client-side state via React Context + localStorage. Floating compare bar appears when items are added. Shareable URLs via `?products=handle1,handle2,...` query params with server-side Meilisearch data fetching.
+
+### 9.1 — Comparison state management ✅
+- [x] `ComparisonProvider` React context (`lib/comparison/context.tsx`) with localStorage persistence (`scentscape-comparison`, max 4 items, FIFO). Follows established wishlist/sample-box pattern: two-effect hydration guard, `useCallback` mutators. `addItem` returns boolean success. `isInComparison`, `isFull`, `count` derived state. Provider registered in `providers.tsx`.
+- [x] `CompareItem` interface: `id`, `handle`, `title`, `thumbnail`, `brand`, `family`
+
+### 9.2 — Compare button and floating bar ✅
+- [x] `CompareButton` client component (`components/product/compare-button.tsx`): card variant (circular overlay icon, bottom-left) and detail variant (bordered button with label). Toggle behavior with toast feedback. `aria-pressed` for accessibility.
+- [x] `CompareBar` client component (`components/comparison/compare-bar.tsx`): fixed bottom bar with product thumbnails, remove buttons, empty slot indicators, item counter, "Clear" action, and "Compare (N)" CTA linking to `/compare?products=...`. Conditionally renders only when items present. Safe-area-inset padding for mobile. Responsive: full-width on mobile, centered floating card on desktop.
+- [x] Integrated on product cards (card variant, bottom-left alongside wishlist bottom-right) and product detail page (detail variant, next to wishlist button)
+
+### 9.3 — Comparison page ✅
+- [x] `/compare` server page fetches fragrance data from Meilisearch by product handles from URL query params — enables shareable comparison URLs
+- [x] `ComparePageClient` client component (`components/comparison/compare-page-client.tsx`): responsive grid layout with horizontally-scrollable overflow on mobile
+- [x] Comparison sections: product headers (image, brand, title, family badge, concentration, price), Performance (longevity/sillage rating bars with verbal labels), Scent Pyramid (top/heart/base notes with family-colored pills), Accords (shared accords highlighted with success ring), Details (gender, season, occasion, sub-family)
+- [x] Shared Accords summary section: identifies accords common to all compared fragrances, links to search
+- [x] Empty state with CTA to browse fragrances or take quiz
+- [x] Remove individual products from comparison; auto-updates URL
+- [x] Product thumbnails link to detail pages for quick navigation
+- [x] `Metadata` export with title and description for SEO
+
+### 9.4 — Navigation integration ✅
+- [x] Compare bar rendered in root `layout.tsx` (above BottomNav, below Footer)
+- [x] `/compare` added to footer Discover section
+- [x] `/compare` added to sitemap with monthly changeFrequency, priority 0.5
 
 ---
 

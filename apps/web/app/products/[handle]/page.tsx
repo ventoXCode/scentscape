@@ -15,6 +15,7 @@ import { HowToWear } from "@/components/product/how-to-wear";
 import { SimilarFragrances } from "@/components/product/similar-fragrances";
 import { RelatedEducation } from "@/components/product/related-education";
 import { WishlistButton } from "@/components/product/wishlist-button";
+import { CompareButton } from "@/components/product/compare-button";
 import { AffiliateLinks } from "@/components/product/affiliate-links";
 import { SampleBoxButton } from "@/components/samples/sample-box-button";
 import { RecentlyViewedTracker } from "@/components/product/recently-viewed-tracker";
@@ -196,17 +197,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ) : null}
           <div className="flex items-start justify-between gap-4 mb-2">
             <h1 className="text-3xl font-bold font-display">{product.title}</h1>
-            <WishlistButton
-              product={{
-                id: product.id,
-                handle: product.handle ?? "",
-                title: product.title,
-                thumbnail: product.thumbnail ?? null,
-                brand: (product.metadata?.brand as string) ?? null,
-                family: fragranceData?.family ?? null,
-              }}
-              variant="detail"
-            />
+            <div className="flex items-center gap-2">
+              <WishlistButton
+                product={{
+                  id: product.id,
+                  handle: product.handle ?? "",
+                  title: product.title,
+                  thumbnail: product.thumbnail ?? null,
+                  brand: (product.metadata?.brand as string) ?? null,
+                  family: fragranceData?.family ?? null,
+                }}
+                variant="detail"
+              />
+              <CompareButton
+                product={{
+                  id: product.id,
+                  handle: product.handle ?? "",
+                  title: product.title,
+                  thumbnail: product.thumbnail ?? null,
+                  brand: (product.metadata?.brand as string) ?? null,
+                  family: fragranceData?.family ?? null,
+                }}
+                variant="detail"
+              />
+            </div>
           </div>
 
           {fragranceData && (

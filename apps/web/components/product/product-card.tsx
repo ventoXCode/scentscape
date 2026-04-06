@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
 import { WishlistButton } from "@/components/product/wishlist-button";
+import { CompareButton } from "@/components/product/compare-button";
 import { getFamilyByName } from "@/lib/fragrance/family-config";
 import { isStaffPick, isTrending } from "@/lib/discovery/editorial-badges";
 
@@ -154,6 +155,16 @@ export function ProductCard({ product, priority }: ProductCardProps) {
         )}
 
         <WishlistButton
+          product={{
+            id: product.id,
+            handle: product.handle || "",
+            title: product.title,
+            thumbnail: product.thumbnail ?? null,
+            brand: brand ?? null,
+            family: family ?? null,
+          }}
+        />
+        <CompareButton
           product={{
             id: product.id,
             handle: product.handle || "",

@@ -11,6 +11,7 @@ import { getOrCreateCart } from "@/lib/medusa/actions";
 import { WishlistProvider } from "@/lib/wishlist/context";
 import { RecentlyViewedProvider } from "@/lib/recently-viewed/context";
 import { SampleBoxProvider } from "@/lib/samples/context";
+import { ComparisonProvider } from "@/lib/comparison/context";
 import { ToastProvider } from "@/components/ui/toast";
 import { ThemeProvider } from "@/lib/theme/context";
 
@@ -88,7 +89,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <WishlistProvider>
             <RecentlyViewedProvider>
               <SampleBoxProvider>
-                <ToastProvider>{children}</ToastProvider>
+                <ComparisonProvider>
+                  <ToastProvider>{children}</ToastProvider>
+                </ComparisonProvider>
               </SampleBoxProvider>
             </RecentlyViewedProvider>
           </WishlistProvider>
