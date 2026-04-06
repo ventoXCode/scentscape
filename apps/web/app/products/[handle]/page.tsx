@@ -12,6 +12,7 @@ import { PerfectFor } from "@/components/product/perfect-for";
 import { ScentJourney } from "@/components/product/scent-journey";
 import { HowToWear } from "@/components/product/how-to-wear";
 import { SimilarFragrances } from "@/components/product/similar-fragrances";
+import { WishlistButton } from "@/components/product/wishlist-button";
 
 interface ProductPageProps {
   params: Promise<{ handle: string }>;
@@ -136,7 +137,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {product.metadata.brand as string}
             </p>
           )}
-          <h1 className="text-3xl font-bold font-display mb-2">{product.title}</h1>
+          <div className="flex items-start justify-between gap-4 mb-2">
+            <h1 className="text-3xl font-bold font-display">{product.title}</h1>
+            <WishlistButton
+              product={{
+                id: product.id,
+                handle: product.handle ?? "",
+                title: product.title,
+                thumbnail: product.thumbnail ?? null,
+                brand: (product.metadata?.brand as string) ?? null,
+                family: fragranceData?.family ?? null,
+              }}
+              variant="detail"
+            />
+          </div>
 
           {fragranceData && (
             <div className="flex flex-wrap gap-2 mb-4">

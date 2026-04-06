@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
+import { WishlistButton } from "@/components/product/wishlist-button";
 
 const FAMILY_COLORS: Record<string, string> = {
   Fresh: "bg-family-fresh",
@@ -142,6 +143,17 @@ export function ProductCard({ product, priority }: ProductCardProps) {
             ))}
           </div>
         )}
+
+        <WishlistButton
+          product={{
+            id: product.id,
+            handle: product.handle || "",
+            title: product.title,
+            thumbnail: product.thumbnail ?? null,
+            brand: brand ?? null,
+            family: family ?? null,
+          }}
+        />
       </div>
       <div className="p-4">
         {brand && (

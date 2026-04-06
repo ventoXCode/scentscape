@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCart } from "@/components/providers";
+import { useWishlist } from "@/lib/wishlist/context";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { SearchBar } from "@/components/search/search-bar";
 import { useState, useTransition, useEffect } from "react";
@@ -14,6 +15,7 @@ interface HeaderProps {
 
 export function Header({ customer }: HeaderProps) {
   const { cart, cartOpen, setCartOpen } = useCart();
+  const { count: wishlistCount } = useWishlist();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -100,6 +102,21 @@ export function Header({ customer }: HeaderProps) {
             <Link href="/login">Sign In</Link>
           )}
 
+          <Link
+            href="/account/wishlist"
+            className="relative text-text-secondary hover:text-accent-secondary transition-colors"
+            aria-label={`Wishlist${wishlistCount > 0 ? ` (${wishlistCount} items)` : ""}`}
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+            </svg>
+            {wishlistCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
+
           <button
             onClick={() => setCartOpen(true)}
             className="relative text-text-secondary hover:text-text-primary transition-colors"
@@ -115,6 +132,21 @@ export function Header({ customer }: HeaderProps) {
 
         {/* Mobile controls */}
         <div className="flex items-center gap-3 md:hidden">
+          <Link
+            href="/account/wishlist"
+            className="relative text-text-secondary hover:text-accent-secondary transition-colors"
+            aria-label={`Wishlist${wishlistCount > 0 ? ` (${wishlistCount} items)` : ""}`}
+          >
+            <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+            </svg>
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-accent-secondary text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
+
           <button
             onClick={() => setCartOpen(true)}
             className="relative text-text-secondary hover:text-text-primary transition-colors"

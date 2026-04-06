@@ -350,11 +350,11 @@
 - [ ] Backend: sample box as a Medusa product type with dynamic composition
 
 ### 6.3 — Premium tier foundation (do not gate quiz)
-- [ ] Wishlist implementation — full feature (currently: `/account/wishlist` is a "coming soon" stub page with no backend, no data model, no UI integration)
-  - Backend: wishlist data model and API endpoints
-  - Frontend: add-to-wishlist button on product cards and detail pages
-  - Header: wishlist icon with count badge
-  - Account: wishlist page with saved products
+- [x] Wishlist implementation — frontend with localStorage persistence
+  - [x] Frontend: add-to-wishlist button on product cards and detail pages
+  - [x] Header: wishlist icon with count badge (desktop and mobile)
+  - [x] Account: wishlist page with saved products, remove button, empty state
+  - [ ] Backend: wishlist data model and API endpoints (deferred: using localStorage for now)
 - [ ] User account scent profile persistence (saved quiz results, history)
 - [ ] Cart-customer association on login (guest cart → customer cart merge)
 - [ ] Foundation for gating infrastructure: identify which features could be premium

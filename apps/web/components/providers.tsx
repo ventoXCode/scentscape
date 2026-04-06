@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, createContext, useContext, useEffect } from "react";
 import { getOrCreateCart } from "@/lib/medusa/actions";
+import { WishlistProvider } from "@/lib/wishlist/context";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +45,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <CartContext.Provider value={{ cart, refreshCart, cartOpen, setCartOpen }}>
-        {children}
+        <WishlistProvider>{children}</WishlistProvider>
       </CartContext.Provider>
     </QueryClientProvider>
   );
