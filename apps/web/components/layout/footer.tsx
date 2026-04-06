@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border-default mt-16 bg-surface-subtle">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div>
             <Link href="/" className="font-display text-lg font-semibold text-text-primary">
               ScentScape
@@ -34,8 +34,39 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/moods" className="hover:text-text-primary transition-colors">
+                  Moods
+                </Link>
+              </li>
+              <li>
                 <Link href="/search" className="hover:text-text-primary transition-colors">
                   Search
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-medium mb-3 text-text-primary">Learn</h3>
+            <ul className="space-y-2 text-sm text-text-secondary">
+              <li>
+                <Link href="/learn/fragrance-101" className="hover:text-text-primary transition-colors">
+                  Fragrance 101
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/how-to-apply" className="hover:text-text-primary transition-colors">
+                  How to Apply
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/families" className="hover:text-text-primary transition-colors">
+                  Fragrance Families
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/glossary" className="hover:text-text-primary transition-colors">
+                  Glossary
                 </Link>
               </li>
             </ul>

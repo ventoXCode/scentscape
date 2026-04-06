@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (full re-audit with parallel codebase analysis)
+> Last updated: 2026-04-06 (full re-audit with parallel codebase analysis; Phase 7.2 + 7.3 updated with implemented educational content)
 
 ---
 
@@ -213,7 +213,7 @@
 
 ### 3.4 — Editorial and discovery content
 - [x] Featured fragrances with editorial "Editor's Picks" framing and "View All" link
-- [ ] Fragrance 101 educational teaser section (deferred to Phase 7 — educational content layer)
+- [x] Fragrance 101 educational teaser section (implemented in Phase 7.3 — "Learn the Basics" section on homepage)
 - [ ] Trending / seasonal picks with editorial framing (deferred: requires seasonal logic)
 - [ ] Collection highlights with visual storytelling (deferred: requires collection hero images — Phase 4.6)
 
@@ -378,20 +378,26 @@
 - [x] Performance rating tooltips with verbal scale labels (pre-existing: `performance-ratings.tsx`)
 - [ ] "What is [note]?" expandable cards on product pages (deferred: requires accordion component)
 
-### 7.2 — Standalone educational content
-- [ ] "Fragrance 101" comprehensive introductory guide
-- [ ] "How to Find Your Signature Scent" long-form guide
-- [ ] "How to Apply Fragrance" practical tips (pulse points, layering, storage)
-- [ ] Seasonal guides: "Best Fragrances for Summer," "Holiday Gift Guide"
-- [ ] Note profiles: deep dives on popular notes (bergamot, oud, sandalwood, vanilla)
-- [ ] Fragrance family guides with examples and recommendations
+### 7.2 — Standalone educational content ✅ (partial)
+- [x] `/learn` educational hub landing page with guide cards, family quick-nav, and quiz CTA
+- [x] `/learn/fragrance-101` — comprehensive beginner guide covering scent pyramid, concentrations (EDC→Extrait), fragrance families, performance metrics, and how to find your signature scent. Sources data from `glossary.ts`.
+- [x] `/learn/how-to-apply` — practical guide covering application amounts by concentration, 6 pulse points with tips, timing advice, layering technique, common mistakes, and storage tips
+- [x] `/learn/families` — overview of all 6 families with signature notes, linking to detail pages
+- [x] `/learn/families/[slug]` — deep dive pages for each family (Fresh, Floral, Amber, Woody, Citrus, Aromatic) with history, characteristics, signature notes with descriptions from `note-descriptions.ts`, subfamilies, when-to-wear, personality profile, and browse CTA linking to `/search?family=X`. `generateStaticParams` for SSG. Prev/next family navigation.
+- [x] `/learn/glossary` — comprehensive glossary with 4 sections (Concentrations, Families, Performance Metrics, General Terms with 18 entries including Accord, Drydown, Flanker, Gourmand, Nose Blindness, Skin Chemistry, etc.). Jump-nav anchors. Families link to detail pages.
+- [x] Data layer: `lib/learn/families.ts` (6 families with extended data, `getNotesForFamily` helper pulling from `note-descriptions.ts`) and `lib/learn/guides.ts` (guide metadata)
+- [ ] Note profiles: deep dives on popular notes (bergamot, oud, sandalwood, vanilla) — deferred
+- [ ] Seasonal guides: "Best Fragrances for Summer," "Holiday Gift Guide" — deferred
 
-### 7.3 — Content integration across surfaces
-- [ ] Homepage: educational teaser sections linking to full guides
-- [ ] Product pages: related educational content based on product characteristics
-- [ ] Quiz results: educational context about the user's scent profile
-- [ ] Search: educational suggestions on no-result states (currently: plain "No fragrances found" text)
-- [ ] Empty states: fill dead-ends with relevant learning content
+### 7.3 — Content integration across surfaces ✅ (partial)
+- [x] Homepage: "Learn the Basics" educational teaser section with 3 guide cards (Fragrance 101, How to Apply, Scent Families) and "See all guides" link — positioned between Mood browsing and Social Proof sections
+- [x] Search: no-results state enriched with quiz CTA, Browse by Mood, Fragrance 101, and Explore Families links (replaces plain text)
+- [x] Header: "Learn" link added to desktop nav and mobile menu
+- [x] Footer: new "Learn" column with links to Fragrance 101, How to Apply, Fragrance Families, and Glossary
+- [x] Sitemap: all learn pages and family pages added with monthly changeFrequency
+- [ ] Product pages: related educational content based on product characteristics — deferred
+- [ ] Quiz results: educational context about the user's scent profile — deferred
+- [ ] Empty states: fill other dead-ends with relevant learning content — deferred
 
 ### 7.4 — SEO and content marketing
 - [ ] Target long-tail keywords: "what does [note] smell like," "best fragrances for [occasion]"

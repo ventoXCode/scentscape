@@ -247,6 +247,86 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Learn About Fragrance */}
+      <section className="py-section bg-surface-primary">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <ScrollReveal>
+            <p className="text-accent-primary font-medium text-sm uppercase tracking-wide text-center mb-2">
+              New to Fragrance?
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-text-primary text-center mb-4">
+              Learn the Basics
+            </h2>
+            <p className="text-text-secondary text-center mb-10 max-w-2xl mx-auto">
+              You don&apos;t need to be an expert to find a scent you love. But
+              a little knowledge goes a long way.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <ScrollReveal delay={0}>
+              <Link
+                href="/learn/fragrance-101"
+                className="group block rounded-xl border border-border-default bg-surface-elevated p-6 shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200 text-center"
+              >
+                <span className="text-3xl block mb-3" aria-hidden="true">
+                  📖
+                </span>
+                <h3 className="font-display font-semibold text-text-primary group-hover:underline mb-1">
+                  Fragrance 101
+                </h3>
+                <p className="text-sm text-text-secondary">
+                  The complete beginner&apos;s guide
+                </p>
+              </Link>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <Link
+                href="/learn/how-to-apply"
+                className="group block rounded-xl border border-border-default bg-surface-elevated p-6 shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200 text-center"
+              >
+                <span className="text-3xl block mb-3" aria-hidden="true">
+                  💨
+                </span>
+                <h3 className="font-display font-semibold text-text-primary group-hover:underline mb-1">
+                  How to Apply
+                </h3>
+                <p className="text-sm text-text-secondary">
+                  Get the most from every spray
+                </p>
+              </Link>
+            </ScrollReveal>
+            <ScrollReveal delay={200}>
+              <Link
+                href="/learn/families"
+                className="group block rounded-xl border border-border-default bg-surface-elevated p-6 shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200 text-center"
+              >
+                <span className="text-3xl block mb-3" aria-hidden="true">
+                  🎨
+                </span>
+                <h3 className="font-display font-semibold text-text-primary group-hover:underline mb-1">
+                  Scent Families
+                </h3>
+                <p className="text-sm text-text-secondary">
+                  Discover what you&apos;re drawn to
+                </p>
+              </Link>
+            </ScrollReveal>
+          </div>
+
+          <ScrollReveal>
+            <div className="text-center mt-8">
+              <Link
+                href="/learn"
+                className="text-text-secondary hover:text-text-primary font-medium transition-colors"
+              >
+                See all guides &rarr;
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* Social Proof */}
       <section className="py-section bg-surface-primary">
         <div className="container mx-auto px-4 max-w-5xl">

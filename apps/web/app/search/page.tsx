@@ -57,8 +57,27 @@ async function SearchResults({ searchParams }: { searchParams: Awaited<SearchPag
 
       <main className="flex-1">
         {results.hits.length === 0 ? (
-          <div className="text-center py-16 text-text-muted">
-            No fragrances found{query ? ` for "${query}"` : ""}. Try adjusting your filters.
+          <div className="text-center py-16">
+            <p className="text-text-muted mb-6">
+              No fragrances found{query ? ` for "${query}"` : ""}. Try adjusting your filters.
+            </p>
+            <div className="max-w-md mx-auto space-y-4">
+              <p className="text-text-secondary text-sm">Not sure what to search for? Try these:</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                <a href="/quiz" className="px-4 py-2 text-sm rounded-lg bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/20 transition-colors font-medium">
+                  Take the Scent Quiz
+                </a>
+                <a href="/moods" className="px-4 py-2 text-sm rounded-lg bg-surface-subtle border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors">
+                  Browse by Mood
+                </a>
+                <a href="/learn/fragrance-101" className="px-4 py-2 text-sm rounded-lg bg-surface-subtle border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors">
+                  Fragrance 101
+                </a>
+                <a href="/learn/families" className="px-4 py-2 text-sm rounded-lg bg-surface-subtle border border-border-default text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors">
+                  Explore Families
+                </a>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
