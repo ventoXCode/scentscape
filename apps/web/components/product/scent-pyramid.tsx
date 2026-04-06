@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import { getNoteDescription } from "@/lib/fragrance/note-descriptions";
 
 interface ScentPyramidProps {
@@ -75,17 +78,44 @@ function NoteChip({ note, chipClass }: { note: string; chipClass: string }) {
 
 export function ScentPyramid({ top, heart, base }: ScentPyramidProps) {
   const notes = { top, heart, base };
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const tiers = container.querySelectorAll<HTMLElement>("[data-tier]");
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          tiers.forEach((tier) => {
+            tier.style.animationPlayState = "running";
+          });
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="flex flex-col items-center gap-1.5">
+    <div ref={containerRef} className="flex flex-col items-center gap-1.5">
       <p className="text-xs text-text-muted text-center mb-2 max-w-sm leading-relaxed">
         A fragrance unfolds in three layers over time. Hover over any note to learn what it smells like.
       </p>
-      {TIERS.map((tier) => {
+      {TIERS.map((tier, tierIndex) => {
         const tierNotes = notes[tier.key];
         const explanation = TIER_EXPLANATIONS[tier.key];
         return (
-          <div key={tier.key} className={`${tier.widthClass} mx-auto`}>
+          <div
+            key={tier.key}
+            data-tier
+            className={`${tier.widthClass} mx-auto animate-fade-in-up [animation-play-state:paused] [animation-fill-mode:both]`}
+            style={{ animationDelay: `${tierIndex * 150}ms` }}
+          >
             <div className={`${tier.bgClass} rounded-xl px-5 py-4`}>
               <div className="flex items-center gap-2 mb-1">
                 <span

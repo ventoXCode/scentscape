@@ -176,7 +176,7 @@
 - [x] Redesign scent pyramid: visual pyramid layout with progressive widths (72% → 86% → 100%), fragrance family color tokens per tier (citrus/floral/woody), educational annotations per tier ("First impression · fades in 15–30 minutes"), hoverable note chips with sensory description tooltips via `lib/fragrance/note-descriptions.ts` (100+ notes)
   - [x] Hoverable notes with sensory descriptions (CSS group-hover tooltips)
   - [x] Visual hierarchy showing temporal progression (top → heart → base) via width stepping and color coding
-  - [ ] Animate notes appearing tier by tier on scroll-entry (can wrap in ScrollReveal on product page)
+  - [x] Animate notes appearing tier by tier on scroll-entry — IntersectionObserver on scent pyramid container triggers staggered `animate-fade-in-up` per tier (150ms delay between tiers)
 - [x] Redesign accord tags: swatch-style cards with colored dot + family color backgrounds using design token system, weighted sizing (first 3 accords larger), all accords linked to `/search?accords=X`
   - [x] Replaced hardcoded `ACCORD_COLORS` map with `ACCORD_FAMILY_MAP` → fragrance family design tokens
   - [x] Make accords clickable links to filtered product listing
@@ -243,7 +243,7 @@
 - [x] Add fragrance family visual indicator — color dot with family name badge, using `FAMILY_COLORS` mapped to design tokens (Fresh, Floral, Amber, Woody, Citrus, Aromatic)
 - [x] Add concentration badge on product card image overlay
 - [x] Add key mood/vibe and one standout note — Top note displayed on each product card from Meilisearch data
-- [ ] Hover state: expanded quick-preview with additional info (current: shadow + scale transition)
+- [x] Hover state: expanded quick-preview overlay slides up from bottom showing description snippet and performance verbal labels (longevity/sillage), CSS-only transition with gradient backdrop
 - [x] Visual badges: "Beginner Friendly" (sillage ≤ 2.5) and seasonal "Spring/Summer/Fall/Winter Pick" badges rendered in top-right corner of product card image, using `success-subtle` and `family-amber-subtle` design tokens. Badge data (sillage, longevity, season) passed from all Meilisearch-backed callers (products, search, collections, similar, moods).
 - [x] Add `priority` prop on above-fold product card images for LCP optimization
 - [x] Price range display for multi-variant products — Shows 'From $X' when multiple variant prices exist

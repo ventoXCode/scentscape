@@ -3,6 +3,9 @@ import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format";
 import { WishlistButton } from "@/components/product/wishlist-button";
 
+const LONGEVITY_LABELS = ["", "Fleeting", "Short", "Moderate", "Long-lasting", "Legendary"];
+const SILLAGE_LABELS = ["", "Intimate", "Close", "Moderate", "Strong", "Enormous"];
+
 const FAMILY_COLORS: Record<string, string> = {
   Fresh: "bg-family-fresh",
   Floral: "bg-family-floral",
@@ -154,6 +157,29 @@ export function ProductCard({ product, priority }: ProductCardProps) {
             family: family ?? null,
           }}
         />
+
+        {/* Hover quick-preview overlay */}
+        {(product.description || product.longevity != null || product.sillage != null) && (
+          <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-smooth pointer-events-none">
+            <div className="bg-gradient-to-t from-black/80 via-black/60 to-transparent px-3 pb-3 pt-8">
+              {product.description && (
+                <p className="text-xs text-white/90 line-clamp-2 mb-1.5">
+                  {product.description}
+                </p>
+              )}
+              {(product.longevity != null || product.sillage != null) && (
+                <div className="flex gap-3 text-[11px] text-white/70">
+                  {product.longevity != null && (
+                    <span>{LONGEVITY_LABELS[Math.round(product.longevity)] || "—"} wear</span>
+                  )}
+                  {product.sillage != null && (
+                    <span>{SILLAGE_LABELS[Math.round(product.sillage)] || "—"} sillage</span>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
       <div className="p-4">
         {brand && (
