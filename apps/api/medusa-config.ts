@@ -1,4 +1,6 @@
-import { defineConfig } from "@medusajs/framework";
+import { loadEnv, defineConfig } from "@medusajs/framework/utils";
+
+loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
 export default defineConfig({
   projectConfig: {
@@ -16,6 +18,10 @@ export default defineConfig({
   modules: [
     {
       resolve: "./src/modules/fragrance",
+      options: {},
+    },
+    {
+      resolve: "./src/modules/quiz-session",
       options: {},
     },
     {

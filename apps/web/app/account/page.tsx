@@ -35,6 +35,14 @@ export default async function AccountPage() {
         </Link>
 
         <Link
+          href="/account/scent-profile"
+          className="p-6 border border-border-default rounded-xl shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
+        >
+          <h3 className="font-semibold mb-2 text-text-primary">Scent Profile</h3>
+          <p className="text-sm text-text-secondary">Your personality and past quiz results</p>
+        </Link>
+
+        <Link
           href="/account/profile"
           className="p-6 border border-border-default rounded-xl shadow-card hover:shadow-card-hover hover:border-border-strong transition-all duration-200"
         >

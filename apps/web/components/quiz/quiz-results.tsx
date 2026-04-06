@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { QuizSession, QuizOutcome } from "@/lib/quiz/types";
 import { getRecommendations } from "@/lib/quiz/recommendation-engine";
+import { saveQuizSession } from "@/lib/quiz/api";
 import { PersonalityCard } from "./personality-card";
 import { QuizLoading } from "./quiz-loading";
 import Link from "next/link";
@@ -19,15 +20,49 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
   const [outcome, setOutcome] = useState<QuizOutcome | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [shareId, setShareId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const fetchResults = () => {
     setLoading(true);
     setError(false);
+    setShareId(null);
     getRecommendations(session)
       .then(setOutcome)
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   };
+
+  const handleSaveAndShare = useCallback(async () => {
+    if (!outcome || saving) return;
+    setSaving(true);
+    const result = await saveQuizSession(session, outcome);
+    setSaving(false);
+    if (result) {
+      setShareId(result.shareId);
+    }
+  }, [session, outcome, saving]);
+
+  const handleCopyLink = useCallback(async () => {
+    if (!shareId) return;
+    const url = `${window.location.origin}/quiz/results/${shareId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for older browsers
+      const input = document.createElement("input");
+      input.value = url;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, [shareId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -79,6 +114,56 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
       <div className="max-w-2xl mx-auto px-4 py-8 pb-36 md:pb-8">
         {/* Personality card — the hero of the results */}
         <PersonalityCard archetype={archetype} dimensions={outcome.dimensions} />
+
+        {/* Save & share */}
+        <div className="mt-6 flex items-center gap-3">
+          {!shareId ? (
+            <button
+              onClick={handleSaveAndShare}
+              disabled={saving}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border-default text-sm font-medium text-text-secondary hover:border-border-strong hover:bg-surface-subtle active:scale-[0.97] transition-all disabled:opacity-50"
+            >
+              {saving ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-text-muted border-t-transparent rounded-full animate-spin" />
+                  Saving…
+                </>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                    <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.474l6.733-3.367A2.52 2.52 0 0113 4.5z" />
+                  </svg>
+                  Save &amp; Share Results
+                </>
+              )}
+            </button>
+          ) : (
+            <div className="flex items-center gap-2 flex-wrap">
+              <button
+                onClick={handleCopyLink}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent-primary text-text-inverse text-sm font-medium hover:bg-accent-primary-hover active:scale-[0.97] transition-all"
+              >
+                {copied ? (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    Link Copied!
+                  </>
+                ) : (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                      <path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z" />
+                      <path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z" />
+                    </svg>
+                    Copy Share Link
+                  </>
+                )}
+              </button>
+              <span className="text-xs text-text-muted">Results saved!</span>
+            </div>
+          )}
+        </div>
 
         {/* Results list */}
         <div className="mt-10">

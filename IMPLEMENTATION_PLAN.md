@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 5.4: Mobile product interactions — swipe-to-wishlist, long-press quick preview, pull-to-refresh on all catalog pages)
+> Last updated: 2026-04-06 (Phase 1.6: Quiz data persistence — backend module, save/share API, shareable results pages, account scent profile)
 
 ---
 
@@ -111,14 +111,14 @@
 - [x] Retake fully resets session and clears localStorage
 - [x] "Explore More Like This" path from each recommendation — "Explore more like this →" link per result card navigates to `/search?family=X&accords=Y` using the recommendation's family and primary accord
 - [ ] Feedback buttons per recommendation (deferred: requires backend persistence)
-- [ ] Shareable results: unique URL, social card, downloadable image (deferred: requires backend quiz session storage — see 1.6)
-- [ ] Save to account / recover via email (deferred: requires backend — see 1.6)
+- [x] Shareable results: unique URL with share_id, OG metadata per archetype — `/quiz/results/[id]` server-rendered page with CTA for visitors. "Save & Share Results" button on quiz results page. (Downloadable image deferred: requires canvas rendering)
+- [x] Save to account: quiz sessions linked to customer_id when authenticated, viewable at `/account/scent-profile` with quiz history and archetype display
 
-### 1.6 — Quiz data persistence (backend)
-- [ ] API endpoint to save quiz sessions (answers + results + archetype)
-- [ ] Link quiz results to customer account when authenticated
-- [ ] Store scent personality profile on customer record
-- [ ] API for quiz result retrieval by ID (for shareable URLs)
+### 1.6 — Quiz data persistence (backend) ✅
+- [x] API endpoint to save quiz sessions (answers + results + archetype) — `quiz-session` Medusa module with `QuizSession` model (`share_id`, `customer_id`, answers, dimensions, affinities, archetype_id, results). POST `/store/quiz-sessions` generates URL-safe `share_id` via `crypto.randomBytes`.
+- [x] Link quiz results to customer account when authenticated — POST route extracts `auth_context.actor_id` from request when available, sets `customer_id` on session. GET `/store/quiz-sessions/me` returns authenticated user's sessions ordered by newest first.
+- [x] Store scent personality profile on customer record — Account "Scent Profile" page (`/account/scent-profile`) shows latest archetype with gradient card, description, and full quiz history. Empty state CTA to take quiz.
+- [x] API for quiz result retrieval by ID (for shareable URLs) — GET `/store/quiz-sessions/:shareId` returns saved session. Shareable results page at `/quiz/results/[id]` with SSR, OG metadata per archetype, and "Take the Quiz" CTA for visitors. "Save & Share Results" button on quiz results page saves session and provides copy-link UI.
 
 ---
 

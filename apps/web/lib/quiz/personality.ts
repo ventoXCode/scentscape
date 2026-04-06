@@ -160,3 +160,8 @@ export function matchArchetype(dimensions: PersonalityDimensions): Archetype {
 
   return bestMatch;
 }
+
+/** Look up a static archetype definition by its ID. */
+export function getArchetypeById(id: string): Archetype | undefined {
+  return ARCHETYPES.find((a) => a.id === id);
+}
