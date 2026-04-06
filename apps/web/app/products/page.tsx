@@ -15,11 +15,11 @@ import { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Browse All Fragrances | ScentScape",
   description:
-    "Explore our curated collection of 100+ fragrances. Filter by scent family, concentration, and price. Find your perfect fragrance match.",
+    "Explore our curated collection of 100+ fragrances. Filter by scent family, concentration, gender, season, accords, and price. Find your perfect fragrance match.",
   openGraph: {
     title: "Browse All Fragrances | ScentScape",
     description:
-      "Explore our curated collection of 100+ fragrances. Filter by scent family, concentration, and price.",
+      "Explore our curated collection of 100+ fragrances. Filter by scent family, concentration, gender, season, accords, and price.",
   },
 };
 
@@ -31,6 +31,9 @@ interface ProductsPageProps {
   searchParams: Promise<{
     family?: string;
     concentration?: string;
+    gender?: string;
+    accords?: string;
+    season?: string;
     price?: string;
     sort?: string;
     page?: string;
@@ -40,11 +43,17 @@ interface ProductsPageProps {
 function buildMeilisearchFilter(params: {
   family?: string;
   concentration?: string;
+  gender?: string;
+  accords?: string;
+  season?: string;
   price?: string;
 }): string[] {
   const filters: string[] = [];
   if (params.family) filters.push(`family = "${params.family}"`);
   if (params.concentration) filters.push(`concentration = "${params.concentration}"`);
+  if (params.gender) filters.push(`gender = "${params.gender}"`);
+  if (params.accords) filters.push(`accords = "${params.accords}"`);
+  if (params.season) filters.push(`season = "${params.season}"`);
   if (params.price) {
     switch (params.price) {
       case "under-100": filters.push("price < 10000"); break;
@@ -59,7 +68,7 @@ function buildMeilisearchFilter(params: {
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1);
-  const hasFilters = params.family || params.concentration || params.price;
+  const hasFilters = params.family || params.concentration || params.gender || params.accords || params.season || params.price;
 
   let products: any[] = [];
   let totalProducts = 0;
@@ -75,7 +84,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       sort,
       limit: PAGE_SIZE,
       offset: (currentPage - 1) * PAGE_SIZE,
-      facets: ["family", "concentration"],
+      facets: ["family", "concentration", "gender", "accords", "season"],
     });
     products = results.hits.map((hit) => ({
       id: hit.id,
@@ -116,6 +125,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     const p = new URLSearchParams();
     if (params.family) p.set("family", params.family);
     if (params.concentration) p.set("concentration", params.concentration);
+    if (params.gender) p.set("gender", params.gender);
+    if (params.accords) p.set("accords", params.accords);
+    if (params.season) p.set("season", params.season);
     if (params.price) p.set("price", params.price);
     if (params.sort) p.set("sort", params.sort);
     if (page > 1) p.set("page", String(page));
