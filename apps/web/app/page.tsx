@@ -10,6 +10,7 @@ import { FragranceOfTheDay } from "@/components/home/fragrance-of-the-day";
 import { SeasonalPicks } from "@/components/home/seasonal-picks";
 import { CollectionHighlights } from "@/components/home/collection-highlights";
 import { RecentlyViewed } from "@/components/home/recently-viewed";
+import { PersonalizedPicks } from "@/components/home/personalized-picks";
 import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { MOODS } from "@/lib/discovery/moods";
 
@@ -203,6 +204,9 @@ export default async function HomePage() {
       <Suspense>
         <SeasonalPicks />
       </Suspense>
+
+      {/* Personalized Picks (quiz completers only) */}
+      <PersonalizedPicks />
 
       {/* Recently Viewed */}
       <RecentlyViewed />

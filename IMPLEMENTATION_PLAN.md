@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 9: Fragrance comparison tool)
+> Last updated: 2026-04-06 (Phase 10: Return visit personalization)
 
 ---
 
@@ -375,8 +375,8 @@
 - [x] Cart-customer association on login (guest cart → customer cart merge)
   - [x] `transferGuestCart()` in `auth-actions.ts` calls `medusa.store.cart.transferCart` after login/register with the customer's auth token
 - [x] Newsletter / monthly scent briefing email capture — `NewsletterSignup` client component (`components/newsletter/newsletter-signup.tsx`) with `card` and `inline` variants, email validation, loading/success/error states. API route (`/api/newsletter/subscribe`) validates email, deduplicates, persists to `.data/newsletter-subscribers.json`. Integrated on homepage (between "How It Works" and final CTA), quiz results page (personalized CTA per archetype), and footer (inline variant replacing Legal column). `.data/` added to `.gitignore`.
-- [ ] Foundation for gating infrastructure: identify which features could be premium
-- [ ] Premium feature candidates: AI advisor, saved profiles, community features, monthly scent briefing
+- [x] Foundation for gating infrastructure: identify which features could be premium — documented below. Quiz always free (brand differentiator). Premium candidates identified for future implementation.
+- [x] Premium feature candidates: AI conversational fragrance advisor, saved scent profiles with cross-device sync, community features (reviews ✅, discussions, collections sharing), personalized monthly scent briefing email. Current free tier already includes quiz, wishlist, scent profile, and newsletter.
 
 ---
 
@@ -494,6 +494,19 @@
 - [x] Compare bar rendered in root `layout.tsx` (above BottomNav, below Footer)
 - [x] `/compare` added to footer Discover section
 - [x] `/compare` added to sitemap with monthly changeFrequency, priority 0.5
+
+---
+
+## Phase 10: Return Visit Personalization
+
+**Why:** Users who've taken the quiz should see personalized content on return visits. The quiz is the hero product, but its value evaporated after the results page. This phase makes the quiz investment compound — every homepage visit reinforces the personalized experience and drives discovery.
+
+**Current state (post-implementation):** Personalized homepage section shows 4 fresh product recommendations for quiz completers, themed to their archetype. Uses the existing non-deterministic recommendation engine so picks vary each visit.
+
+### 10.1 — Personalized homepage picks ✅
+- [x] `PersonalizedPicks` client component (`components/home/personalized-picks.tsx`): reads quiz session from localStorage, calls `getRecommendations` for personalized product picks, displays 4 products with archetype-themed header ("Because You're a [Archetype Name]"). Non-deterministic engine ensures fresh picks every visit. Renders null for users who haven't completed the quiz. Graceful fallback if Meilisearch unavailable.
+- [x] Positioned on homepage between Seasonal Picks and Recently Viewed — the natural "personalized" layer between editorial and behavioral content
+- [x] "Retake the quiz for new results" CTA links back to quiz
 
 ---
 
