@@ -4,6 +4,7 @@ import { useTransition } from "react";
 import { addToCart } from "@/lib/medusa/actions";
 import { useCart } from "@/components/providers";
 import { useToast } from "@/components/ui/toast";
+import { Button } from "@/components/ui/button";
 
 interface AddToCartButtonProps {
   variantId?: string;
@@ -30,12 +31,15 @@ export function AddToCartButton({ variantId }: AddToCartButtonProps) {
   };
 
   return (
-    <button
+    <Button
       onClick={handleAddToCart}
-      disabled={isPending || !variantId}
-      className="w-full py-3 px-6 rounded-lg font-medium transition-all bg-text-primary text-text-inverse hover:bg-text-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+      loading={isPending}
+      loadingText="Adding..."
+      disabled={!variantId}
+      fullWidth
+      size="lg"
     >
-      {isPending ? "Adding..." : "Add to Cart"}
-    </button>
+      Add to Cart
+    </Button>
   );
 }

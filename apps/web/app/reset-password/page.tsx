@@ -4,6 +4,8 @@ import { useState, useTransition, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { resetPassword } from "@/lib/medusa/auth-actions";
 import { useToast } from "@/components/ui/toast";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -87,13 +89,15 @@ function ResetPasswordForm() {
 
         {error && <p className="text-error text-sm">{error}</p>}
 
-        <button
+        <Button
           type="submit"
-          disabled={isPending}
-          className="w-full py-3 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary disabled:opacity-50 transition-colors"
+          loading={isPending}
+          loadingText="Resetting..."
+          fullWidth
+          size="lg"
         >
-          {isPending ? "Resetting..." : "Reset Password"}
-        </button>
+          Reset Password
+        </Button>
       </form>
     </div>
   );
@@ -102,13 +106,11 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
   return (
     <Suspense fallback={
-      <div className="container mx-auto px-4 py-16 max-w-md">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-surface-subtle rounded w-48" />
-          <div className="h-4 bg-surface-subtle rounded w-64" />
-          <div className="h-10 bg-surface-subtle rounded" />
-          <div className="h-10 bg-surface-subtle rounded" />
-        </div>
+      <div className="container mx-auto px-4 py-16 max-w-md space-y-4">
+        <Skeleton className="h-8 w-48" />
+        <Skeleton className="h-4 w-64" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
       </div>
     }>
       <ResetPasswordForm />

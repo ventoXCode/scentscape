@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updateProfile, changePassword } from "@/lib/medusa/auth-actions";
+import { Button } from "@/components/ui/button";
 
 interface ProfileFormProps {
   initialFirstName: string;
@@ -109,13 +110,15 @@ export function ProfileForm({
         {error && <p className="text-error text-sm">{error}</p>}
         {success && <p className="text-success text-sm">Profile updated successfully.</p>}
 
-        <button
+        <Button
           type="submit"
-          disabled={isPending}
-          className="w-full py-3 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary disabled:opacity-50 transition-colors"
+          loading={isPending}
+          loadingText="Saving..."
+          fullWidth
+          size="lg"
         >
-          {isPending ? "Saving..." : "Save Changes"}
-        </button>
+          Save Changes
+        </Button>
       </form>
 
       {/* Divider */}
@@ -164,13 +167,15 @@ export function ProfileForm({
         {passwordError && <p className="text-error text-sm">{passwordError}</p>}
         {passwordSuccess && <p className="text-success text-sm">Password changed successfully.</p>}
 
-        <button
+        <Button
           type="submit"
-          disabled={isPasswordPending}
-          className="w-full py-3 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary disabled:opacity-50 transition-colors"
+          loading={isPasswordPending}
+          loadingText="Changing..."
+          fullWidth
+          size="lg"
         >
-          {isPasswordPending ? "Changing..." : "Change Password"}
-        </button>
+          Change Password
+        </Button>
       </form>
     </div>
   );

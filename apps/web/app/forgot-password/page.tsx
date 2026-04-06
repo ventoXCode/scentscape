@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { requestPasswordReset } from "@/lib/medusa/auth-actions";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function ForgotPasswordPage() {
@@ -54,13 +55,15 @@ export default function ForgotPasswordPage() {
           />
         </div>
 
-        <button
+        <Button
           type="submit"
-          disabled={isPending}
-          className="w-full py-3 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary disabled:opacity-50 transition-colors"
+          loading={isPending}
+          loadingText="Sending..."
+          fullWidth
+          size="lg"
         >
-          {isPending ? "Sending..." : "Send Reset Link"}
-        </button>
+          Send Reset Link
+        </Button>
       </form>
 
       <p className="mt-6 text-center text-text-secondary">

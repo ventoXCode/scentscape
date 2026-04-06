@@ -19,10 +19,15 @@ export function ScrollReveal({
     const el = ref.current;
     if (!el) return;
 
+    // Skip animation for users who prefer reduced motion — show content immediately
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.style.animationPlayState = "running";
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Apply delay then animate
           setTimeout(() => {
             el.style.animationPlayState = "running";
           }, delay);

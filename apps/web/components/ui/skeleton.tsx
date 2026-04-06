@@ -5,7 +5,12 @@ interface SkeletonProps {
 function Skeleton({ className = "" }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse bg-surface-subtle rounded-lg ${className}`}
+      className={`animate-shimmer rounded-lg ${className}`}
+      style={{
+        backgroundImage:
+          "linear-gradient(90deg, var(--color-surface-subtle) 0%, var(--color-border-subtle) 40%, var(--color-surface-subtle) 80%)",
+        backgroundSize: "200% 100%",
+      }}
       aria-hidden="true"
     />
   );

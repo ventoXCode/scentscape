@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (PWA icons + Quiz recommendation feedback buttons)
+> Last updated: 2026-04-06 (Accessibility: prefers-reduced-motion, skeleton shimmer, Button loading prop)
 
 ---
 
@@ -154,11 +154,11 @@
 - [x] Radius tokens: using Tailwind v4 defaults (not overridden to avoid breaking existing layouts) — consistent `rounded-lg` on buttons/inputs, `rounded-xl` on cards
 
 ### 2.4 — Component visual DNA ✅
-- [x] Buttons: `components/ui/button.tsx` — primary, secondary, ghost, danger, success variants; sm/md/lg sizes; fullWidth option
+- [x] Buttons: `components/ui/button.tsx` — primary, secondary, ghost, danger, success variants; sm/md/lg sizes; fullWidth option; `loading` prop with animated spinner and `loadingText`, `aria-busy` attribute. Migrated to 6 auth/action pages (login, register, forgot-password, reset-password, profile-form, add-to-cart-button) replacing inline loading patterns.
 - [x] Inputs: `components/ui/input.tsx` — consistent border, focus ring (border-focus), label, error state
 - [x] Cards: `components/ui/card.tsx` — hover prop, padding variants, shadow-card/shadow-card-hover
 - [x] Chips/tags: `components/ui/badge.tsx` — default, accent, success, error, and 6 fragrance family variants; sm/md sizes
-- [x] Loading states: `components/ui/skeleton.tsx` — Skeleton, ProductCardSkeleton, ProductGridSkeleton
+- [x] Loading states: `components/ui/skeleton.tsx` — Skeleton (shimmer sweep animation via `animate-shimmer` with gradient `backgroundImage`), ProductCardSkeleton, ProductGridSkeleton
 - [x] Barrel export: `components/ui/index.ts`
 - [ ] Empty states: illustrated/styled placeholders (deferred: requires illustrations or icons)
 - [x] Error states: toast notification system for async action feedback — `components/ui/toast.tsx` with `ToastProvider` context, `useToast` hook, stacked toasts (max 3) with auto-dismiss (success 3s, error 5s, info 4s), slide-in animation, `aria-live` region, mobile-aware positioning (bottom-center above bottom nav, desktop bottom-right). Wired into: add-to-cart (success + error), cart-drawer remove/update (error), wishlist toggle (success/info), login/register (success). Inline form validation errors retained on auth pages.
@@ -171,6 +171,7 @@
 - [x] Card hover states: `shadow-card` → `shadow-card-hover` + `border-border-strong` + image `scale-105` — already implemented in `product-card.tsx`
 - [x] Cart drawer: slide-in/slide-out animation with CSS `translate-x` transition (300ms ease-smooth), overlay fade, deferred first render via `hasBeenOpened` state, `pointer-events-none` + `aria-hidden` when closed
 - [x] Page transition patterns — Next.js View Transitions API enabled via `experimental.viewTransition`, CSS cross-fade rules for `::view-transition-old/new(root)`
+- [x] `prefers-reduced-motion` support: global `@media (prefers-reduced-motion: reduce)` rule in `globals.css` disables all animations and transitions site-wide (sets `animation-duration: 0.01ms`, `transition-duration: 0.01ms`, `scroll-behavior: auto`). View Transitions also disabled. `ScrollReveal` component detects reduced-motion preference via `matchMedia` and shows content immediately without waiting for IntersectionObserver.
 
 ### 2.6 — Fragrance-specific visual metaphors ✅ (partial)
 - [x] Redesign scent pyramid: visual pyramid layout with progressive widths (72% → 86% → 100%), fragrance family color tokens per tier (citrus/floral/woody), educational annotations per tier ("First impression · fades in 15–30 minutes"), hoverable note chips with sensory description tooltips via `lib/fragrance/note-descriptions.ts` (100+ notes)

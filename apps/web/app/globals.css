@@ -76,6 +76,7 @@
   --animate-slide-in-from-right: slide-in-from-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-slide-in-from-left: slide-in-from-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-slide-in-toast: slide-in-toast 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-shimmer: shimmer 1.5s infinite;
 }
 
 /* ─── Dark Mode ─── */
@@ -285,4 +286,29 @@
     transparent 1px
   );
   background-size: 24px 28px;
+}
+
+/* ─── Shimmer effect for skeleton loading ─── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ─── Reduced Motion ───
+   WCAG 2.1 SC 2.3.3: disable decorative animations for users who prefer reduced motion.
+   Functional transitions (slide-in drawers, toasts) reduced to instant opacity fades. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
 }

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/medusa/auth-actions";
 import { useToast } from "@/components/ui/toast";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -65,13 +66,15 @@ export default function LoginPage() {
 
         {error && <p className="text-error text-sm">{error}</p>}
 
-        <button
+        <Button
           type="submit"
-          disabled={isPending}
-          className="w-full py-3 bg-text-primary text-text-inverse rounded-lg font-medium hover:bg-text-secondary disabled:opacity-50 transition-colors"
+          loading={isPending}
+          loadingText="Signing in..."
+          fullWidth
+          size="lg"
         >
-          {isPending ? "Signing in..." : "Sign In"}
-        </button>
+          Sign In
+        </Button>
       </form>
 
       <p className="mt-6 text-center text-text-secondary">
