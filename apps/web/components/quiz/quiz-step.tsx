@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useSwipe } from "@/hooks/use-swipe";
 import type { QuizQuestion } from "@/lib/quiz/types";
 
 interface QuizStepProps {
@@ -13,6 +14,15 @@ interface QuizStepProps {
   onNext: () => void;
   onBack: () => void;
   canGoBack: boolean;
+}
+
+/** Fire-and-forget haptic tap — silent no-op on unsupported devices */
+function hapticTap() {
+  try {
+    navigator?.vibrate?.(10);
+  } catch {
+    // Not available (desktop, iOS Safari, etc.)
+  }
 }
 
 export function QuizStep({
@@ -33,28 +43,61 @@ export function QuizStep({
     Array.isArray(currentAnswer) ? currentAnswer : []
   );
   const [animatingOut, setAnimatingOut] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<"left" | "right">("left");
+
+  const isMulti = question.type === "multi";
+
+  const animateAndAdvance = useCallback(() => {
+    setSlideDirection("left");
+    setAnimatingOut(true);
+    setTimeout(onNext, 300);
+  }, [onNext]);
+
+  const animateAndGoBack = useCallback(() => {
+    if (!canGoBack) return;
+    setSlideDirection("right");
+    setAnimatingOut(true);
+    setTimeout(onBack, 300);
+  }, [canGoBack, onBack]);
+
+  // Swipe navigation: left = next (multi only if has selection), right = back
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: () => {
+      if (isMulti && selectedMulti.length > 0) {
+        hapticTap();
+        animateAndAdvance();
+      }
+      // Single-select auto-advances on tap, so swipe-left is a no-op there
+    },
+    onSwipeRight: () => {
+      if (canGoBack) {
+        hapticTap();
+        animateAndGoBack();
+      }
+    },
+  });
 
   const handleSingleSelect = useCallback(
     (optionId: string) => {
+      hapticTap();
       setSelectedSingle(optionId);
       onSingleSelect(question.id, optionId);
       // Auto-advance after brief visual feedback
+      setSlideDirection("left");
       setAnimatingOut(true);
-      setTimeout(() => {
-        onNext();
-      }, 350);
+      setTimeout(onNext, 350);
     },
     [question.id, onSingleSelect, onNext]
   );
 
   const handleMultiToggle = useCallback(
     (optionId: string) => {
+      hapticTap();
       setSelectedMulti((prev) => {
         let next: string[];
         if (prev.includes(optionId)) {
           next = prev.filter((id) => id !== optionId);
         } else if (question.maxSelections && prev.length >= question.maxSelections) {
-          // Replace oldest selection
           next = [...prev.slice(1), optionId];
         } else {
           next = [...prev, optionId];
@@ -66,12 +109,16 @@ export function QuizStep({
     [question.id, question.maxSelections, onMultiSelect]
   );
 
-  const isMulti = question.type === "multi";
+  const translateClass =
+    slideDirection === "left" ? "-translate-x-5" : "translate-x-5";
 
   return (
     <div
-      className={`flex flex-col min-h-[calc(100vh-4rem)] transition-all duration-300 ${
-        animatingOut ? "opacity-0 translate-x-[-20px]" : "opacity-100 translate-x-0"
+      {...swipeHandlers}
+      className={`flex flex-col min-h-[100dvh] transition-all duration-300 touch-pan-y ${
+        animatingOut
+          ? `opacity-0 ${translateClass}`
+          : "opacity-100 translate-x-0"
       }`}
     >
       {/* Step indicator */}
@@ -82,7 +129,7 @@ export function QuizStep({
       </div>
 
       {/* Question */}
-      <div className="text-center px-4 pb-8">
+      <div className="text-center px-4 pb-6 md:pb-8">
         <h2 className="text-2xl md:text-3xl font-display font-bold mb-2 tracking-tight">
           {question.title}
         </h2>
@@ -101,8 +148,8 @@ export function QuizStep({
         )}
       </div>
 
-      {/* Options */}
-      <div className="flex-1 px-4 pb-8">
+      {/* Options — min 44px touch target per WCAG, thumb-friendly spacing */}
+      <div className="flex-1 px-4 pb-4 md:pb-8">
         <div
           className={`grid gap-3 max-w-2xl mx-auto ${
             question.options.length <= 3
@@ -125,7 +172,7 @@ export function QuizStep({
                     ? handleMultiToggle(option.id)
                     : handleSingleSelect(option.id)
                 }
-                className={`group relative p-5 rounded-xl border-2 text-left transition-all duration-200 ${
+                className={`group relative min-h-[3.5rem] p-4 md:p-5 rounded-xl border-2 text-left transition-all duration-200 active:scale-[0.97] ${
                   isSelected
                     ? "border-text-primary bg-text-primary/[0.03] shadow-card-hover scale-[1.02]"
                     : "border-border-default bg-surface-elevated hover:border-border-strong hover:shadow-sm"
@@ -167,13 +214,13 @@ export function QuizStep({
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="px-4 pb-8 max-w-2xl mx-auto w-full">
+      {/* Sticky bottom navigation — always within thumb reach */}
+      <div className="sticky bottom-0 px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-3 bg-gradient-to-t from-surface-elevated from-80% to-transparent max-w-2xl mx-auto w-full">
         <div className="flex gap-3">
           {canGoBack && (
             <button
-              onClick={onBack}
-              className="px-5 py-3 rounded-lg border border-border-default text-sm font-medium text-text-secondary hover:bg-surface-subtle transition-colors"
+              onClick={animateAndGoBack}
+              className="min-h-[2.75rem] px-5 py-3 rounded-lg border border-border-default text-sm font-medium text-text-secondary hover:bg-surface-subtle active:scale-[0.97] transition-all"
             >
               Back
             </button>
@@ -181,11 +228,11 @@ export function QuizStep({
           {isMulti && (
             <button
               onClick={() => {
-                setAnimatingOut(true);
-                setTimeout(onNext, 300);
+                hapticTap();
+                animateAndAdvance();
               }}
               disabled={selectedMulti.length === 0}
-              className="flex-1 py-3 rounded-lg bg-text-primary text-text-inverse text-sm font-medium disabled:opacity-40 hover:bg-text-secondary transition-colors"
+              className="flex-1 min-h-[2.75rem] py-3 rounded-lg bg-text-primary text-text-inverse text-sm font-medium disabled:opacity-40 hover:bg-text-secondary active:scale-[0.97] transition-all"
             >
               Continue
             </button>

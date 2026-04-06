@@ -20,6 +20,49 @@ import {
 import { QuizStep } from "@/components/quiz/quiz-step";
 import { QuizResults } from "@/components/quiz/quiz-results";
 
+/** Compact dot-style progress indicator for mobile, thin bar on desktop */
+function QuizProgress({
+  currentStep,
+  totalSteps,
+  complete,
+}: {
+  currentStep: number;
+  totalSteps: number;
+  complete: boolean;
+}) {
+  const progress = complete
+    ? 100
+    : ((currentStep + 1) / (totalSteps + 1)) * 100;
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50">
+      {/* Desktop: thin progress bar */}
+      <div className="hidden md:block h-1 bg-surface-subtle">
+        <div
+          className="h-full bg-text-primary transition-all duration-500 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {/* Mobile: compact dot indicator */}
+      <div className="flex md:hidden items-center justify-center gap-1.5 py-2 bg-surface-elevated/80 backdrop-blur-sm">
+        {Array.from({ length: totalSteps }, (_, i) => (
+          <div
+            key={i}
+            className={`rounded-full transition-all duration-300 ${
+              i < currentStep
+                ? "w-2 h-2 bg-text-primary"
+                : i === currentStep && !complete
+                ? "w-6 h-2 rounded-full bg-text-primary"
+                : "w-2 h-2 bg-border-default"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function QuizContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -144,7 +187,7 @@ function QuizContent() {
   // SSR/hydration guard
   if (!mounted || !session) {
     return (
-      <div className="min-h-screen bg-surface-elevated flex items-center justify-center">
+      <div className="min-h-[100dvh] bg-surface-elevated flex items-center justify-center">
         <div className="animate-pulse w-8 h-8 rounded-full bg-surface-subtle" />
       </div>
     );
@@ -152,16 +195,11 @@ function QuizContent() {
 
   const complete = isQuizComplete(session);
   const totalSteps = getTotalSteps(session);
-  const progress = complete
-    ? 100
-    : ((session.currentStepIndex + 1) / (totalSteps + 1)) * 100;
 
   if (complete) {
     return (
-      <div className="min-h-screen bg-surface-elevated">
-        <div className="fixed top-0 left-0 right-0 h-1 bg-surface-subtle z-50">
-          <div className="h-full bg-text-primary w-full" />
-        </div>
+      <div className="min-h-[100dvh] bg-surface-elevated">
+        <QuizProgress currentStep={totalSteps} totalSteps={totalSteps} complete />
         <QuizResults session={session} onRetake={handleRetake} />
       </div>
     );
@@ -171,14 +209,12 @@ function QuizContent() {
   if (!question) return null;
 
   return (
-    <div className="min-h-screen bg-surface-elevated">
-      {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-surface-subtle z-50">
-        <div
-          className="h-full bg-text-primary transition-all duration-500 ease-out"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+    <div className="min-h-[100dvh] bg-surface-elevated">
+      <QuizProgress
+        currentStep={session.currentStepIndex}
+        totalSteps={totalSteps}
+        complete={false}
+      />
 
       <QuizStep
         key={question.id}
@@ -200,7 +236,7 @@ export default function QuizPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-surface-elevated flex items-center justify-center">
+        <div className="min-h-[100dvh] bg-surface-elevated flex items-center justify-center">
           <div className="animate-pulse w-8 h-8 rounded-full bg-surface-subtle" />
         </div>
       }

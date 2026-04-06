@@ -301,12 +301,12 @@
 - [x] Mobile hamburger menu: animated slide-down panel with search, nav links (Find Your Scent highlighted), auth controls; closes on route change; hamburger ↔ close icon toggle
 - [x] Header already sticky (`sticky top-0 z-40 bg-surface-elevated`)
 
-### 5.2 — Touch-first quiz
-- [ ] Swipe left/right navigation between quiz steps
-- [ ] Full-screen immersive steps (no chrome)
-- [ ] Tap selection with visual/haptic feedback
-- [ ] Compact progress indicator (minimal screen real estate)
-- [ ] Sticky CTA on results page
+### 5.2 — Touch-first quiz ✅
+- [x] Swipe left/right navigation between quiz steps — custom `useSwipe` hook (`hooks/use-swipe.ts`) with native touch events (no new dependencies). Swipe-right goes back, swipe-left advances on multi-select steps. `touch-pan-y` CSS preserves vertical scrolling. Threshold 50px, max vertical 100px.
+- [x] Full-screen immersive steps — `min-h-[100dvh]` on all quiz containers (page, step, loading, results) accounts for mobile browser chrome. Directional slide animation (left/right) based on navigation direction.
+- [x] Tap selection with visual/haptic feedback — `active:scale-[0.97]` press feedback on all buttons and option cards. `navigator.vibrate(10)` haptic tap on option select, continue, and swipe navigation (silent no-op on unsupported devices).
+- [x] Compact progress indicator — mobile: dot indicator (`md:hidden`) with active step shown as elongated pill (w-6), completed dots filled, upcoming dots outlined. Desktop: retains thin progress bar. Both in fixed top bar with `backdrop-blur-sm`.
+- [x] Sticky CTA on results page — mobile: fixed bottom bar with "Refresh" and "Retake" buttons, `backdrop-blur-sm`, safe-area-inset padding. Desktop: inline buttons unchanged. Results content padded `pb-36` on mobile to prevent CTA overlap. Result thumbnails migrated from `<img>` to `next/image`.
 
 ### 5.3 — Mobile-optimized layouts
 - [x] Product detail: sticky add-to-cart bar on mobile (`fixed bottom-0 z-30 md:hidden`) with price + button, desktop inline button, bottom spacer to prevent content overlap
