@@ -174,6 +174,15 @@ export function QuizResults({ session, onRetake }: QuizResultsProps) {
                         </span>
                       )}
                     </div>
+
+                    {/* Explore similar */}
+                    <Link
+                      href={`/search?family=${encodeURIComponent(result.family)}${result.topAccords[0] ? `&accords=${encodeURIComponent(result.topAccords[0])}` : ""}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-block mt-2 text-xs text-accent-primary hover:text-accent-primary-hover font-medium transition-colors"
+                    >
+                      Explore more like this →
+                    </Link>
                   </div>
                 </Link>
               ))}

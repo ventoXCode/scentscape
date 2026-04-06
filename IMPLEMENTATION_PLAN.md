@@ -109,7 +109,7 @@
 - [x] Empty state with "Browse All Fragrances" CTA link
 - [x] Error retry preserves answers (retry calls `getRecommendations` without resetting session)
 - [x] Retake fully resets session and clears localStorage
-- [ ] "Explore More Like This" path from each recommendation (deferred: requires similar-products engine)
+- [x] "Explore More Like This" path from each recommendation — "Explore more like this →" link per result card navigates to `/search?family=X&accords=Y` using the recommendation's family and primary accord
 - [ ] Feedback buttons per recommendation (deferred: requires backend persistence)
 - [ ] Shareable results: unique URL, social card, downloadable image (deferred: requires backend quiz session storage — see 1.6)
 - [ ] Save to account / recover via email (deferred: requires backend — see 1.6)
