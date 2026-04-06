@@ -70,6 +70,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/learn/signature-scent" className="hover:text-text-primary transition-colors">
+                  Find Your Signature
+                </Link>
+              </li>
+              <li>
                 <Link href="/learn/families" className="hover:text-text-primary transition-colors">
                   Fragrance Families
                 </Link>

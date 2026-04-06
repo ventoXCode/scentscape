@@ -40,6 +40,16 @@ export const GUIDES: Guide[] = [
     category: "deep-dive",
   },
   {
+    slug: "signature-scent",
+    title: "How to Find Your Signature Scent",
+    tagline: "A personal roadmap to the fragrance that feels like you",
+    description:
+      "A step-by-step guide to discovering the fragrance that captures who you are — from understanding your preferences to testing like a pro.",
+    emoji: "🧭",
+    readTime: "7 min read",
+    category: "practical",
+  },
+  {
     slug: "glossary",
     title: "Fragrance Glossary",
     tagline: "Every term you'll encounter, explained",

@@ -1,7 +1,7 @@
 # ScentScape Implementation Plan
 
 > Prioritized gap analysis: specs vs. current codebase. Plan only — nothing implemented.
-> Last updated: 2026-04-06 (Phase 6.2: Sample box foundation — try before you buy, quiz integration, partner-fulfilled ordering; Phase 7.4+: OG images, social cards, ItemList JSON-LD, comprehensive OpenGraph metadata)
+> Last updated: 2026-04-06 (Recent searches in search bar; pinch-to-zoom on mobile image gallery; "How to Find Your Signature Scent" educational guide)
 
 ---
 
@@ -311,9 +311,10 @@
 
 ### 5.3 — Mobile-optimized layouts
 - [x] Product detail: sticky add-to-cart bar on mobile (`fixed bottom-0 z-30 md:hidden`) with price + button, desktop inline button, bottom spacer to prevent content overlap
-- [x] Image gallery: swipeable carousel with dot indicator on mobile — `useSwipe` hook for touch navigation, slide animations, prev/next arrows on desktop, image counter badge on mobile, dot indicator with active pill state. Thumbnail strip preserved for desktop.
+- [x] Image gallery: swipeable carousel with dot indicator on mobile — `useSwipe` hook for touch navigation, slide animations, prev/next arrows on desktop, image counter badge on mobile, dot indicator with active pill state. Thumbnail strip preserved for desktop. Pinch-to-zoom on mobile via native touch events (non-passive `touchmove` listener), two-finger gesture tracking with scale 1-3x, single-finger panning when zoomed, double-tap to reset, auto-reset on image change. Swipe navigation guarded against multi-touch and zoomed state.
 - [x] Filters: `FilterLayout` component — desktop sidebar, mobile bottom sheet overlay with slide-up animation, "Show Results" button, route-change auto-close. Applied to both `/products` and `/search` pages.
 - [x] Search bar: fluid width on mobile (`w-full sm:w-64`), touch-friendly tap targets (`min-h-[52px]` suggestion rows, larger link targets), `touchstart` outside-click handler for reliable mobile dismiss
+- [x] Search bar: recent searches — localStorage-persisted recent queries (max 5) shown when input focused with no query, individual remove and clear-all, clock icon per entry, auto-saves on search submit and suggestion click
 - [x] Checkout: mobile-optimized with single-column stacking address fields (`grid-cols-1 sm:grid-cols-2`), 44px touch targets on all inputs (`py-3`), `inputMode="numeric"` on postal code, responsive step indicator, minimum touch width on Back button, order summary shown first on mobile, `lg:sticky` scoped sidebar, `next/image` for thumbnails
 
 ### 5.4 — Mobile product interactions ✅
@@ -395,6 +396,7 @@
 - [x] `/learn/glossary` — comprehensive glossary with 4 sections (Concentrations, Families, Performance Metrics, General Terms with 18 entries including Accord, Drydown, Flanker, Gourmand, Nose Blindness, Skin Chemistry, etc.). Jump-nav anchors. Families link to detail pages.
 - [x] Data layer: `lib/learn/families.ts` (6 families with extended data, `getNotesForFamily` helper pulling from `note-descriptions.ts`) and `lib/learn/guides.ts` (guide metadata)
 - [x] Note profiles: `/learn/notes` index (117 notes grouped by family with jump-nav) + `/learn/notes/[slug]` detail pages with description, family context, Meilisearch-powered product discovery, related notes, prev/next navigation. `generateStaticParams` for SSG (93 pages). Added to sitemap, footer, and learn hub.
+- [x] "How to Find Your Signature Scent" standalone guide (`/learn/signature-scent`) — 7-step practical roadmap (start with what you love, learn the language, narrow by family, sample widely, trust the drydown, match lifestyle, trust instincts), 5 common traps section, internal links to Fragrance 101/families/how-to-apply, ArticleJsonLd, added to sitemap/footer/guides registry
 - [ ] Seasonal guides: "Best Fragrances for Summer," "Holiday Gift Guide" — deferred
 
 ### 7.3 — Content integration across surfaces ✅ (partial)

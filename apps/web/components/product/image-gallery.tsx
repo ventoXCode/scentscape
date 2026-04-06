@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useSwipe } from "@/hooks/use-swipe";
 
@@ -13,6 +13,14 @@ interface ImageGalleryProps {
   thumbnail: string | null;
   images: ProductImage[];
   title: string;
+}
+
+function getTouchDistance(t1: Touch, t2: Touch): number {
+  return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+}
+
+function getTouchCenter(t1: Touch, t2: Touch): { x: number; y: number } {
+  return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
 }
 
 export function ImageGallery({ thumbnail, images, title }: ImageGalleryProps) {
@@ -28,22 +36,144 @@ export function ImageGallery({ thumbnail, images, title }: ImageGalleryProps) {
   const selectedImage = allImages[selectedIndex];
   const hasMultiple = allImages.length > 1;
 
+  // Pinch-to-zoom state
+  const [scale, setScale] = useState(1);
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const isPinching = useRef(false);
+  const lastPinchDistance = useRef(0);
+  const lastPinchCenter = useRef({ x: 0, y: 0 });
+  const lastTapTime = useRef(0);
+  const panStart = useRef({ x: 0, y: 0 });
+  const translateStart = useRef({ x: 0, y: 0 });
+  const isPanning = useRef(false);
+  const mainImageRef = useRef<HTMLDivElement>(null);
+  const isZoomed = scale > 1.05;
+
+  const resetZoom = useCallback(() => {
+    setScale(1);
+    setTranslate({ x: 0, y: 0 });
+  }, []);
+
+  // Reset zoom when changing images
   const goTo = useCallback(
     (index: number, direction: "left" | "right") => {
       if (index < 0 || index >= allImages.length) return;
+      resetZoom();
       setSlideDirection(direction);
       setSelectedIndex(index);
-      // Clear animation class after transition completes
       setTimeout(() => setSlideDirection(null), 300);
     },
-    [allImages.length]
+    [allImages.length, resetZoom]
   );
 
-  const { onTouchStart, onTouchEnd } = useSwipe({
+  const { onTouchStart: swipeTouchStart, onTouchEnd: swipeTouchEnd } = useSwipe({
     onSwipeLeft: () => goTo(selectedIndex + 1, "left"),
     onSwipeRight: () => goTo(selectedIndex - 1, "right"),
     threshold: 40,
   });
+
+  // Non-passive touch listeners for pinch-to-zoom
+  useEffect(() => {
+    const el = mainImageRef.current;
+    if (!el) return;
+
+    let currentScale = 1;
+    let currentTranslate = { x: 0, y: 0 };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        isPinching.current = true;
+        lastPinchDistance.current = getTouchDistance(e.touches[0], e.touches[1]);
+        lastPinchCenter.current = getTouchCenter(e.touches[0], e.touches[1]);
+        e.preventDefault();
+      } else if (e.touches.length === 1) {
+        // Double-tap to reset zoom
+        const now = Date.now();
+        if (now - lastTapTime.current < 300) {
+          setScale(1);
+          setTranslate({ x: 0, y: 0 });
+          currentScale = 1;
+          currentTranslate = { x: 0, y: 0 };
+          e.preventDefault();
+        }
+        lastTapTime.current = now;
+
+        // Start pan if zoomed
+        if (currentScale > 1.05) {
+          isPanning.current = true;
+          panStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+          translateStart.current = { ...currentTranslate };
+        }
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && isPinching.current) {
+        e.preventDefault();
+        const newDist = getTouchDistance(e.touches[0], e.touches[1]);
+        const ratio = newDist / lastPinchDistance.current;
+        const newScale = Math.min(3, Math.max(1, currentScale * ratio));
+        lastPinchDistance.current = newDist;
+        currentScale = newScale;
+        setScale(newScale);
+
+        // If scale returned to 1, reset translate
+        if (newScale <= 1.05) {
+          currentTranslate = { x: 0, y: 0 };
+          setTranslate({ x: 0, y: 0 });
+        }
+      } else if (e.touches.length === 1 && isPanning.current && currentScale > 1.05) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - panStart.current.x;
+        const dy = e.touches[0].clientY - panStart.current.y;
+        // Clamp panning to prevent image from going off-screen
+        const maxPan = ((currentScale - 1) / currentScale) * 50;
+        const newX = Math.min(maxPan, Math.max(-maxPan, translateStart.current.x + dx));
+        const newY = Math.min(maxPan, Math.max(-maxPan, translateStart.current.y + dy));
+        currentTranslate = { x: newX, y: newY };
+        setTranslate({ x: newX, y: newY });
+      }
+    };
+
+    const handleTouchEnd = () => {
+      isPinching.current = false;
+      isPanning.current = false;
+      // Snap back to 1 if barely zoomed
+      if (currentScale < 1.1) {
+        currentScale = 1;
+        currentTranslate = { x: 0, y: 0 };
+        setScale(1);
+        setTranslate({ x: 0, y: 0 });
+      }
+    };
+
+    el.addEventListener("touchstart", handleTouchStart, { passive: false });
+    el.addEventListener("touchmove", handleTouchMove, { passive: false });
+    el.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
+      el.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [selectedIndex]); // Re-bind when image changes
+
+  // Wrap swipe handlers to skip when zoomed or pinching
+  const onTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (e.touches.length > 1 || isZoomed) return;
+      swipeTouchStart(e);
+    },
+    [swipeTouchStart, isZoomed]
+  );
+
+  const onTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (isPinching.current || isZoomed) return;
+      swipeTouchEnd(e);
+    },
+    [swipeTouchEnd, isZoomed]
+  );
 
   if (allImages.length === 0) {
     return (
@@ -68,9 +198,12 @@ export function ImageGallery({ thumbnail, images, title }: ImageGalleryProps) {
 
   return (
     <div className="space-y-3">
-      {/* Main image — swipeable on mobile */}
+      {/* Main image — swipeable + pinch-to-zoom on mobile */}
       <div
-        className="aspect-square bg-surface-subtle rounded-xl overflow-hidden relative touch-pan-y select-none"
+        ref={mainImageRef}
+        className={`aspect-square bg-surface-subtle rounded-xl overflow-hidden relative select-none ${
+          isZoomed ? "touch-none" : "touch-pan-y"
+        }`}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -85,6 +218,11 @@ export function ImageGallery({ thumbnail, images, title }: ImageGalleryProps) {
                 ? "animate-slide-in-from-left"
                 : ""
           }`}
+          style={
+            isZoomed
+              ? { transform: `scale(${scale}) translate(${translate.x / scale}px, ${translate.y / scale}px)` }
+              : undefined
+          }
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
         />
