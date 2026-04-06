@@ -74,8 +74,8 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const handleRemove = (lineItemId: string) => {
     startTransition(async () => {
       try {
-        await removeFromCart(lineItemId);
-        await refreshCart();
+        const updatedCart = await removeFromCart(lineItemId);
+        refreshCart(updatedCart);
         toast("Item removed from cart", "info");
       } catch {
         toast("Failed to remove item. Please try again.", "error");
@@ -86,8 +86,8 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const handleUpdateQuantity = (lineItemId: string, quantity: number) => {
     startTransition(async () => {
       try {
-        await updateCartItem(lineItemId, quantity);
-        await refreshCart();
+        const updatedCart = await updateCartItem(lineItemId, quantity);
+        refreshCart(updatedCart);
       } catch {
         toast("Failed to update quantity. Please try again.", "error");
       }

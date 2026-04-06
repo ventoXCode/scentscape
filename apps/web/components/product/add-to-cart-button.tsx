@@ -19,8 +19,8 @@ export function AddToCartButton({ variantId }: AddToCartButtonProps) {
 
     startTransition(async () => {
       try {
-        await addToCart(variantId, 1);
-        await refreshCart();
+        const updatedCart = await addToCart(variantId, 1);
+        refreshCart(updatedCart);
         toast("Added to cart", "success");
         setCartOpen(true);
       } catch {
